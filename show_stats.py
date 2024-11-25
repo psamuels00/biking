@@ -9,12 +9,7 @@ from datetime import date, timedelta
 
 config = dict(
     path="images",
-    graphs=dict(
-        ride_rate="RideRate.jpg",
-        daily_mileage="DailyMileage.jpg",
-        avg_daily_mileage="AvergageDailyMileage.jpg",
-        avg_ride_day_mileage="AvergageRideDayMileage.jpg",
-    ),
+    graph_file = "DailyMileage.jpg",
 )
 
 
@@ -150,6 +145,8 @@ def plot_daily_miles(stats, graph_file):
     # normalize ride rate to max miles so it can be displayed on mileage graph
     ride_rate_y = [rate * max_miles for rate in stats["data"]["ride_rate_per_day"]]
 
+    plt.figure(figsize=(10.24, 7.68))  # 10.24 inches x 7.68 inches at 100 dpi will give 1024x768 pixels
+
     plt.bar(x, y, color="green", label="Daily Mileage")
     plt.plot(x, avg_y, color="powderblue", marker="o", markersize=5, label="Average Daily Mileage")
     plt.plot(x, avg_ride_day_y, color="blue", marker="o", markersize=3, label="Average Ride Day Mileage")
@@ -160,21 +157,20 @@ def plot_daily_miles(stats, graph_file):
 
     plt.xlabel("day")
     plt.ylabel("miles")
-    plt.title("Daily Bike Ride Mileage")
-    plt.legend()#loc="upper right")
+    plt.title("Bike Ride - Daily Mileage")
+    plt.legend(loc="lower center")
 
-    plt.savefig(graph_file)
+    plt.savefig(graph_file, dpi=100)  # 100 dpi will give you 1024x768 pixels
     print(f"Daily Mileage per Day saved to {graph_file}.")
     print()
 
 
 def main():
     path = config["path"]
+    graph_file = config["graph_file"]
+
     stats = calculate_stats(path)
-
     report_stats(stats)
-
-    graph_file = config["graphs"]["daily_mileage"]
     plot_daily_miles(stats, graph_file)
 
 
