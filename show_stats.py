@@ -154,9 +154,11 @@ def plot_daily_miles(stats, graph_file):
 
     tick_offsets, tick_labels = get_ticks(num_days, period=5)
     plt.xticks(tick_offsets, tick_labels)
+    plt.yticks(range(0, int(max(y)) + 1, 1))  # Set y-ticks every 1 unit
+    plt.grid(axis="y", linestyle="-", alpha=0.15)
 
-    plt.xlabel("day")
-    plt.ylabel("miles")
+    plt.xlabel("Day")
+    plt.ylabel("Miles")
     plt.title("Bike Ride - Daily Mileage")
     plt.legend(loc="lower center")
 
