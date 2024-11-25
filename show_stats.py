@@ -4,58 +4,95 @@ import matplotlib.pyplot as plt
 import os
 import re
 
-from datetime import date
+from datetime import date, timedelta
 
 
-def calculate_stats(path):
-    first_date = None
-    last_date = None
+config = dict(
+    path="images",
+    graphs=dict(
+        ride_rate="RideRate.jpg",
+        daily_mileage="DailyMileage.jpg",
+        avg_daily_mileage="AvergageDailyMileage.jpg",
+        avg_ride_day_mileage="AvergageRideDayMileage.jpg",
+    ),
+)
 
-    num_biked_days = 0
-    num_biked_miles = 0
-    miles_per_day = []
 
-    min_miles = 999
-    max_miles = 0
+def parse_raw_data(path):
+    daily_mileage = dict()  # "yyyymmdd" => num_miles
+    date_range = None
 
-    prev_date = None
-
-    for file in sorted(os.listdir(path)):
+    for file in os.listdir(path):
         # eg: bike-route-20241011-10mi.png
         m = re.match(r"bike-route-(\d\d\d\d)(\d\d)(\d\d)-(\d\d)mi.png", file)
         if m:
-            year = int(m.group(1))
-            month = int(m.group(2))
-            day = int(m.group(3))
+            yyyy = m.group(1)
+            mm = m.group(2)
+            dd = m.group(3)
             miles = int(m.group(4))
 
-            route_date = date(year, month, day)
+            ymd = f"{yyyy}-{mm}-{dd}"
+            daily_mileage[ymd] = miles
 
-            if not first_date:
-                first_date = route_date
-            last_date = route_date
+            dt = date(int(yyyy), int(mm), int(dd))
+            if date_range is None:
+                date_range = [dt, dt]
+            elif dt < date_range[0]:
+                date_range[0] = dt
+            elif dt > date_range[1]:
+                date_range[1] = dt
 
+    return daily_mileage, date_range
+
+
+def calculate_stats(path):
+    daily_mileage, date_range = parse_raw_data(path)
+    first_date, last_date = date_range
+
+    num_days = 0
+    num_biked_days = 0
+
+    max_miles = 0
+    min_miles = 999
+    total_miles = 0
+
+    data = dict(
+        ride_rate_per_day=[],
+        daily_mileage_per_day=[],
+        avg_daily_mileage_per_day=[],
+        avg_ride_day_mileage_per_day=[],
+    )
+
+    cur_date = first_date
+    while cur_date <= last_date:
+        ymd = cur_date.strftime("%Y-%m-%d")
+
+        num_days += 1
+        miles = 0
+        if ymd in daily_mileage:
+            miles = daily_mileage[ymd]
             num_biked_days += 1
-            num_biked_miles += miles
 
-            min_miles = min(miles, min_miles)
-            max_miles = max(miles, max_miles)
+        min_miles = min(miles, min_miles)
+        max_miles = max(miles, max_miles)
+        total_miles += miles
 
-            if prev_date:
-                num_skipped_days = (route_date - prev_date).days - 1
-                miles_per_day += [0] * num_skipped_days
-            miles_per_day.append(miles)
+        data["ride_rate_per_day"].append(num_biked_days/num_days)
+        data["daily_mileage_per_day"].append(miles)
+        data["avg_daily_mileage_per_day"].append(total_miles/num_days)
+        data["avg_ride_day_mileage_per_day"].append(total_miles/num_biked_days)
 
-            prev_date = route_date
+        cur_date += timedelta(days=1)
 
     stats = dict(
+        data=data,
         first_date=first_date,
         last_date=last_date,
         max_miles=max_miles,
-        miles_per_day=miles_per_day,
         min_miles=min_miles,
         num_biked_days=num_biked_days,
-        num_biked_miles=num_biked_miles,
+        num_days=num_days,
+        total_miles=total_miles,
     )
 
     return stats
@@ -67,51 +104,77 @@ def report_stats(stats):
     max_miles = stats["max_miles"]
     min_miles = stats["min_miles"]
     num_biked_days = stats["num_biked_days"]
-    num_biked_miles = stats["num_biked_miles"]
+    num_days = stats["num_days"]
+    total_miles = stats["total_miles"]
 
     first_day = first_date.strftime("%Y-%m-%d")
     last_day = last_date.strftime("%Y-%m-%d")
-    num_total_days = (last_date - first_date).days + 1
-    percent_biked_days = round(num_biked_days / num_total_days * 100)
-    num_skipped_days = num_total_days - num_biked_days
-    avg_miles = num_biked_miles / num_total_days
-    avg_miles_per_day_biked = num_biked_miles / num_biked_days
+    num_skipped_days = num_days - num_biked_days
+    #ride_rate = stats["data"]["ride_rate"][-1]
+    #avg_miles =  stats["data"]["avg_daily_mileage_per_day"][-1]
+    #avg_ride_day_miles =  stats["data"]["avg_ride_day_mileage_per_day"][-1]
+    ride_rate = round(num_biked_days / num_days * 100)
+    avg_miles = total_miles / num_days
+    avg_ride_day_miles = total_miles / num_biked_days
 
     print(f"Date range: {first_day} to {last_day}")
     print()
     print("total days  biked  skipped  % biked")
     print("----------  -----  -------  -------")
-    print(f"{num_total_days:10}  {num_biked_days:5}  {num_skipped_days:7}  {percent_biked_days:6}%")
+    print(f"{num_days:10}  {num_biked_days:5}  {num_skipped_days:7}  {ride_rate:6}%")
     print()
     print("biked miles  min  max   avg   avg-per-day-biked")
     print("-----------  ---  ---  -----  -----------------")
-    print(f"{num_biked_miles:11}  {min_miles:3}  {max_miles:3}  {avg_miles:5.1f}  {avg_miles_per_day_biked:17.1f}")
+    print(f"{total_miles:11}  {min_miles:3}  {max_miles:3}  {avg_miles:5.1f}  {avg_ride_day_miles:17.1f}")
     print()
 
 
+def get_ticks(num_days, period):
+    offsets = [0] + [x - 1 for x in range(period, num_days, period)]
+    if num_days % period != 1:
+        offsets += [num_days - 1]
+    labels = [str(x + 1) for x in offsets]
+
+    return offsets, labels
+
+
 def plot_daily_miles(stats, graph_file):
-    miles_per_day = stats["miles_per_day"]
+    num_days = stats["num_days"]
+    max_miles = stats["max_miles"]
 
-    x = list(range(0, len(miles_per_day)))
-    y = miles_per_day
+    x = list(range(num_days))
+    y = stats["data"]["daily_mileage_per_day"]
+    avg_y = stats["data"]["avg_daily_mileage_per_day"]
+    avg_ride_day_y = stats["data"]["avg_ride_day_mileage_per_day"]
 
-    plt.bar(x, y, color="green")
+    # normalize ride rate to max miles so it can be displayed on mileage graph
+    ride_rate_y = [rate * max_miles for rate in stats["data"]["ride_rate_per_day"]]
+
+    plt.bar(x, y, color="green", label="Daily Mileage")
+    plt.plot(x, avg_y, color="powderblue", marker="o", markersize=5, label="Average Daily Mileage")
+    plt.plot(x, avg_ride_day_y, color="blue", marker="o", markersize=3, label="Average Ride Day Mileage")
+    plt.plot(x, ride_rate_y, color="red", marker="o", markersize=3, label="Ride Rate (normalized to max miles)")
+
+    tick_offsets, tick_labels = get_ticks(num_days, period=5)
+    plt.xticks(tick_offsets, tick_labels)
 
     plt.xlabel("day")
     plt.ylabel("miles")
-    plt.title("Daily Bike Ride")
+    plt.title("Daily Bike Ride Mileage")
+    plt.legend()#loc="upper right")
 
     plt.savefig(graph_file)
-    print(f"Daily Miles saved to {graph_file}.")
+    print(f"Daily Mileage per Day saved to {graph_file}.")
     print()
 
 
 def main():
-    path = "images"
-    graph_file = "DailyBikeRide.jpg"
-
+    path = config["path"]
     stats = calculate_stats(path)
+
     report_stats(stats)
+
+    graph_file = config["graphs"]["daily_mileage"]
     plot_daily_miles(stats, graph_file)
 
 
