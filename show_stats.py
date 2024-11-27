@@ -72,7 +72,7 @@ def calculate_stats(path):
         max_miles = max(miles, max_miles)
         total_miles += miles
 
-        data["ride_rate_per_day"].append(num_biked_days/num_days)
+        data["ride_rate_per_day"].append((num_biked_days * 100)/num_days)
         data["daily_mileage_per_day"].append(miles)
         data["avg_daily_mileage_per_day"].append(total_miles/num_days)
         data["avg_ride_day_mileage_per_day"].append(total_miles/num_biked_days)
@@ -141,26 +141,60 @@ def plot_daily_miles(stats, graph_file):
     y = stats["data"]["daily_mileage_per_day"]
     avg_y = stats["data"]["avg_daily_mileage_per_day"]
     avg_ride_day_y = stats["data"]["avg_ride_day_mileage_per_day"]
+    ride_rate_y = stats["data"]["ride_rate_per_day"]
 
-    # normalize ride rate to max miles so it can be displayed on mileage graph
-    ride_rate_y = [rate * max_miles for rate in stats["data"]["ride_rate_per_day"]]
+    # -------- graph --------
 
     plt.figure(figsize=(10.24, 7.68))  # 10.24 inches x 7.68 inches at 100 dpi will give 1024x768 pixels
+    fig, ax1 = plt.subplots()
+    plt.title("Bike Ride - Daily Mileage", pad=30)
 
-    plt.bar(x, y, color="green", label="Daily Mileage")
-    plt.plot(x, avg_y, color="powderblue", marker="o", markersize=5, label="Average Daily Mileage")
-    plt.plot(x, avg_ride_day_y, color="blue", marker="o", markersize=3, label="Average Ride Day Mileage")
-    plt.plot(x, ride_rate_y, color="red", marker="o", markersize=3, label="Ride Rate (normalized to max miles)")
-
+    # -------- x-axis: days --------
+    ax1.set_xlabel("Day")
     tick_offsets, tick_labels = get_ticks(num_days, period=5)
     plt.xticks(tick_offsets, tick_labels)
-    plt.yticks(range(0, int(max(y)) + 1, 1))  # Set y-ticks every 1 unit
+
+    # -------- y-axis 1: miles --------
+    color = "tab:green"
+    ax1.set_ylabel("Miles", color=color)
+    plt.ylim(0, max(y))
+    plt.yticks(range(0, int(max(y)) + 1, 1), color=color)
+
     plt.grid(axis="y", linestyle="-", alpha=0.15)
 
-    plt.xlabel("Day")
-    plt.ylabel("Miles")
-    plt.title("Bike Ride - Daily Mileage")
-    plt.legend(loc="lower center")
+    ax1.bar(x, y, color=color)
+    line1, = ax1.plot(x, avg_y, color="lightblue", marker="o", markersize=5)
+    line2, = ax1.plot(x, avg_ride_day_y, color="tab:blue", marker="o", markersize=3)
+
+    # -------- y-axis 2: percentage --------
+    color = "tab:red"
+    ax2 = ax1.twinx()
+    ax2.set_ylabel("Ride Rate", color=color)
+    plt.ylim(0, max(ride_rate_y))
+    plt.yticks(range(0, 101, 10), color=color)
+
+    for y in range(80, 100, 5):
+        ax2.axhline(y, color=color, linestyle=":", alpha=0.25)
+
+    line3, = plt.plot(x, ride_rate_y, color=color, marker="o", markersize=3)
+
+    # -------- legend --------
+    num_biked_days = stats["num_biked_days"]
+    total_miles = stats["total_miles"]
+    avg_miles = total_miles / num_days
+    avg_ride_day_miles = total_miles / num_biked_days
+    ride_rate = round(num_biked_days / num_days * 100)
+    plt.legend(
+        loc="lower center",
+        handles=(line1, line2, line3),
+        labels=(
+            f"Average Daily Miles ({avg_miles:0.1f})",
+            f"Average Ride Day Miles ({avg_ride_day_miles:0.1f})",
+            f"Ride Rate ({ride_rate}%)",
+        ),
+    )
+
+    plt.tight_layout()
 
     plt.savefig(graph_file, dpi=100)  # 100 dpi will give you 1024x768 pixels
     print(f"Daily Mileage per Day saved to {graph_file}.")
