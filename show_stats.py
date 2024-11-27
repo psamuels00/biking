@@ -145,7 +145,6 @@ def plot_daily_miles(stats, graph_file):
 
     # -------- graph --------
 
-    plt.figure(figsize=(10.24, 7.68))  # 10.24 inches x 7.68 inches at 100 dpi will give 1024x768 pixels
     fig, ax1 = plt.subplots()
     plt.title("Bike Ride - Daily Mileage", pad=30)
 
@@ -196,7 +195,7 @@ def plot_daily_miles(stats, graph_file):
 
     plt.tight_layout()
 
-    plt.savefig(graph_file, dpi=100)  # 100 dpi will give you 1024x768 pixels
+    plt.savefig(graph_file, dpi=300)
     print(f"Daily Mileage per Day saved to {graph_file}.")
     print()
 
