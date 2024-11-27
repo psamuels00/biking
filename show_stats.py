@@ -66,7 +66,7 @@ def calculate_stats(path):
         miles = 0
         if ymd in daily_mileage:
             miles = daily_mileage[ymd]
-            num_biked_days += 1
+            num_biked_days += (1 if miles else 0)
 
         min_miles = min(miles, min_miles)
         max_miles = max(miles, max_miles)
@@ -105,6 +105,7 @@ def report_stats(stats):
     first_day = first_date.strftime("%Y-%m-%d")
     last_day = last_date.strftime("%Y-%m-%d")
     num_skipped_days = num_days - num_biked_days
+
     #ride_rate = stats["data"]["ride_rate"][-1]
     #avg_miles =  stats["data"]["avg_daily_mileage_per_day"][-1]
     #avg_ride_day_miles =  stats["data"]["avg_ride_day_mileage_per_day"][-1]
@@ -135,21 +136,19 @@ def get_ticks(num_days, period):
 
 def plot_daily_miles(stats, graph_file):
     num_days = stats["num_days"]
-    max_miles = stats["max_miles"]
-
     x = list(range(num_days))
+
     y = stats["data"]["daily_mileage_per_day"]
     avg_y = stats["data"]["avg_daily_mileage_per_day"]
     avg_ride_day_y = stats["data"]["avg_ride_day_mileage_per_day"]
     ride_rate_y = stats["data"]["ride_rate_per_day"]
 
     # -------- graph --------
-
     fig, ax1 = plt.subplots()
     plt.title("Bike Ride - Daily Mileage", pad=30)
 
     # -------- x-axis: days --------
-    ax1.set_xlabel("Day")
+    ax1.set_xlabel("Day (starting Oct 11, 2024)")
     tick_offsets, tick_labels = get_ticks(num_days, period=5)
     plt.xticks(tick_offsets, tick_labels)
 
