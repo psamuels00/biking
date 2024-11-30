@@ -8,8 +8,9 @@ from datetime import date, timedelta
 
 
 config = dict(
-    path="images",
     graph_file = "DailyMileage.jpg",
+    input_path="images",
+    output_path="output",
 )
 
 
@@ -201,12 +202,13 @@ def plot_daily_miles(stats, graph_file):
 
 
 def main():
-    path = config["path"]
-    graph_file = config["graph_file"]
-
-    stats = calculate_stats(path)
+    input_path = config["input_path"]
+    stats = calculate_stats(input_path)
     report_stats(stats)
-    plot_daily_miles(stats, graph_file)
+
+    output_path = config["output_path"]
+    graph_file = config["graph_file"]
+    plot_daily_miles(stats, f"{output_path}/{graph_file}")
 
 
 main()
