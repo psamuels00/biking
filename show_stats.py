@@ -68,7 +68,8 @@ def calculate_stats(path):
             miles = daily_mileage[ymd]
             num_biked_days += (1 if miles else 0)
 
-        min_miles = min(miles, min_miles)
+        if 0 < miles < min_miles:
+            min_miles = miles
         max_miles = max(miles, max_miles)
         total_miles += miles
 
