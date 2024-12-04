@@ -175,7 +175,7 @@ def plot_daily_miles(stats, graph_file):
     plt.xticks(tick_offsets, tick_labels)
 
     # -------- y-axis 1: miles --------
-    color = "tab:green"
+    color = plt.cm.Greens(0.8)
     ax1.set_ylabel("Miles", color=color)
     plt.ylim(0, max(y))
     plt.yticks(range(0, int(max(y)) + 1, 1), color=color)
