@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
+import calendar
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 import re
 
@@ -44,6 +46,7 @@ def parse_raw_data(path):
 def calculate_stats(path):
     daily_mileage, date_range = parse_raw_data(path)
     first_date, last_date = date_range
+    first_day_of_week = calendar.weekday(first_date.year, first_date.month, first_date.day)
 
     num_days = 0
     num_biked_days = 0
@@ -84,6 +87,7 @@ def calculate_stats(path):
     stats = dict(
         data=data,
         first_date=first_date,
+        first_day_of_week=first_day_of_week,
         last_date=last_date,
         max_miles=max_miles,
         min_miles=min_miles,
@@ -136,6 +140,22 @@ def get_ticks(num_days, period):
     return offsets, labels
 
 
+def get_colors(stats):
+    day_of_week = stats["first_day_of_week"]
+    num_days = stats["num_days"]
+
+    days_of_week = []
+
+    for _ in range(num_days):
+        days_of_week.append(day_of_week)
+        day_of_week = (day_of_week + 1) % 7
+
+    shades_of_green = plt.cm.Greens(np.linspace(0.3, 0.9, 7))
+    colors = [shades_of_green[d] for d in days_of_week]
+
+    return colors
+
+
 def plot_daily_miles(stats, graph_file):
     num_days = stats["num_days"]
     x = list(range(num_days))
@@ -162,7 +182,9 @@ def plot_daily_miles(stats, graph_file):
 
     plt.grid(axis="y", linestyle="-", alpha=0.15)
 
-    ax1.bar(x, y, color=color)
+    colors = get_colors(stats)
+
+    ax1.bar(x, y, color=colors)
     line1, = ax1.plot(x, avg_y, color="lightblue", marker="o", markersize=5)
     line2, = ax1.plot(x, avg_ride_day_y, color="tab:blue", marker="o", markersize=3)
 
