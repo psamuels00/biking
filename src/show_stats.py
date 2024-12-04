@@ -208,6 +208,8 @@ def plot_daily_miles(stats, graph_file):
     ride_rate = round(num_biked_days / num_days * 100)
     plt.legend(
         loc="lower center",
+        title="Legend: (latest value in parentheses)",
+        title_fontsize="x-small",
         handles=(line1, line2, line3),
         labels=(
             f"Average Daily Miles ({avg_miles:0.1f})",
