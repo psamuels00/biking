@@ -156,25 +156,22 @@ def get_colors(stats):
     return colors
 
 
-def plot_daily_miles(stats, graph_file):
+def x_axis_days(stats, ax1):
     num_days = stats["num_days"]
-    x = list(range(num_days))
 
-    y = stats["data"]["daily_mileage_per_day"]
-    avg_y = stats["data"]["avg_daily_mileage_per_day"]
-    avg_ride_day_y = stats["data"]["avg_ride_day_mileage_per_day"]
-    ride_rate_y = stats["data"]["ride_rate_per_day"]
-
-    # -------- graph --------
-    fig, ax1 = plt.subplots()
-    plt.title("Bike Ride - Daily Mileage", pad=30)
-
-    # -------- x-axis: days --------
     ax1.set_xlabel("Day (starting Oct 11, 2024)")
     tick_offsets, tick_labels = get_ticks(num_days, period=5)
     plt.xticks(tick_offsets, tick_labels)
 
-    # -------- y-axis 1: miles --------
+
+def y_axis_miles(stats, ax1):
+    num_days = stats["num_days"]
+    y = stats["data"]["daily_mileage_per_day"]
+    avg_y = stats["data"]["avg_daily_mileage_per_day"]
+    avg_ride_day_y = stats["data"]["avg_ride_day_mileage_per_day"]
+
+    x = list(range(num_days))
+
     color = plt.cm.Greens(0.8)
     ax1.set_ylabel("Miles", color=color)
     plt.ylim(0, max(y))
@@ -188,7 +185,15 @@ def plot_daily_miles(stats, graph_file):
     line1, = ax1.plot(x, avg_y, color="lightblue", marker="o", markersize=5)
     line2, = ax1.plot(x, avg_ride_day_y, color="tab:blue", marker="o", markersize=3)
 
-    # -------- y-axis 2: percentage --------
+    return line1, line2
+
+
+def y_axis_percentage(stats, ax1):
+    num_days = stats["num_days"]
+    ride_rate_y = stats["data"]["ride_rate_per_day"]
+
+    x = list(range(num_days))
+
     color = "tab:red"
     ax2 = ax1.twinx()
     ax2.set_ylabel("Ride Rate", color=color)
@@ -200,12 +205,18 @@ def plot_daily_miles(stats, graph_file):
 
     line3, = plt.plot(x, ride_rate_y, color=color, marker="o", markersize=3)
 
-    # -------- legend --------
+    return line3
+
+
+def legend(stats, line1, line2, line3):
+    num_days = stats["num_days"]
     num_biked_days = stats["num_biked_days"]
     total_miles = stats["total_miles"]
+
     avg_miles = total_miles / num_days
     avg_ride_day_miles = total_miles / num_biked_days
     ride_rate = round(num_biked_days / num_days * 100)
+
     plt.legend(
         loc="lower center",
         title="Legend: (latest value in parentheses)",
@@ -217,6 +228,16 @@ def plot_daily_miles(stats, graph_file):
             f"Ride Rate ({ride_rate}%)",
         ),
     )
+
+
+def plot_daily_miles(stats, graph_file):
+    fig, ax1 = plt.subplots()
+    plt.title("Bike Ride - Daily Mileage", pad=30)
+
+    x_axis_days(stats, ax1)
+    line1, line2 = y_axis_miles(stats, ax1)
+    line3 = y_axis_percentage(stats, ax1)
+    legend(stats, line1, line2, line3)
 
     plt.tight_layout()
 
