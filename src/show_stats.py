@@ -115,7 +115,7 @@ def report_stats(stats):
     #ride_rate = stats["data"]["ride_rate"][-1]
     #avg_miles =  stats["data"]["avg_daily_mileage_per_day"][-1]
     #avg_ride_day_miles =  stats["data"]["avg_ride_day_mileage_per_day"][-1]
-    ride_rate = round(num_biked_days / num_days * 100)
+    ride_rate = round(num_biked_days / num_days * 100, 2)
     avg_miles = total_miles / num_days
     avg_ride_day_miles = total_miles / num_biked_days
 
@@ -123,7 +123,7 @@ def report_stats(stats):
     print()
     print("total days  biked  skipped  % biked")
     print("----------  -----  -------  -------")
-    print(f"{num_days:10}  {num_biked_days:5}  {num_skipped_days:7}  {ride_rate:6}%")
+    print(f"{num_days:10}  {num_biked_days:5}  {num_skipped_days:7}  {ride_rate:5.2f}%")
     print()
     print("biked miles  min  max   avg   avg-per-day-biked")
     print("-----------  ---  ---  -----  -----------------")
