@@ -7,6 +7,7 @@ import os
 import re
 
 from datetime import date, timedelta
+from typing import Union, List
 
 
 config = dict(
@@ -40,7 +41,38 @@ def parse_raw_data(path):
             elif dt > date_range[1]:
                 date_range[1] = dt
 
+    # simulate_add_extra_days(daily_mileage, date_range, 10, [10, 20])
+    # simulate_add_extra_days_and_miles(daily_mileage, date_range, 63, 14)
+
     return daily_mileage, date_range
+
+
+def simulate_add_extra_days_and_miles(daily_mileage, date_range, num_days, mileage):
+    cur_date = date_range[1]
+
+    for _ in range(num_days):
+        cur_date += timedelta(days=1)
+        ymd = cur_date.strftime("%Y-%m-%d")
+        daily_mileage[ymd] = mileage
+        mileage += 1
+
+    date_range[1] = cur_date
+
+
+def simulate_add_extra_days(daily_mileage, date_range, num_days, mileage: Union[int, List[int]]):
+    cur_date = date_range[1]
+
+    if isinstance(mileage, int):
+        mileage = [mileage]
+
+    mileage_offset = 0
+    for _ in range(num_days):
+        cur_date += timedelta(days=1)
+        ymd = cur_date.strftime("%Y-%m-%d")
+        daily_mileage[ymd] = mileage[mileage_offset]
+        mileage_offset = (mileage_offset + 1) % len(mileage)
+
+    date_range[1] = cur_date
 
 
 def calculate_stats(path):
