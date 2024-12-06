@@ -215,7 +215,7 @@ def legend(stats, line1, line2, line3):
 
     avg_miles = total_miles / num_days
     avg_ride_day_miles = total_miles / num_biked_days
-    ride_rate = round(num_biked_days / num_days * 100)
+    ride_rate = round(num_biked_days / num_days * 100, 2)
 
     plt.legend(
         loc="lower center",
@@ -225,7 +225,7 @@ def legend(stats, line1, line2, line3):
         labels=(
             f"Average Daily Miles ({avg_miles:0.1f})",
             f"Average Ride Day Miles ({avg_ride_day_miles:0.1f})",
-            f"Ride Rate ({ride_rate}%)",
+            f"Ride Rate ({ride_rate:5.2f}%)",
         ),
     )
 
