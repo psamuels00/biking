@@ -193,7 +193,7 @@ def x_axis_days(stats, ax1):
 
     ax1.set_xlabel("Day (starting Oct 11, 2024)")
     tick_offsets, tick_labels = get_ticks(num_days, period=5)
-    plt.xticks(tick_offsets, tick_labels)
+    plt.xticks(tick_offsets, tick_labels, fontsize="x-small")
 
 
 def y_axis_miles(stats, ax1):
@@ -207,9 +207,9 @@ def y_axis_miles(stats, ax1):
     color = plt.cm.Greens(0.8)
     ax1.set_ylabel("Miles", color=color)
     plt.ylim(0, max(y))
-    plt.yticks(range(0, int(max(y)) + 1, 1), color=color)
+    plt.yticks(range(0, int(max(y)) + 1, 1), color=color, fontsize="x-small")
 
-    plt.grid(axis="y", linestyle="-", alpha=0.15)
+    plt.grid(axis="y", linestyle="-", alpha=0.15, color=color)
 
     colors = get_colors(stats)
 
@@ -230,7 +230,7 @@ def y_axis_percentage(stats, ax1):
     ax2 = ax1.twinx()
     ax2.set_ylabel("Ride Rate", color=color)
     plt.ylim(0, max(ride_rate_y))
-    plt.yticks(range(0, 101, 10), color=color)
+    plt.yticks(range(0, 101, 10), color=color, fontsize="x-small")
 
     for y in range(80, 100, 5):
         ax2.axhline(y, color=color, linestyle=":", alpha=0.25)
