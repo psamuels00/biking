@@ -1,5 +1,8 @@
+*.bak
 .DS_Store
+.access_tokens
 .idea/
 .python-version
-*.bak
+.strava_cache.sqlite
 DailyBikeRide.jpg
+strava_cache.sqlite
