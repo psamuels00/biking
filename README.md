@@ -1,8 +1,34 @@
 # Biking Statistics
 
-Generate a graph such as the following from a list of (day, miles) pairs:
+Generate a graph such as the following from data collected using Strava.
 
 ![Daily Mileage and Ride Rate Combined into a Single Graph](output/DailyMileage.jpg)
+
+There is also a way to augment the Strava data.  See <a href="#input">Input</a> below.
+
+
+## Create a Strava app
+
+Follow [Getting Started with the Strava API](https://developers.strava.com/docs/getting-started/)
+to create a Strava app.
+
+
+### Get an Initial Access Code:
+
+Go to [this URL](http://www.strava.com/oauth/authorize?client_id=999999&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=read_all,activity:read).
+Replace 999999 with your client_id and submit the form..
+Finally, parse the app auth code from the redirect URL:
+
+    http://localhost/exchange_token?state=&code=4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c&scope=read,read_all
+
+
+### Define Strava Access Variables
+
+Define the following environment variables:
+
+    strava_client_id=999999
+    strava_client_secret=8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f
+    strava_app_auth_code=4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c
 
 
 ## Installation
@@ -12,34 +38,38 @@ Generate a graph such as the following from a list of (day, miles) pairs:
 
 ## Execution
 
-    src/show_stats.py
+    src/analyze.py
+
+To update the data after a ride:
+
+    ./scripts/prep_new_route.sh <#miles>
+    ./scripts/add_new_route.sh
+
+eg:
+
+    ./scripts/prep_new_route.sh 15 && ./scripts/add_new_route.sh
 
 
 ## Input
+<a name="input"></a>
 
-The input consists of a list of (day, miles) pairs, encoded in the names of files, which should look like this:
+*TODO*
 
-    images/bike-route-20241011-10mi.png
-    images/bike-route-20241012-07mi.png
-    images/bike-route-20241013-09mi.png
-    ...
-
-For the purpose of this program, the content of the files is irrelevant.
 
 ## Output
 
-Output looks like this:
+Output looks similar to this:
 
-    Date range: 2024-10-11 to 2024-11-30
+    Date range: 2024-10-11 to 2024-12-29
 
-    total days  biked  skipped  % biked
-    ----------  -----  -------  -------
-            51     45        6      88%
+    total days  biked  skipped  ride rate
+    ----------  -----  -------  ---------
+            80     72        8     90.00%
 
-    biked miles  min  max   avg   avg-per-day-biked
-    -----------  ---  ---  -----  -----------------
-            589    7   25   11.5               13.1
+    biked miles  min   max   avg   avg-per-day-biked
+    -----------  ----  ----  ----  -----------------
+         1053.6   6.9  31.4  13.2               14.6
 
-    Daily Mileage per Day saved to DailyMileage.jpg.
+    Daily Mileage per Day saved to output/DailyMileage.jpg.
 
 An example of the generated graph is shown above.
