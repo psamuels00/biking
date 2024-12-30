@@ -2,6 +2,7 @@
 .DS_Store
 .access_tokens
 .idea/
+.misc/
 .python-version
 .strava_cache.sqlite
 DailyBikeRide.jpg
