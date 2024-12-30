@@ -1,7 +1,11 @@
 from requests_cache import CachedSession
 
+from .auth import Authentication
+from .credentials import Credentials
+from .params import Parameters
 
-class Strava:
+
+class StravaBase:
     def __init__(self, params, auth):
         self.auth = auth
 
@@ -9,7 +13,7 @@ class Strava:
         expire_sec = params.http_cache_expire_sec
         self.session = CachedSession(name, expire_after=expire_sec)
 
-    def cached_get(self, url, params=None, level=0):
+    def fetch(self, url, params=None, level=0):
         access_token = self.auth.credentials.access_token
         headers = {
             "Authorization": f"Bearer {access_token}",
@@ -44,11 +48,13 @@ class Strava:
             return None
 
         self.auth.refresh_tokens()
-        return self.cached_get(url, params, level + 1)
+        return self.fetch(url, params, level + 1)
 
+
+class Strava(StravaBase):
     def get_athlete(self):
         url = "https://www.strava.com/api/v3/athlete"
-        data = self.cached_get(url)
+        data = self.fetch(url)
 
         return data
 
@@ -58,6 +64,15 @@ class Strava:
             per_page=100,
             page=1,
         )
-        data = self.cached_get(url, params)
+        data = self.fetch(url, params)
 
         return data
+
+
+def build_strava():
+    parameters = Parameters()
+    credentials = Credentials(parameters)
+    auth = Authentication(credentials)
+    strava = Strava(parameters, auth)
+
+    return strava
