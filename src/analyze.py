@@ -216,6 +216,15 @@ class InputData:
 
         return daily_data
 
+    def summarize(self):
+        print("date        miles  elevation  speed")
+        print("----------  -----  ---------  -----")
+        for rec in self.get_daily_data():
+            if rec['distance']:
+                print(f"{rec['ymd']}  {rec['distance']:5.1f}    {rec['total_elevation_gain']:5.0f}    {rec['average_speed']:5.1f}")
+            else:
+                print(rec['ymd'])
+
 
 class Statistics:
     def __init__(self, input_data):
@@ -420,20 +429,9 @@ def plot_daily_miles(stats, graph_file):
     print()
 
 
-def summarize_stats(input_data):
-    print("date        miles  elevation  speed")
-    print("----------  -----  ---------  -----")
-    for rec in input_data.get_daily_data():
-        if rec['distance']:
-            print(f"{rec['ymd']}  {rec['distance']:5.1f}    {rec['total_elevation_gain']:5.0f}    {rec['average_speed']:5.1f}")
-        else:
-            print(rec['ymd'])
-
-
 def main():
     parameters = Parameters()
     input_data = InputData()
-    # summarize_stats(input_data); return
 
     statistics = Statistics(input_data)
     statistics.report()
