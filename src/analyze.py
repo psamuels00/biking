@@ -7,7 +7,7 @@ import os
 import re
 
 from datetime import date, timedelta
-from typing import Union, List
+#from typing import Union, List
 
 from strava import get_activities
 
@@ -18,6 +18,10 @@ def meters2feet(num):
 
 def meters2miles(num):
     return float(num) / 1609.34
+
+
+def mps2mph(num):
+    return float(num) * 2.23694
 
 
 def ymd2date(ymd):
@@ -115,8 +119,8 @@ class InputData:
                 ymd=ymd,
                 distance=meters2miles(activity["distance"]),
                 total_elevation_gain=meters2feet(activity["total_elevation_gain"]),
-                average_speed=activity["average_speed"],
-                max_speed=activity["max_speed"],
+                average_speed=mps2mph(activity["average_speed"]),
+                max_speed=mps2mph(activity["max_speed"]),
                 elev_high=meters2feet(activity["elev_high"]),
                 elev_low=meters2feet(activity["elev_low"]),
             )
@@ -231,6 +235,8 @@ class Statistics:
             daily_mileage_per_day=[],
             avg_daily_mileage_per_day=[],
             avg_ride_day_mileage_per_day=[],
+            avg_speed_per_day=[],
+            elevation_gain_per_day=[],
         )
 
         daily_data = self.input_data.get_daily_data()
@@ -249,6 +255,8 @@ class Statistics:
             data["daily_mileage_per_day"].append(miles)
             data["avg_daily_mileage_per_day"].append(total_miles/num_days)
             data["avg_ride_day_mileage_per_day"].append(total_miles/num_biked_days)
+            data["avg_speed_per_day"].append(record["average_speed"])
+            data["elevation_gain_per_day"].append(record["total_elevation_gain"])
 
         first_date, last_date = self.input_data.date_range
         first_day_of_week = calendar.weekday(first_date.year, first_date.month, first_date.day)
@@ -412,9 +420,21 @@ def plot_daily_miles(stats, graph_file):
     print()
 
 
+def summarize_stats(input_data):
+    print("date        miles  elevation  speed")
+    print("----------  -----  ---------  -----")
+    for rec in input_data.get_daily_data():
+        if rec['distance']:
+            print(f"{rec['ymd']}  {rec['distance']:5.1f}    {rec['total_elevation_gain']:5.0f}    {rec['average_speed']:5.1f}")
+        else:
+            print(rec['ymd'])
+
+
 def main():
     parameters = Parameters()
     input_data = InputData()
+    # summarize_stats(input_data); return
+
     statistics = Statistics(input_data)
     statistics.report()
 
