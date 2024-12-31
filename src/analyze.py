@@ -2,7 +2,7 @@
 
 from biking.input import InputData
 from biking.params import Parameters
-from biking.graphs import plot_daily_miles
+from biking.graph.mileage import MileageGraph
 from biking.stats import Statistics
 
 
@@ -13,7 +13,8 @@ def main():
     statistics = Statistics(input_data)
     statistics.report()
 
-    plot_daily_miles(statistics.stats, parameters.file("mileage"))
+    graph = MileageGraph(statistics.stats, parameters.file("mileage"))
+    graph.generate()
 
 
 main()
