@@ -40,7 +40,7 @@ class StravaBase:
         )
 
         if response.status_code == 200:
-            #print(json.dumps(data, indent=4))
+            # print(json.dumps(data, indent=4))
             return data
         elif not token_expired or level > 1:
             print(f"**** Error: {response.status_code}")

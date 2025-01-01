@@ -20,6 +20,7 @@ class Statistics:
             avg_daily_mileage_per_day=[],
             avg_ride_day_mileage_per_day=[],
             avg_speed_per_day=[],
+            max_speed_per_day=[],
             elevation_gain_per_day=[],
         )
 
@@ -40,6 +41,7 @@ class Statistics:
             data["avg_daily_mileage_per_day"].append(total_miles/num_days)
             data["avg_ride_day_mileage_per_day"].append(total_miles/num_biked_days)
             data["avg_speed_per_day"].append(record["average_speed"])
+            data["max_speed_per_day"].append(record["max_speed"])
             data["elevation_gain_per_day"].append(record["total_elevation_gain"])
 
         first_date, last_date = self.input_data.date_range
