@@ -5,9 +5,9 @@ class Parameters:
     def __init__(self):
         self.output_path = "output"
         self.files = dict(
-            mileage="DailyMileage.jpg",
-            elevation_gain="DailyElevationGain.jpg",
-            avg_speed="DailyAvgSpeed.jpg",
+            distance="DailyMileage.jpg",
+            elevation="DailyElevationGain.jpg",
+            speed="DailyAverageSpeed.jpg",
         )
 
     def file(self, name):
