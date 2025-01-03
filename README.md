@@ -2,7 +2,7 @@
 
 Generate a graph such as the following from data collected using Strava.
 
-![Daily Mileage and Ride Rate Combined into a Single Graph](output/DailyMileage.jpg)
+![Daily Distance and Ride Rate Combined into a Single Graph](output/Distance.jpg)
 
 There is also a way to augment the Strava data.  See <a href="#input">Input</a> below.
 
@@ -70,6 +70,6 @@ Output looks similar to this:
     -----------  ----  ----  ----  -----------------
          1053.6   6.9  31.4  13.2               14.6
 
-    Daily Mileage per Day saved to output/DailyMileage.jpg.
+    Daily Distance per Day saved to output/DailyDistance.jpg.
 
 An example of the generated graph is shown above.
