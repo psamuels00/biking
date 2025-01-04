@@ -64,19 +64,19 @@ eg:
 
 Output looks like this:
 
-    Date range: 2024-10-11 to 2025-01-03
+    Date range: 2024-10-11 to 2025-01-04
 
     days  total  biked  skipped  ride rate
           -----  -----  -------  ---------
-             85     77        8     90.59%
+             86     78        8     90.70%
 
     distance (miles)  min   max   avg   avg-per-day-biked  total
                       ----  ----  ----  -----------------  -------
-                       6.9  31.4  13.5               14.9   1148.9
+                       6.9  31.4  13.4               14.8   1156.4
 
     elevation gain (ft)  min   max   total    total miles
                          ----  ----  -------  -----------
-                           11  2031    34875          6.6
+                           11  2031    35162          6.7
 
     elevation range (ft)  low:  min   max   high:  min   max
                                 ----  ----         ----  ----
@@ -84,4 +84,4 @@ Output looks like this:
 
     speed (mph)  avg:  min   max   max:  min   max
                        ----  ----        ----  ----
-                        9.1  14.5        23.7  38.7
+                        9.1  14.5        22.9  38.7
