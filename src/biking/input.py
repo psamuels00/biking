@@ -49,6 +49,7 @@ class InputData:
         "2024-12-16": {"skipped": "Weather"},
         "2024-12-18": {"op": "add", "distance": 12, "total_elevation_gain": 200, "average_speed": 8, "max_speed": 12},
         "2024-12-20": {"skipped": "Sick"},
+        "2025-01-02": {"distance": 11.83},
     }
 
     def __init__(self):

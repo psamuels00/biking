@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from .base import Graph
 
 
-class DistanceGraph(Graph):
+class ComboGraph(Graph):
     def legend(self, line1, line2, line3):
         num_biked_days = self.stats["num_biked_days"]
         total_miles = self.stats["total_miles"]
@@ -27,7 +27,7 @@ class DistanceGraph(Graph):
 
     def generate(self):
         fig, ax1 = plt.subplots()
-        plt.title("Daily Bike Ride - Distance", pad=30)
+        plt.title("Daily Bike Ride - Combined Metrics", pad=30)
 
         self.x_axis_days(ax1)
         line1, line2 = self.y_axis_distance(ax1)
@@ -37,4 +37,4 @@ class DistanceGraph(Graph):
         plt.tight_layout()
 
         plt.savefig(self.output_file, dpi=300)
-        print(f"Distance graph saved to {self.output_file}.")
+        print(f"Combined Metrics saved to {self.output_file}.")
