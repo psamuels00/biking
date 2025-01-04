@@ -15,7 +15,7 @@ class ElevationGraph(Graph):
 
     def generate(self):
         fig, ax1 = plt.subplots()
-        plt.title("Daily Bike Ride - Elevation", pad=30)
+        plt.title("Daily Bike Ride - Elevation Gain", pad=30)
 
         self.x_axis_days(ax1)
         dots1 = self.y_axis_elevation(ax1)

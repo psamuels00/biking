@@ -30,8 +30,8 @@ class ComboGraph(Graph):
         plt.title("Daily Bike Ride - Combined Metrics", pad=30)
 
         self.x_axis_days(ax1)
-        line1, line2 = self.y_axis_distance(ax1)
-        line3 = self.y_axis_ride_rate(ax1)
+        line1, line2 = self.y_axis_distance(ax1, for_combined_graph=True)
+        line3 = self.y_axis_ride_rate(ax1, for_combined_graph=True)
         self.legend(line1, line2, line3)
 
         plt.tight_layout()
