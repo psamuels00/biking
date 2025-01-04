@@ -83,7 +83,7 @@ class Graph:
         ax2.set_ylabel("Percentage", **color_arg)
         bottom_limit = 0 if for_combined_graph else 70
         plt.ylim(bottom_limit, max(ride_rate_y))
-        plt.yticks(range(70, 101, 10), **color_arg, fontsize="x-small")
+        plt.yticks(range(bottom_limit, 101, 10), **color_arg, fontsize="x-small")
 
         if not for_combined_graph:
             ax2.set_aspect(0.70)
