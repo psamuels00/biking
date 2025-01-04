@@ -8,16 +8,11 @@ class RideRateGraph(Graph):
         num_biked_days = self.stats["num_biked_days"]
         ride_rate = round(num_biked_days / self.num_days * 100, 2)
 
-        plt.legend(
-            loc="lower center",
-            title="Legend: (latest value in parentheses)",
-            title_fontsize="small",
-            fontsize="small",
-            handles=(line1,),
-            labels=(
-                f"Ride Rate ({ride_rate:5.2f}%)",
-            ),
+        handles = (line1,)
+        labels = (
+            f"Ride Rate ({ride_rate:5.2f}%)",
         )
+        self.set_legend(handles, labels)
 
     def generate(self):
         fig, ax1 = plt.subplots()
@@ -30,4 +25,3 @@ class RideRateGraph(Graph):
         plt.tight_layout()
 
         plt.savefig(self.output_file, dpi=300, bbox_inches="tight")
-        print(f"Ride Rate saved to {self.output_file}.")

@@ -3,6 +3,10 @@ import re
 from datetime import date
 
 
+def feet2miles(num):
+    return float(num) / 5280
+
+
 def meters2feet(num):
     return float(num) * 3.28084
 
