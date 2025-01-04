@@ -22,7 +22,7 @@ class InputData:
         "2024-10-22": {"distance": 10},
         "2024-10-23": {"distance": 10},
         "2024-10-24": {"distance": 11},
-        "2024-10-25": {"skipped": "Hang w/ George"},
+        "2024-10-25": {"skipped": "Hang w/ G"},
         "2024-10-26": {"distance": 14},
         "2024-10-27": {"distance": 9},
         "2024-10-28": {"distance": 7},
@@ -31,7 +31,7 @@ class InputData:
         "2024-10-31": {"distance": 13},
         "2024-11-01": {"distance": 15},
         "2024-11-02": {"distance": 10},
-        "2024-11-03": {"skipped": "Hang w/ George"},
+        "2024-11-03": {"skipped": "Hang w/ G"},
         "2024-11-04": {"distance": 16},
         "2024-11-05": {"distance": 11},
         "2024-11-06": {"distance": 13},
@@ -43,13 +43,13 @@ class InputData:
         "2024-11-14": {"skipped": "Weather"},
         "2024-11-17": {"distance": 1.3, "op": "add"},  # Hercules
         "2024-11-21": {"skipped": "Lazy?"},
-        "2024-11-24": {"distance": 11},  # Hercules/Pinole, w George
+        "2024-11-24": {"distance": 11},  # Hercules/Pinole, w G
         "2024-11-25": {"skipped": "Weather"},
         "2024-11-27": {"distance": 16.3, "op": "add"},  # Hercules
         "2024-12-16": {"skipped": "Weather"},
         "2024-12-18": {"distance": 12, "op": "add"},
         "2024-12-20": {"skipped": "Sick"},
-        "2025-01-02": {"distance": 11.83},  # w George
+        "2025-01-02": {"distance": 11.83},  # w G
     }
 
     def __init__(self):
