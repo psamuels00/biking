@@ -62,18 +62,26 @@ eg:
 
 ## Output
 
-Output looks similar to this:
+Output looks like this:
 
-    Date range: 2024-10-11 to 2024-12-29
+    Date range: 2024-10-11 to 2025-01-03
 
-    total days  biked  skipped  ride rate
-    ----------  -----  -------  ---------
-            80     72        8     90.00%
+    days  total  biked  skipped  ride rate
+          -----  -----  -------  ---------
+             85     77        8     90.59%
 
-    biked miles  min   max   avg   avg-per-day-biked
-    -----------  ----  ----  ----  -----------------
-         1053.6   6.9  31.4  13.2               14.6
+    distance (miles)  min   max   avg   avg-per-day-biked  total
+                      ----  ----  ----  -----------------  -------
+                       6.9  31.4  13.5               14.9   1148.9
 
-    Daily Distance per Day saved to output/DailyDistance.jpg.
+    elevation gain (ft)  min   max   total    total miles
+                         ----  ----  -------  -----------
+                           11  2031    34875          6.6
 
-An example of the generated graph is shown above.
+    elevation range (ft)  low:  min   max   high:  min   max
+                                ----  ----         ----  ----
+                                 17   256           390  1009
+
+    speed (mph)  avg:  min   max   max:  min   max
+                       ----  ----        ----  ----
+                        9.1  14.5        23.7  38.7
