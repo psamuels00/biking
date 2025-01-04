@@ -13,8 +13,7 @@ process_route() {
         rm "$in_file" && \
         echo "Screenshot file $in_file replaced by $out_file." && \
 
-        rm .strava_cache.sqlite
-        src/analyze.py
+        ./scripts/analyze.sh
     elif [ $num_files = 0 ]; then
         echo "Screenshot file not found."
     else
