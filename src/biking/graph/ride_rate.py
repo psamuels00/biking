@@ -29,5 +29,5 @@ class RideRateGraph(Graph):
 
         plt.tight_layout()
 
-        plt.savefig(self.output_file, dpi=300)
+        plt.savefig(self.output_file, dpi=300, bbox_inches="tight")
         print(f"Ride Rate saved to {self.output_file}.")

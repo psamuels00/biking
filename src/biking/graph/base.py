@@ -58,10 +58,12 @@ class Graph:
         color_arg = dict(color=color) if for_combined_graph else {}
         ax2 = ax1.twinx() if for_combined_graph else ax1
         ax2.set_ylabel("Percentage", **color_arg)
-        plt.ylim(70, max(ride_rate_y))
+        bottom_limit = 0 if for_combined_graph else 70
+        plt.ylim(bottom_limit, max(ride_rate_y))
         plt.yticks(range(70, 101, 10), **color_arg, fontsize="x-small")
 
-        ax2.set_aspect(0.70)
+        if not for_combined_graph:
+            ax2.set_aspect(0.70)
 
         for y in range(80, 100, 5):
             ax2.axhline(y, **color_arg, linestyle=":", alpha=0.25)
