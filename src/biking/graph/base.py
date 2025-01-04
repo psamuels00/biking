@@ -7,8 +7,8 @@ class Graph:
         self.stats = stats
         self.num_days = stats["num_days"]
         self.output_file = output_file
-        self.handles = None
-        self.labels = None
+        self.handles = []
+        self.labels = []
 
     def get_ticks(self, period):
         offsets = [0] + [x - 1 for x in range(period, self.num_days, period)]
@@ -34,14 +34,14 @@ class Graph:
 
         return colors
 
-    def set_legend(self, handles, labels, loc="lower center"):
+    def legend(self, loc="lower center"):
         plt.legend(
             loc=loc,
             fontsize="small",
             title="Legend: (latest value in parentheses)",
             title_fontsize="small",
-            handles=handles,
-            labels=labels,
+            handles=self.handles,
+            labels=self.labels,
         )
 
     def x_axis_days(self, ax1):
@@ -68,9 +68,11 @@ class Graph:
         for y in range(80, 100, 5):
             ax2.axhline(y, **color_arg, linestyle=":", alpha=0.25)
 
-        line3, = plt.plot(x, ride_rate_y, color=color, marker="o", markersize=3)
-
-        return line3
+        num_biked_days = self.stats["num_biked_days"]
+        ride_rate = round(num_biked_days / self.num_days * 100, 2)
+        line, = plt.plot(x, ride_rate_y, color=color, marker="o", markersize=3)
+        self.handles.append(line)
+        self.labels.append(f"Ride Rate ({ride_rate:5.2f}%)")
 
     def y_axis_distance(self, ax1, for_combined_graph=False):
         y = self.stats["data"]["distance_per_day"]
@@ -89,10 +91,19 @@ class Graph:
         colors = self.get_colors()
 
         ax1.bar(x, y, color=colors)
-        line1, = ax1.plot(x, avg_y, color="lightblue", marker="o", markersize=3)
-        line2, = ax1.plot(x, avg_ride_day_y, color="tab:blue", marker="o", markersize=3)
 
-        return line1, line2
+        num_biked_days = self.stats["num_biked_days"]
+        total_miles = self.stats["total_miles"]
+
+        avg_miles = total_miles / self.num_days
+        line, = ax1.plot(x, avg_y, color="lightblue", marker="o", markersize=3)
+        self.handles.append(line)
+        self.labels.append(f"Average Distance per Day ({avg_miles:0.1f} mi)")
+
+        avg_ride_day_miles = total_miles / num_biked_days
+        line, = ax1.plot(x, avg_ride_day_y, color="tab:blue", marker="o", markersize=3)
+        self.handles.append(line)
+        self.labels.append(f"Average Distance per Ride Day ({avg_ride_day_miles:0.1f} mi)")
 
     def y_axis_elevation(self, ax1):
         y_gain = self.stats["data"]["elevation_gain_per_day"]
@@ -113,11 +124,21 @@ class Graph:
 
         colors = self.get_colors()
         ax1.bar(x, y_gain, color=colors)
-        dots1, = ax1.plot(x, y_gain, color="tab:blue", linestyle="None", marker="o", markersize=3)
-        line1, = ax1.plot(x, y_low, color="yellow", linestyle="None", marker="o", markersize=3)
-        line2, = ax1.plot(x, y_high, color="orange", linestyle="None", marker="o", markersize=3)
 
-        return dots1, line1, line2
+        elevation_gain = self.stats["data"]["elevation_gain_per_day"][-1]
+        dots, = ax1.plot(x, y_gain, color="tab:blue", linestyle="None", marker="o", markersize=3)
+        self.handles.append(dots)
+        self.labels.append(f"Elevation Gain ({elevation_gain:0.1f} ft)")
+
+        elevation_low = self.stats["data"]["elevation_low_per_day"][-1]
+        line, = ax1.plot(x, y_low, color="yellow", linestyle="None", marker="o", markersize=3)
+        self.handles.append(line)
+        self.labels.append(f"Elevation Low ({elevation_low:0.1f} ft)")
+
+        elevation_high = self.stats["data"]["elevation_high_per_day"][-1]
+        line, = ax1.plot(x, y_high, color="orange", linestyle="None", marker="o", markersize=3)
+        self.handles.append(line)
+        self.labels.append(f"Elevation High ({elevation_high:0.1f} ft)")
 
     def y_axis_speed(self, ax1):
         y_avg = self.stats["data"]["avg_speed_per_day"]
@@ -132,7 +153,13 @@ class Graph:
 
         colors = self.get_colors(True)
         ax1.vlines(x, ymin=y_avg, ymax=y_max, color=colors, linewidth=3)
-        dots1, = ax1.plot(x, y_max, color="tab:red", linestyle="None", marker="o", markersize=2)
-        dots2, = ax1.plot(x, y_avg, color="tab:blue", linestyle="None", marker="o", markersize=2)
 
-        return dots1, dots2
+        max_speed = self.stats["data"]["max_speed_per_day"][-1]
+        dots, = ax1.plot(x, y_max, color="tab:red", linestyle="None", marker="o", markersize=2)
+        self.handles.append(dots)
+        self.labels.append(f"Max Speed ({max_speed:0.1f} mph)")
+
+        avg_speed = self.stats["data"]["avg_speed_per_day"][-1]
+        dots, = ax1.plot(x, y_avg, color="tab:blue", linestyle="None", marker="o", markersize=2)
+        self.handles.append(dots)
+        self.labels.append(f"Average Speed ({avg_speed:0.1f} mph)")
