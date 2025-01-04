@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from biking.graph import DistanceGraph, ElevationGraph, SpeedGraph
+from biking.graph import ComboGraph, DistanceGraph, ElevationGraph, SpeedGraph
 from biking.input import InputData
 from biking.params import Parameters
 from biking.stats import Statistics
@@ -20,6 +20,7 @@ def generate_graphs(stats):
     DistanceGraph(stats, file("distance")).generate()
     ElevationGraph(stats, file("elevation")).generate()
     SpeedGraph(stats, file("speed")).generate()
+    ComboGraph(stats, file("combo")).generate()
 
 
 def main():
