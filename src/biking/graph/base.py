@@ -34,9 +34,9 @@ class Graph:
 
         return colors
 
-    def set_legend(self, handles, labels):
+    def set_legend(self, handles, labels, loc="lower center"):
         plt.legend(
-            loc="lower center",
+            loc=loc,
             fontsize="small",
             title="Legend: (latest value in parentheses)",
             title_fontsize="small",
@@ -95,22 +95,29 @@ class Graph:
         return line1, line2
 
     def y_axis_elevation(self, ax1):
-        y = self.stats["data"]["elevation_gain_per_day"]
+        y_gain = self.stats["data"]["elevation_gain_per_day"]
+        y_high = self.stats["data"]["elevation_high_per_day"]
+        y_low = self.stats["data"]["elevation_low_per_day"]
         x = list(range(self.num_days))
 
-        y = [round(n) for n in y]
+        y_gain = [round(n) for n in y_gain]
+        y_high = [round(n) for n in y_high]
+        y_low = [round(n) for n in y_low]
 
         ax1.set_ylabel("Feet")
-        plt.ylim(0, max(y))
-        plt.yticks(range(0, int(max(y)) + 1, 100), fontsize="x-small")
+        max_y = int(max(*y_gain, *y_high))
+        plt.ylim(0, max_y)
+        plt.yticks(range(0, max_y + 1, 100), fontsize="x-small")
 
         plt.grid(axis="y", linestyle="-", alpha=0.15)
 
         colors = self.get_colors()
-        ax1.bar(x, y, color=colors)
-        dots1, = ax1.plot(x, y, color="tab:blue", linestyle="None", marker="o", markersize=3)
+        ax1.bar(x, y_gain, color=colors)
+        dots1, = ax1.plot(x, y_gain, color="tab:blue", linestyle="None", marker="o", markersize=3)
+        line1, = ax1.plot(x, y_low, color="yellow", linestyle="None", marker="o", markersize=3)
+        line2, = ax1.plot(x, y_high, color="orange", linestyle="None", marker="o", markersize=3)
 
-        return dots1
+        return dots1, line1, line2
 
     def y_axis_speed(self, ax1):
         y_avg = self.stats["data"]["avg_speed_per_day"]
