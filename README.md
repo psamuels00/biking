@@ -1,8 +1,12 @@
 # Biking Statistics
 
-Generate a graph such as the following from data collected using Strava.
+Generate graphs such as the following from data collected using Strava.
 
-![Daily Distance and Ride Rate Combined into a Single Graph](output/Distance.jpg)
+![Daily Bike Ride - Distance](output/Distance.jpg)
+![Daily Bike Ride - Ride Rate](output/RideRate.jpg)
+![Daily Bike Ride - Speed](output/Speed.jpg)
+![Daily Bike Ride - Elevation Gain](output/Elevation.jpg)
+![Daily Bike Ride - Combined Metrics](output/CombinedMetrics.jpg)
 
 There is also a way to augment the Strava data.  See <a href="#input">Input</a> below.
 

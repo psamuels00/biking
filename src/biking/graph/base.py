@@ -49,42 +49,45 @@ class Graph:
         tick_offsets, tick_labels = self.get_ticks(period=5)
         plt.xticks(tick_offsets, tick_labels, fontsize="x-small")
 
-    def y_axis_ride_rate(self, ax1):
+    def y_axis_ride_rate(self, ax1, for_combined_graph=False):
         ride_rate_y = self.stats["data"]["ride_rate_per_day"]
 
         x = list(range(self.num_days))
 
         color = "tab:red"
-        ax2 = ax1.twinx()
-        ax2.set_ylabel("Ride Rate", color=color)
-        plt.ylim(0, max(ride_rate_y))
-        plt.yticks(range(0, 101, 10), color=color, fontsize="x-small")
+        color_arg = dict(color=color) if for_combined_graph else {}
+        ax2 = ax1.twinx() if for_combined_graph else ax1
+        ax2.set_ylabel("Percentage", **color_arg)
+        plt.ylim(70, max(ride_rate_y))
+        plt.yticks(range(70, 101, 10), **color_arg, fontsize="x-small")
+
+        ax2.set_aspect(0.70)
 
         for y in range(80, 100, 5):
-            ax2.axhline(y, color=color, linestyle=":", alpha=0.25)
+            ax2.axhline(y, **color_arg, linestyle=":", alpha=0.25)
 
         line3, = plt.plot(x, ride_rate_y, color=color, marker="o", markersize=3)
 
         return line3
 
-    def y_axis_distance(self, ax1):
+    def y_axis_distance(self, ax1, for_combined_graph=False):
         y = self.stats["data"]["distance_per_day"]
         avg_y = self.stats["data"]["avg_distance_per_day"]
         avg_ride_day_y = self.stats["data"]["avg_distance_per_ride_day"]
 
         x = list(range(self.num_days))
 
-        color = plt.cm.Greens(0.8)
-        ax1.set_ylabel("Miles", color=color)
+        color_arg = dict(color=plt.cm.Greens(0.8)) if for_combined_graph else {}
+        ax1.set_ylabel("Miles", **color_arg)
         plt.ylim(0, max(y))
-        plt.yticks(range(0, int(max(y)) + 1, 1), color=color, fontsize="x-small")
+        plt.yticks(range(0, int(max(y)) + 1, 1), **color_arg, fontsize="x-small")
 
-        plt.grid(axis="y", linestyle="-", alpha=0.15, color=color)
+        plt.grid(axis="y", linestyle="-", alpha=0.15, **color_arg)
 
         colors = self.get_colors()
 
         ax1.bar(x, y, color=colors)
-        line1, = ax1.plot(x, avg_y, color="lightblue", marker="o", markersize=5)
+        line1, = ax1.plot(x, avg_y, color="lightblue", marker="o", markersize=3)
         line2, = ax1.plot(x, avg_ride_day_y, color="tab:blue", marker="o", markersize=3)
 
         return line1, line2
@@ -103,7 +106,7 @@ class Graph:
 
         colors = self.get_colors()
         ax1.bar(x, y, color=colors)
-        dots1, = ax1.plot(x, y, color="blue", linestyle="None", marker="o", markersize=3)
+        dots1, = ax1.plot(x, y, color="tab:blue", linestyle="None", marker="o", markersize=3)
 
         return dots1
 
@@ -112,21 +115,6 @@ class Graph:
         y_max = self.stats["data"]["max_speed_per_day"]
         x = list(range(self.num_days))
 
-        # remove_zeroes = False
-        # if remove_zeroes:
-        #     x = []
-        #     y_avg = []
-        #     y_max = []
-        #     y = zip(
-        #         self.stats["data"]["avg_speed_per_day"],
-        #         self.stats["data"]["max_speed_per_day"],
-        #     )
-        #     for n, (avg_value, max_value) in enumerate(y):
-        #         if avg_value and max_value:
-        #             x.append(n)
-        #             y_avg.append(avg_value)
-        #             y_max.append(max_value)
-
         ax1.set_ylabel("Miles/Hour")
         plt.ylim(0, max(y_max))
         plt.yticks(range(0, int(max(y_max)) + 1, 1), fontsize="x-small")
@@ -134,8 +122,8 @@ class Graph:
         plt.grid(axis="y", linestyle="-", alpha=0.15)
 
         colors = self.get_colors(True)
-        ax1.vlines(x, ymin=y_avg, ymax=y_max, color=colors, linewidth=3)#, alpha=0.25)
-        dots1, = ax1.plot(x, y_max, color="red", linestyle="None", marker="o", markersize=2)
-        dots2, = ax1.plot(x, y_avg, color="blue", linestyle="None", marker="o", markersize=2)
+        ax1.vlines(x, ymin=y_avg, ymax=y_max, color=colors, linewidth=3)
+        dots1, = ax1.plot(x, y_max, color="tab:red", linestyle="None", marker="o", markersize=2)
+        dots2, = ax1.plot(x, y_avg, color="tab:blue", linestyle="None", marker="o", markersize=2)
 
         return dots1, dots2

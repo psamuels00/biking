@@ -8,6 +8,7 @@ class Parameters:
             combo="CombinedMetrics.jpg",
             distance="Distance.jpg",
             elevation="Elevation.jpg",
+            ride_rate="RideRate.jpg",
             speed="Speed.jpg",
         )
 
