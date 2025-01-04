@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+from datetime import datetime
+
 
 class Graph:
     def __init__(self, stats, output_file):
@@ -34,6 +36,16 @@ class Graph:
 
         return colors
 
+    def title(self, metric):
+        from_date = "Oct 11, 2024"
+        to_date = datetime.now().strftime("%b %d, %Y")
+        title = "\n".join([
+            f"Daily Bike Ride - {metric}",
+            f"{from_date} - {to_date}",
+        ])
+
+        plt.title(title, pad=30)
+
     def legend(self, loc="lower center"):
         plt.legend(
             loc=loc,
@@ -44,8 +56,19 @@ class Graph:
             labels=self.labels,
         )
 
+    def build(self, ax1):
+        pass
+
+    def generate(self):
+        fig, ax1 = plt.subplots()
+
+        self.build(ax1)
+
+        plt.tight_layout()
+        plt.savefig(self.output_file, dpi=300, bbox_inches="tight")
+
     def x_axis_days(self, ax1):
-        ax1.set_xlabel("Day (starting Oct 11, 2024)")
+        ax1.set_xlabel("Day")
         tick_offsets, tick_labels = self.get_ticks(period=5)
         plt.xticks(tick_offsets, tick_labels, fontsize="x-small")
 
