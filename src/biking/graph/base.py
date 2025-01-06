@@ -99,7 +99,6 @@ class Graph:
         avg_y = self.stats["data"]["avg_distance_per_day"]
         avg_ride_day_y = self.stats["data"]["avg_distance_per_ride_day"]
 
-        color = plt.cm.Greens(0.8)
         scale = range(0, int(max(y)) + 1, 1)
 
         ax1.set_ylabel("Miles")
