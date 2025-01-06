@@ -70,22 +70,25 @@ class Graph:
         tick_offsets, tick_labels = self.get_ticks(period=5)
         plt.xticks(tick_offsets, tick_labels, fontsize="x-small")
 
+    def add_scale(self, ax1, lower_limit, upper_limit, scale):
+        ax1.set_ylim(lower_limit, upper_limit)
+        ax1.set_yticks(scale, labels=scale, fontsize="x-small")
+
+        ax2 = ax1.twinx()
+        ax2.set_ylim(lower_limit, upper_limit)
+        ax2.set_yticks(scale, labels=scale, fontsize="x-small", alpha=0.25)
+
     def y_axis_ride_rate(self, ax1):
         x = list(range(self.num_days))
         ride_rate_y = self.stats["data"]["ride_rate_per_day"]
 
-        min_ride_rate = int(max(0, min(ride_rate_y) // 5 * 5 - 5))
-        bottom_limit = min_ride_rate
-        scale = range(min_ride_rate, 101, 1)
+        lower_limit = int(max(0, min(ride_rate_y) // 5 * 5 - 5))
+        upper_limit = max(ride_rate_y)
+        scale = range(lower_limit, 101, 1)
 
         ax1.set_ylabel("Percentage")
-        ax1.set_ylim(bottom_limit, max(ride_rate_y))
-        ax1.set_yticks(scale, labels=scale, fontsize="x-small")
         ax1.grid(axis="y", linestyle="-", alpha=0.15)
-
-        ax2 = ax1.twinx()
-        ax2.set_ylim(bottom_limit, max(ride_rate_y))
-        ax2.set_yticks(scale, labels=scale, fontsize="x-small", alpha=0.25)
+        self.add_scale(ax1, lower_limit, upper_limit, scale),
 
         num_biked_days = self.stats["num_biked_days"]
         ride_rate = round(num_biked_days / self.num_days * 100, 2)
@@ -99,16 +102,11 @@ class Graph:
         avg_y = self.stats["data"]["avg_distance_per_day"]
         avg_ride_day_y = self.stats["data"]["avg_distance_per_ride_day"]
 
-        scale = range(0, int(max(y)) + 1, 1)
-
         ax1.set_ylabel("Miles")
-        ax1.set_ylim(0, max(y))
-        ax1.set_yticks(scale, labels=scale, fontsize="x-small")
         ax1.grid(axis="y", linestyle="-", alpha=0.15)
 
-        ax2 = ax1.twinx()
-        ax2.set_ylim(0, max(y))
-        ax2.set_yticks(scale, labels=scale, fontsize="x-small", alpha=0.25)
+        scale = range(0, int(max(y)) + 1, 1)
+        self.add_scale(ax1, 0, max(y), scale),
 
         colors = self.get_colors()
         ax1.bar(x, y, color=colors)
@@ -136,17 +134,12 @@ class Graph:
         y_high = [round(n) for n in y_high]
         y_low = [round(n) for n in y_low]
 
-        max_y = int(max(*y_gain, *y_high))
-        scale = range(0, max_y + 1, 100)
-
         ax1.set_ylabel("Feet")
-        ax1.set_ylim(0, max_y)
-        ax1.set_yticks(scale, labels=scale, fontsize="x-small")
         ax1.grid(axis="y", linestyle="-", alpha=0.15)
 
-        ax2 = ax1.twinx()
-        ax2.set_ylim(0, max_y)
-        ax2.set_yticks(scale, labels=scale, fontsize="x-small", alpha=0.25)
+        max_y = int(max(*y_gain, *y_high))
+        scale = range(0, max_y + 1, 100)
+        self.add_scale(ax1, 0, max_y, scale),
 
         colors = self.get_colors()
         ax1.bar(x, y_gain, color=colors)
@@ -171,16 +164,11 @@ class Graph:
         y_avg = self.stats["data"]["avg_speed_per_day"]
         y_max = self.stats["data"]["max_speed_per_day"]
 
-        scale = range(0, int(max(y_max)) + 1, 1)
-
         ax1.set_ylabel("Miles/Hour")
-        ax1.set_ylim(0, max(y_max))
-        ax1.set_yticks(scale, labels=scale, fontsize="x-small")
         ax1.grid(axis="y", linestyle="-", alpha=0.15)
 
-        ax2 = ax1.twinx()
-        ax2.set_ylim(0, max(y_max))
-        ax2.set_yticks(scale, labels=scale, fontsize="x-small", alpha=0.25)
+        scale = range(0, int(max(y_max)) + 1, 1)
+        self.add_scale(ax1, 0, max(y_max), scale),
 
         colors = self.get_colors(True)
         ax1.vlines(x, ymin=y_avg, ymax=y_max, color=colors, linewidth=3)
