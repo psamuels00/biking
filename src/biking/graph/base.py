@@ -44,7 +44,7 @@ class Graph:
             f"{from_date} - {to_date}",
         ])
 
-        plt.title(title, pad=30)
+        plt.title(title, pad=5)
 
     def legend(self, loc="lower center"):
         plt.legend(
