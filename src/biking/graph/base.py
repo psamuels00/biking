@@ -61,9 +61,7 @@ class Graph:
 
     def generate(self):
         fig, ax1 = plt.subplots()
-
         self.build(ax1)
-
         plt.tight_layout()
         plt.savefig(self.output_file, dpi=300, bbox_inches="tight")
 
@@ -73,46 +71,56 @@ class Graph:
         plt.xticks(tick_offsets, tick_labels, fontsize="x-small")
 
     def y_axis_ride_rate(self, ax1, for_combined_graph=False):
-        ride_rate_y = self.stats["data"]["ride_rate_per_day"]
-
         x = list(range(self.num_days))
+        ride_rate_y = self.stats["data"]["ride_rate_per_day"]
 
         color = "tab:red"
         color_arg = dict(color=color) if for_combined_graph else {}
+        bottom_limit = 0 if for_combined_graph else 70
+        scale = range(bottom_limit, 101, 5)
+
         ax2 = ax1.twinx() if for_combined_graph else ax1
         ax2.set_ylabel("Percentage", **color_arg)
-        bottom_limit = 0 if for_combined_graph else 70
-        plt.ylim(bottom_limit, max(ride_rate_y))
-        plt.yticks(range(bottom_limit, 101, 10), **color_arg, fontsize="x-small")
+        ax2.set_ylim(bottom_limit, max(ride_rate_y))
+        ax2.set_yticks(scale, labels=scale, **color_arg, fontsize="x-small")
 
         if not for_combined_graph:
             ax2.set_aspect(0.70)
+            #ax3 = ax1.twinx()
+            #ax3.set_ylim(bottom_limit, max(ride_rate_y))
+            #ax3.set_yticks(scale, labels=scale, **color_arg, fontsize="x-small", alpha=0.25)
+            #ax3.set_aspect(0.70)
 
         for y in range(80, 100, 5):
             ax2.axhline(y, **color_arg, linestyle=":", alpha=0.25)
 
         num_biked_days = self.stats["num_biked_days"]
         ride_rate = round(num_biked_days / self.num_days * 100, 2)
-        line, = plt.plot(x, ride_rate_y, color=color, marker="o", markersize=3)
+        line, = ax2.plot(x, ride_rate_y, color=color, marker="o", markersize=3)
         self.handles.append(line)
         self.labels.append(f"Ride Rate ({ride_rate:5.2f}%)")
 
     def y_axis_distance(self, ax1, for_combined_graph=False):
+        x = list(range(self.num_days))
         y = self.stats["data"]["distance_per_day"]
         avg_y = self.stats["data"]["avg_distance_per_day"]
         avg_ride_day_y = self.stats["data"]["avg_distance_per_ride_day"]
 
-        x = list(range(self.num_days))
+        color = plt.cm.Greens(0.8)
+        color_arg = dict(color=color) if for_combined_graph else {}
+        scale = range(0, int(max(y)) + 1, 1)
 
-        color_arg = dict(color=plt.cm.Greens(0.8)) if for_combined_graph else {}
         ax1.set_ylabel("Miles", **color_arg)
-        plt.ylim(0, max(y))
-        plt.yticks(range(0, int(max(y)) + 1, 1), **color_arg, fontsize="x-small")
+        ax1.set_ylim(0, max(y))
+        ax1.set_yticks(scale, labels=scale, **color_arg, fontsize="x-small")
+        ax1.grid(axis="y", linestyle="-", alpha=0.15, **color_arg)
 
-        plt.grid(axis="y", linestyle="-", alpha=0.15, **color_arg)
+        if not for_combined_graph:
+            ax2 = ax1.twinx()
+            ax2.set_ylim(0, max(y))
+            ax2.set_yticks(scale, labels=scale, **color_arg, fontsize="x-small", alpha=0.25)
 
         colors = self.get_colors()
-
         ax1.bar(x, y, color=colors)
 
         num_biked_days = self.stats["num_biked_days"]
@@ -129,21 +137,26 @@ class Graph:
         self.labels.append(f"Average Distance per Ride Day ({avg_ride_day_miles:0.1f} mi)")
 
     def y_axis_elevation(self, ax1):
+        x = list(range(self.num_days))
         y_gain = self.stats["data"]["elevation_gain_per_day"]
         y_high = self.stats["data"]["elevation_high_per_day"]
         y_low = self.stats["data"]["elevation_low_per_day"]
-        x = list(range(self.num_days))
 
         y_gain = [round(n) for n in y_gain]
         y_high = [round(n) for n in y_high]
         y_low = [round(n) for n in y_low]
 
-        ax1.set_ylabel("Feet")
         max_y = int(max(*y_gain, *y_high))
-        plt.ylim(0, max_y)
-        plt.yticks(range(0, max_y + 1, 100), fontsize="x-small")
+        scale = range(0, max_y + 1, 100)
 
-        plt.grid(axis="y", linestyle="-", alpha=0.15)
+        ax1.set_ylabel("Feet")
+        ax1.set_ylim(0, max_y)
+        ax1.set_yticks(scale, labels=scale, fontsize="x-small")
+        ax1.grid(axis="y", linestyle="-", alpha=0.15)
+
+        ax2 = ax1.twinx()
+        ax2.set_ylim(0, max_y)
+        ax2.set_yticks(scale, labels=scale, fontsize="x-small", alpha=0.25)
 
         colors = self.get_colors()
         ax1.bar(x, y_gain, color=colors)
@@ -164,15 +177,20 @@ class Graph:
         self.labels.append(f"Elevation High ({elevation_high:0.1f} ft)")
 
     def y_axis_speed(self, ax1):
+        x = list(range(self.num_days))
         y_avg = self.stats["data"]["avg_speed_per_day"]
         y_max = self.stats["data"]["max_speed_per_day"]
-        x = list(range(self.num_days))
+
+        scale = range(0, int(max(y_max)) + 1, 1)
 
         ax1.set_ylabel("Miles/Hour")
-        plt.ylim(0, max(y_max))
-        plt.yticks(range(0, int(max(y_max)) + 1, 1), fontsize="x-small")
+        ax1.set_ylim(0, max(y_max))
+        ax1.set_yticks(scale, labels=scale, fontsize="x-small")
+        ax1.grid(axis="y", linestyle="-", alpha=0.15)
 
-        plt.grid(axis="y", linestyle="-", alpha=0.15)
+        ax2 = ax1.twinx()
+        ax2.set_ylim(0, max(y_max))
+        ax2.set_yticks(scale, labels=scale, fontsize="x-small", alpha=0.25)
 
         colors = self.get_colors(True)
         ax1.vlines(x, ymin=y_avg, ymax=y_max, color=colors, linewidth=3)
