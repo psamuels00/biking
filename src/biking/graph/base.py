@@ -74,22 +74,18 @@ class Graph:
         x = list(range(self.num_days))
         ride_rate_y = self.stats["data"]["ride_rate_per_day"]
 
-        min_ride_rate = int(max(0, min(ride_rate_y) // 5 * 5 - 10))
+        min_ride_rate = int(max(0, min(ride_rate_y) // 5 * 5 - 5))
         bottom_limit = min_ride_rate
-        scale = range(min_ride_rate, 101, 5)
+        scale = range(min_ride_rate, 101, 1)
 
         ax1.set_ylabel("Percentage")
         ax1.set_ylim(bottom_limit, max(ride_rate_y))
         ax1.set_yticks(scale, labels=scale, fontsize="x-small")
-        #ax1.set_aspect(0.70)
+        ax1.grid(axis="y", linestyle="-", alpha=0.15)
 
         ax2 = ax1.twinx()
         ax2.set_ylim(bottom_limit, max(ride_rate_y))
         ax2.set_yticks(scale, labels=scale, fontsize="x-small", alpha=0.25)
-        #ax2.set_aspect(0.70)
-
-        for y in range(80, 100, 5):
-            ax1.axhline(y, linestyle=":", alpha=0.25)
 
         num_biked_days = self.stats["num_biked_days"]
         ride_rate = round(num_biked_days / self.num_days * 100, 2)
