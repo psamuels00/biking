@@ -6,6 +6,7 @@ Generate graphs such as the following from data collected using Strava.
 ![Daily Bike Ride - Ride Rate](output/RideRate.jpg)
 ![Daily Bike Ride - Speed](output/Speed.jpg)
 ![Daily Bike Ride - Elevation Gain](output/Elevation.jpg)
+![Daily Bike Ride - Performance](output/Performance.jpg)
 
 There is also a way to augment the Strava data.  See <a href="#input">Input</a> below.
 

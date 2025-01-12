@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from biking.graph import DistanceGraph, ElevationGraph, RideRateGraph, SpeedGraph
+from biking.graph import DistanceGraph, ElevationGraph, PerformanceGraph, RideRateGraph, SpeedGraph
 from biking.input import InputData
 from biking.params import Parameters
 from biking.stats import Statistics
@@ -19,6 +19,7 @@ def generate_graphs(stats):
 
     DistanceGraph(stats, file("distance")).generate()
     ElevationGraph(stats, file("elevation")).generate()
+    PerformanceGraph(stats, file("performance")).generate()
     RideRateGraph(stats, file("ride_rate")).generate()
     SpeedGraph(stats, file("speed")).generate()
 
