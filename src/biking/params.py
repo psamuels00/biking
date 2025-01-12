@@ -8,6 +8,7 @@ class Parameters:
             distance="Distance.jpg",
             elevation="Elevation.jpg",
             ride_rate="RideRate.jpg",
+            performance="Performance.jpg",
             speed="Speed.jpg",
         )
 
