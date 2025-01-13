@@ -1,6 +1,8 @@
 import numpy as np
 from collections import namedtuple
 
+from numpy.ma.extras import compress_nd
+
 from .base import Graph
 
 
@@ -42,8 +44,8 @@ class PerformanceGraph(Graph):
         elevation_y = [(n - elevation.min) / elevation.range if n > elevation.min else new_low for n in elevation_y]
 
         d_factor = 1.0
-        e_factor = 3.0
         s_factor = 2.0
+        e_factor = 3.0
         global_factor = 10.0
         performance_y = [
             0 if s == 0 else (d * d_factor + e * e_factor + s * s_factor) * global_factor
@@ -64,6 +66,19 @@ class PerformanceGraph(Graph):
             avg_performance_y.append(pi_sum/pi_count if pi_count > 0 else np.nan)
 
         return avg_performance_y
+
+    def component(self, ax1, x, component_range, attr_name, color, label, unit):
+        y = self.stats["data"][attr_name]
+        stats_y = stats(y)
+        y = [(n / stats_y.max) * component_range if n > 0 else np.nan for n in y]
+
+        line, = ax1.plot(x, y, color=color, linestyle="None", marker="o", markersize=2)
+        self.handles.append(line)
+        self.labels.append(f"{label} ({self.stats["data"][attr_name][-1]:0.1f} {unit})")
+
+        avg_y = self.stats["data"]["avg_" + attr_name][-1]
+        norm_avg_y = (avg_y / stats_y.max) * component_range
+        ax1.axhline(y=norm_avg_y, color=color, linestyle="-", linewidth=0.5)
 
     def y_axis(self, ax1):
         x = np.arange(self.num_days)
@@ -94,16 +109,7 @@ class PerformanceGraph(Graph):
         self.handles.append(line)
         self.labels.append(f"Average Performance Index ({avg_y[-1]:0.1f})")
 
-        # y_low = self.stats["data"]["elevation_low_per_day"]
-        # y_high = self.stats["data"]["elevation_high_per_day"]
-        #
-        # y_low = np.array([n if n > 0 else np.nan for n in y_low])
-        # y_high = np.array([n if n > 0 else np.nan for n in y_high])
-        #
-        # line, = ax1.plot(x, y_low, color="yellow", linestyle="None", marker="o", markersize=3)
-        # self.handles.append(line)
-        # self.labels.append(f"Elevation Low ({y_low[-1]:0.1f} ft)")
-        #
-        # line, = ax1.plot(x, y_high, color="orange", linestyle="None", marker="o", markersize=3)
-        # self.handles.append(line)
-        # self.labels.append(f"Elevation High ({y_high[-1]:0.1f} ft)")
+        component_range = int(max_value / 2)
+        self.component(ax1, x, component_range, "distance_per_day", "gold", "Distance", "mi")
+        self.component(ax1, x, component_range, "speed_per_day", "orange", "Speed", "mph")
+        self.component(ax1, x, component_range, "elevation_gain_per_day", "orangered", "Elevation Gain", "ft")
