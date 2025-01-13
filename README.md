@@ -25,8 +25,7 @@ On days when someone forgot to use Strava, only distance is available.
 
 The green shades on most graphs indicate the day of week, as follows:
 
-![Days of Week](images/green_legend.png)
-
+<img src="images/green_legend.png" alt="Days of Week" style="width: 75%; margin-left: 1em">
 
 
 ## Performance Index
