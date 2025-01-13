@@ -16,6 +16,9 @@ class SpeedGraph(Graph):
     def label(self):
         return "Speed"
 
+    def scale_step(self):
+        return 0.5
+
     def y_axis(self, ax1):
         self.speed_y_axis(ax1, "speed_per_day", "avg_speed_per_day")
 
@@ -33,7 +36,7 @@ class SpeedGraph(Graph):
         max_value = np.nanmax(nan_y)
         lower_limit = max(0, int(min_value) - 1)
         upper_limit = math.ceil(max_value) + 1
-        scale = range(lower_limit, upper_limit, 1)
+        scale = np.arange(lower_limit, upper_limit, self.scale_step())
 
         ax1.set_ylabel("Miles/Hour")
         ax1.grid(axis="y", linestyle="-", alpha=0.15)
