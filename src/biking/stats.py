@@ -3,6 +3,10 @@ import calendar
 from .conversions import feet2miles
 
 
+def safe_div(a, b):
+    return a / b if b else 0
+
+
 class Statistics:
     def __init__(self, input_data):
         self.input_data = input_data
@@ -10,17 +14,30 @@ class Statistics:
 
     def calculate(self):
         num_days = 0
-        num_biked_days = 0
-        total_miles = 0
+        num_biked_days = 0  # based on availability of distance info
+        num_data_tracked_days = 0  # ...plus speed and elevation data from Strava
+
+        total_distance = 0  # miles
+        total_tracked_distance = 0  # miles
+        total_speed = 0  # mph
+        total_top_speed = 0  # mph
+        total_elevation_gain = 0  # feet
+        total_time = 0  # hours
 
         data = dict(
             ride_rate_per_day=[],
+
             distance_per_day=[],
             avg_distance_per_day=[],
-            avg_distance_per_ride_day=[],
-            avg_speed_per_day=[],
-            max_speed_per_day=[],
+
+            speed_per_day=[],  # ie, average speed
+            avg_speed_per_day=[],  # ie, average of averages
+            weighted_avg_speed_per_day=[],  # Note: weighted wrt distance, but not elevation
+            top_speed_per_day=[],
+            avg_top_speed_per_day=[],
+
             elevation_gain_per_day=[],
+            avg_elevation_gain_per_day=[],
             elevation_high_per_day=[],
             elevation_low_per_day=[],
         )
@@ -28,19 +45,35 @@ class Statistics:
         daily_data = self.input_data.get_daily_data()
 
         for record in daily_data:
-            miles = record["distance"]
-            total_miles += miles
+            distance = record["distance"]
+            total_distance += distance
+
+            speed = record["average_speed"]
+            total_speed += speed
+            total_time += safe_div(distance, speed)
+
+            top_speed = record["max_speed"]
+            total_top_speed += top_speed
+
+            elevation = record["total_elevation_gain"]
+            total_elevation_gain += elevation
 
             num_days += 1
-            num_biked_days += (1 if miles else 0)
+            num_biked_days += (1 if distance else 0)
+            if speed and elevation:
+                num_data_tracked_days += 1
+                total_tracked_distance += distance
 
             data["ride_rate_per_day"].append((num_biked_days * 100)/num_days)
-            data["distance_per_day"].append(miles)
-            data["avg_distance_per_day"].append(total_miles/num_days)
-            data["avg_distance_per_ride_day"].append(total_miles/num_biked_days)
-            data["avg_speed_per_day"].append(record["average_speed"])
-            data["max_speed_per_day"].append(record["max_speed"])
-            data["elevation_gain_per_day"].append(record["total_elevation_gain"])
+            data["distance_per_day"].append(distance)
+            data["avg_distance_per_day"].append(total_distance/num_biked_days)
+            data["speed_per_day"].append(speed)
+            data["avg_speed_per_day"].append(safe_div(total_speed, num_data_tracked_days))
+            data["weighted_avg_speed_per_day"].append(safe_div(total_tracked_distance, total_time))
+            data["top_speed_per_day"].append(top_speed)
+            data["avg_top_speed_per_day"].append(safe_div(total_top_speed, num_data_tracked_days))
+            data["elevation_gain_per_day"].append(elevation)
+            data["avg_elevation_gain_per_day"].append(safe_div(total_elevation_gain, num_data_tracked_days))
             data["elevation_high_per_day"].append(record["elev_high"])
             data["elevation_low_per_day"].append(record["elev_low"])
 
@@ -53,8 +86,12 @@ class Statistics:
             first_day_of_week=first_day_of_week,
             last_date=last_date,
             num_biked_days=num_biked_days,
+            num_data_tracked_days=num_data_tracked_days,
             num_days=num_days,
-            total_miles=total_miles,
+            total_distance=total_distance,
+            total_elevation_gain=total_elevation_gain,
+            total_time=total_time,
+            total_tracked_distance=total_tracked_distance,
         )
 
         return stats
@@ -69,50 +106,75 @@ class Statistics:
 
         first_date = stats["first_date"]
         last_date = stats["last_date"]
-        max_elev_gain = int(max_val("elevation_gain_per_day"))
-        max_elev_high = int(max_val("elevation_high_per_day"))
-        max_elev_low = int(max_val("elevation_low_per_day"))
-        max_miles = max_val("distance_per_day")
-        max_speed_avg = max_val("avg_speed_per_day")
-        max_speed_max = max_val("max_speed_per_day")
-        min_elev_gain = int(min_val("elevation_gain_per_day"))
-        min_elev_high = int(min_val("elevation_high_per_day"))
-        min_elev_low = int(min_val("elevation_low_per_day"))
-        min_miles = min_val("distance_per_day")
-        min_speed_avg = min_val("avg_speed_per_day")
-        min_speed_max = min_val("max_speed_per_day")
-        num_biked_days = stats["num_biked_days"]
         num_days = stats["num_days"]
+        num_biked_days = stats["num_biked_days"]
+        num_data_tracked_days = stats["num_data_tracked_days"]
+
+        # distance
+        total_distance = stats["total_distance"]
+        min_distance = min_val("distance_per_day")
+        max_distance = max_val("distance_per_day")
+        avg_distance = total_distance / num_biked_days
+
+        # speed
+        total_time = stats["total_time"]
+        min_speed = min_val("speed_per_day")
+        max_speed = max_val("speed_per_day")
+        avg_speed = sum_vals("speed_per_day")/num_data_tracked_days
+
+        total_tracked_distance = stats["total_tracked_distance"]
+        weighted_avg_speed = total_tracked_distance / total_time
+
+        # top speed
+        min_top_speed = min_val("top_speed_per_day")
+        max_top_speed = max_val("top_speed_per_day")
+        avg_top_speed = sum_vals("top_speed_per_day")/num_data_tracked_days
+
+        # elevation gain
         total_elev_gain = int(sum_vals("elevation_gain_per_day"))
         total_elev_gain_miles = feet2miles(total_elev_gain)
-        total_miles = sum_vals("distance_per_day")
+        min_elev_gain = int(min_val("elevation_gain_per_day"))
+        max_elev_gain = int(max_val("elevation_gain_per_day"))
+        avg_elev_gain = int(total_elev_gain / num_data_tracked_days)
+
+        # elevation low
+        min_elev_low = int(min_val("elevation_low_per_day"))
+        max_elev_low = int(max_val("elevation_low_per_day"))
+        avg_elev_low = int(sum_vals("elevation_low_per_day") / num_data_tracked_days)
+
+        # elevation high
+        min_elev_high = int(min_val("elevation_high_per_day"))
+        max_elev_high = int(max_val("elevation_high_per_day"))
+        avg_elev_high = int(sum_vals("elevation_high_per_day") / num_data_tracked_days)
 
         first_day = first_date.strftime("%Y-%m-%d")
         last_day = last_date.strftime("%Y-%m-%d")
         num_skipped_days = num_days - num_biked_days
 
-        ride_rate = round(num_biked_days / num_days * 100, 2)
-        avg_miles = total_miles / num_days
-        avg_ride_day_miles = total_miles / num_biked_days
+        ride_rate = num_biked_days / num_days * 100
 
         print(f"Date range: {first_day} to {last_day}")
         print()
-        print("days  total  biked  skipped  ride rate")
-        print("      -----  -----  -------  ---------")
-        print(f"{num_days:11}  {num_biked_days:5}  {num_skipped_days:7}  {ride_rate:8.2f}%")
+        print("days  total  biked  tracked  skipped  ride rate")
+        print("      -----  -----  -------  -------  ---------")
+        print(f"{num_days:11}  {num_biked_days:5}  {num_data_tracked_days:5}  {num_skipped_days:7}  {ride_rate:8.2f}%")
         print()
-        print("distance (miles)  min   max   avg   avg-per-day-biked  total")
-        print("                  ----  ----  ----  -----------------  -------")
-        print(f"{min_miles:22.1f}  {max_miles:4.1f}  {avg_miles:4.1f}  {avg_ride_day_miles:17.1f}  {total_miles:7.1f}")
+        print("distance (miles)  min   max   avg   total")
+        print("                  ----  ----  ----  -------")
+        print(f"{min_distance:22.1f}  {max_distance:4.1f}  {avg_distance:4.1f}  {total_distance:7.1f}")
         print()
-        print("elevation gain (ft)  min   max   total    total miles")
-        print("                     ----  ----  -------  -----------")
-        print(f"{min_elev_gain:25}  {max_elev_gain:4}  {total_elev_gain:7}  {total_elev_gain_miles:11.1f}")
+        print("speed (mph)  min   max   avg   wavg")
+        print("             ----  ----  ----  ----")
+        print(f"{min_speed:17.1f}  {max_speed:4.1f}  {avg_speed:4.1f}  {weighted_avg_speed:4.1f}")
         print()
-        print("elevation range (ft)  low:  min   max   high:  min   max")
-        print("                            ----  ----         ----  ----")
-        print(f"{min_elev_low:31}  {max_elev_low:4}  {min_elev_high:12}  {max_elev_high:4}")
+        print("top speed (mph)  min   max   avg")
+        print("                 ----  ----  ----")
+        print(f"{min_top_speed:21.1f}  {max_top_speed:4.1f}  {avg_top_speed:4.1f}")
         print()
-        print("speed (mph)  avg:  min   max   max:  min   max")
-        print("                   ----  ----        ----  ----")
-        print(f"{min_speed_avg:23.1f}  {max_speed_avg:4.1f}  {min_speed_max:10.1f}  {max_speed_max:4.1f}")
+        print("elevation gain (ft)  min   max   avg   total    total miles")
+        print("                     ----  ----  ----  -------  -----------")
+        print(f"{min_elev_gain:25}  {max_elev_gain:4}  {avg_elev_gain:4}  {total_elev_gain:7}  {total_elev_gain_miles:11.1f}")
+        print()
+        print("elevation range (ft)  low:  min   max   avg   high:  min   max   avg")
+        print("                            ----  ----  ----         ----  ----  ----")
+        print(f"{min_elev_low:31}  {max_elev_low:4}  {avg_elev_low:4}  {min_elev_high:12}  {max_elev_high:4}  {avg_elev_high:4}")

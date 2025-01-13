@@ -1,16 +1,18 @@
-from .base import Graph
+import numpy as np
 from collections import namedtuple
+
+from .base import Graph
 
 
 Stats = namedtuple("Stats", ["avg", "max", "min", "range"])
 
 
 def stats(values):
-    values = [value for value in values if value > 0]
+    values = [value if value > 0 else np.nan for value in values]
 
-    average = sum(values) / len(values)
-    maximum = max(values)
-    minimum = min(values)
+    average = np.nanmean(values)
+    maximum = np.nanmax(values)
+    minimum = np.nanmin(values)
     range = maximum - minimum
 
     return Stats(average, maximum, minimum, range)
@@ -25,10 +27,9 @@ class PerformanceGraph(Graph):
 
         self.legend()
 
-    def y_axis(self, ax1):
-        x = list(range(self.num_days))
+    def performance_index(self):
         distance_y = self.stats["data"]["distance_per_day"]
-        speed_y = self.stats["data"]["avg_speed_per_day"]
+        speed_y = self.stats["data"]["speed_per_day"]
         elevation_y = self.stats["data"]["elevation_gain_per_day"]
 
         distance = stats(distance_y)
@@ -49,21 +50,60 @@ class PerformanceGraph(Graph):
             for d, s, e in zip(distance_y, speed_y, elevation_y)
         ]
 
-        # def show(label, values):
-        #     print(label, ", ".join([f"{value:.1f}" for value in values]))
-        #
-        # show("DISTANCE", distance_y)
-        # show("SPEED", speed_y)
-        # show("ELEVATION", elevation_y)
-        # show("PERFORMANCE", performance_y)
+        return performance_y
 
-        ax1.set_ylabel("Performance Index")
+    def avg_performance_index(self, performance_y):
+        avg_performance_y = []
+        pi_sum = 0
+        pi_count = 0
+
+        for pi in performance_y:
+            if pi > 0:
+                pi_sum += pi
+                pi_count += 1
+            avg_performance_y.append(pi_sum/pi_count if pi_count > 0 else np.nan)
+
+        return avg_performance_y
+
+    def y_axis(self, ax1):
+        x = np.arange(self.num_days)
+        y = self.performance_index()
+        avg_y = self.avg_performance_index(y)
+
+        nan_y = np.array(y)
+        if self.show_only_tracked_days:
+            pass  # TODO fix this
+            # y = nan_y
+        avg_y = np.array(avg_y)
+
+        max_value = int(np.nanmax(nan_y))
+        lower_limit = 0
+        upper_limit = max_value + 1
+        scale = range(lower_limit, upper_limit, 1)
+
+        ax1.set_ylabel("PI Unit")
         ax1.grid(axis="y", linestyle="-", alpha=0.15)
-
-        scale = range(0, int(max(performance_y)) + 1, 1)
-        self.add_scale(ax1, 0, max(performance_y), scale),
+        self.add_scale(ax1, lower_limit, upper_limit, scale),
 
         colors = self.get_colors()
-        bar = ax1.bar(x, performance_y, color=colors)
+        bar = ax1.bar(x, y, color=colors)
         self.handles.append(bar)
-        self.labels.append(f"Performance Index ({performance_y[-1]:0.1f})")
+        self.labels.append(f"Performance Index per Day ({y[-1]:0.1f})")
+
+        line, = ax1.plot(x, avg_y, color="tab:blue", marker="o", markersize=3)
+        self.handles.append(line)
+        self.labels.append(f"Average Performance Index ({avg_y[-1]:0.1f})")
+
+        # y_low = self.stats["data"]["elevation_low_per_day"]
+        # y_high = self.stats["data"]["elevation_high_per_day"]
+        #
+        # y_low = np.array([n if n > 0 else np.nan for n in y_low])
+        # y_high = np.array([n if n > 0 else np.nan for n in y_high])
+        #
+        # line, = ax1.plot(x, y_low, color="yellow", linestyle="None", marker="o", markersize=3)
+        # self.handles.append(line)
+        # self.labels.append(f"Elevation Low ({y_low[-1]:0.1f} ft)")
+        #
+        # line, = ax1.plot(x, y_high, color="orange", linestyle="None", marker="o", markersize=3)
+        # self.handles.append(line)
+        # self.labels.append(f"Elevation High ({y_high[-1]:0.1f} ft)")

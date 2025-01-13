@@ -5,7 +5,8 @@ Generate graphs such as the following from data collected using Strava.
 ![Daily Bike Ride - Distance](output/Distance.jpg)
 ![Daily Bike Ride - Ride Rate](output/RideRate.jpg)
 ![Daily Bike Ride - Speed](output/Speed.jpg)
-![Daily Bike Ride - Elevation Gain](output/Elevation.jpg)
+![Daily Bike Ride - Top Speed](output/TopSpeed.jpg)
+![Daily Bike Ride - Elevation](output/Elevation.jpg)
 ![Daily Bike Ride - Performance](output/Performance.jpg)
 
 There is also a way to augment the Strava data.  See <a href="#input">Input</a> below.
@@ -66,22 +67,26 @@ Output looks like this:
 
     Date range: 2024-10-11 to 2025-01-12
 
-    days  total  biked  skipped  ride rate
-          -----  -----  -------  ---------
-             94     85        9     90.43%
+    days  total  biked  tracked  skipped  ride rate
+          -----  -----  -------  -------  ---------
+             94     85     55        9     90.43%
 
-    distance (miles)  min   max   avg   avg-per-day-biked  total
-                      ----  ----  ----  -----------------  -------
-                       6.9  31.4  13.5               15.0   1272.3
+    distance (miles)  min   max   avg   total
+                      ----  ----  ----  -------
+                       6.9  31.4  15.0   1272.3
 
-    elevation gain (ft)  min   max   total    total miles
-                         ----  ----  -------  -----------
-                           11  2031    40574          7.7
+    speed (mph)  min   max   avg   wavg
+                 ----  ----  ----  ----
+                  9.1  14.5  11.4  11.4
 
-    elevation range (ft)  low:  min   max   high:  min   max
-                                ----  ----         ----  ----
-                                 17   256           390  1009
+    top speed (mph)  min   max   avg
+                     ----  ----  ----
+                     22.9  42.9  30.0
 
-    speed (mph)  avg:  min   max   max:  min   max
-                       ----  ----        ----  ----
-                        9.1  14.5        22.9  42.9
+    elevation gain (ft)  min   max   avg   total    total miles
+                         ----  ----  ----  -------  -----------
+                          287  2031   743    40874          7.7
+
+    elevation range (ft)  low:  min   max   avg   high:  min   max   avg
+                                ----  ----  ----         ----  ----  ----
+                                 17   256   141           390  1009   540
