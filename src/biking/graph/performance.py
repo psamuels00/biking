@@ -110,6 +110,6 @@ class PerformanceGraph(Graph):
         self.labels.append(f"Average Performance Index ({avg_y[-1]:0.1f})")
 
         component_range = int(max_value / 2)
-        self.component(ax1, x, component_range, "distance_per_day", "gold", "Distance", "mi")
+        self.component(ax1, x, component_range, "distance_per_day", "yellow", "Distance", "mi")
         self.component(ax1, x, component_range, "speed_per_day", "orange", "Speed", "mph")
         self.component(ax1, x, component_range, "elevation_gain_per_day", "orangered", "Elevation Gain", "ft")
