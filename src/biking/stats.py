@@ -18,7 +18,6 @@ class Statistics:
         num_data_tracked_days = 0  # ...plus speed and elevation data from Strava
 
         total_distance = 0  # miles
-        total_tracked_distance = 0  # miles
         total_speed = 0  # mph
         total_top_speed = 0  # mph
         total_elevation_gain = 0  # feet
@@ -60,16 +59,13 @@ class Statistics:
 
             num_days += 1
             num_biked_days += (1 if distance else 0)
-            if speed and elevation:
-                num_data_tracked_days += 1
-                total_tracked_distance += distance
+            num_data_tracked_days += (1 if speed and elevation else 0)
 
             data["ride_rate_per_day"].append((num_biked_days * 100)/num_days)
             data["distance_per_day"].append(distance)
             data["avg_distance_per_day"].append(total_distance/num_biked_days)
             data["speed_per_day"].append(speed)
             data["avg_speed_per_day"].append(safe_div(total_speed, num_data_tracked_days))
-            data["weighted_avg_speed_per_day"].append(safe_div(total_tracked_distance, total_time))
             data["top_speed_per_day"].append(top_speed)
             data["avg_top_speed_per_day"].append(safe_div(total_top_speed, num_data_tracked_days))
             data["elevation_gain_per_day"].append(elevation)
@@ -91,7 +87,6 @@ class Statistics:
             total_distance=total_distance,
             total_elevation_gain=total_elevation_gain,
             total_time=total_time,
-            total_tracked_distance=total_tracked_distance,
         )
 
         return stats
@@ -121,9 +116,6 @@ class Statistics:
         min_speed = min_val("speed_per_day")
         max_speed = max_val("speed_per_day")
         avg_speed = sum_vals("speed_per_day")/num_data_tracked_days
-
-        total_tracked_distance = stats["total_tracked_distance"]
-        weighted_avg_speed = total_tracked_distance / total_time
 
         # top speed
         min_top_speed = min_val("top_speed_per_day")
@@ -163,9 +155,9 @@ class Statistics:
         print("                  ----  ----  ----  -------")
         print(f"{min_distance:22.1f}  {max_distance:4.1f}  {avg_distance:4.1f}  {total_distance:7.1f}")
         print()
-        print("speed (mph)  min   max   avg   wavg")
-        print("             ----  ----  ----  ----")
-        print(f"{min_speed:17.1f}  {max_speed:4.1f}  {avg_speed:4.1f}  {weighted_avg_speed:4.1f}")
+        print("speed (mph)  min   max   avg")
+        print("             ----  ----  ----")
+        print(f"{min_speed:17.1f}  {max_speed:4.1f}  {avg_speed:4.1f}")
         print()
         print("top speed (mph)  min   max   avg")
         print("                 ----  ----  ----")
