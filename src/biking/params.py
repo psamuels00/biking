@@ -12,7 +12,7 @@ class Parameters:
             speed="Speed.jpg",
             top_speed="TopSpeed.jpg",
         )
-        self.only_tracked_days = False
+        self.only_tracked_days = True
 
     def file(self, name):
         return os.path.join(self.output_path, self.files[name])

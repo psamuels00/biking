@@ -1,28 +1,23 @@
 import numpy as np
 from collections import namedtuple
 
-from numpy.ma.extras import compress_nd
-
 from .base import Graph
-
-
-Stats = namedtuple("Stats", ["avg", "max", "min", "range"])
 
 
 def stats(values):
     values = [value if value > 0 else np.nan for value in values]
 
-    average = np.nanmean(values)
     maximum = np.nanmax(values)
     minimum = np.nanmin(values)
     range = maximum - minimum
 
-    return Stats(average, maximum, minimum, range)
+    Stats = namedtuple("Stats", ["min", "range"])
+    return Stats(minimum, range)
 
 
 class PerformanceGraph(Graph):
     def build(self, ax1):
-        self.title("Performance")
+        self.title("Performance Index")
 
         self.x_axis_days(ax1)
         self.y_axis(ax1)
@@ -51,8 +46,11 @@ class PerformanceGraph(Graph):
             0 if s == 0 else (d * d_factor + e * e_factor + s * s_factor) * global_factor
             for d, s, e in zip(distance_y, speed_y, elevation_y)
         ]
+        d_factor_y = [d * d_factor * global_factor for d in distance_y]
+        s_factor_y = [s * s_factor * global_factor for s in speed_y]
+        e_factor_y = [e * e_factor * global_factor for e in elevation_y]
 
-        return performance_y
+        return performance_y, (d_factor_y, s_factor_y, e_factor_y)
 
     def avg_performance_index(self, performance_y):
         avg_performance_y = []
@@ -67,28 +65,14 @@ class PerformanceGraph(Graph):
 
         return avg_performance_y
 
-    def component(self, ax1, x, component_range, attr_name, color, label, unit):
-        y = self.stats["data"][attr_name]
-        stats_y = stats(y)
-        y = [(n / stats_y.max) * component_range if n > 0 else np.nan for n in y]
-
-        line, = ax1.plot(x, y, color=color, linestyle="None", marker="o", markersize=2)
-        self.handles.append(line)
-        self.labels.append(f"{label} ({self.stats["data"][attr_name][-1]:0.1f} {unit})")
-
-        avg_y = self.stats["data"]["avg_" + attr_name][-1]
-        norm_avg_y = (avg_y / stats_y.max) * component_range
-        ax1.axhline(y=norm_avg_y, color=color, linestyle="-", linewidth=0.5)
-
     def y_axis(self, ax1):
         x = np.arange(self.num_days)
-        y = self.performance_index()
+        y, factors_y = self.performance_index()
         avg_y = self.avg_performance_index(y)
 
         nan_y = np.array(y)
         if self.show_only_tracked_days:
-            pass  # TODO fix this
-            # y = nan_y
+            y = nan_y
         avg_y = np.array(avg_y)
 
         max_value = int(np.nanmax(nan_y))
@@ -96,20 +80,24 @@ class PerformanceGraph(Graph):
         upper_limit = max_value + 1
         scale = range(lower_limit, upper_limit, 1)
 
-        ax1.set_ylabel("PI Unit")
+        ax1.set_ylabel("Performance Index Unit")
         ax1.grid(axis="y", linestyle="-", alpha=0.15)
         self.add_scale(ax1, lower_limit, upper_limit, scale),
 
-        colors = self.get_colors()
-        bar = ax1.bar(x, y, color=colors)
+        d_factor_y, s_factor_y, e_factor_y = factors_y
+
+        bar = ax1.bar(x, e_factor_y, bottom=np.array(d_factor_y) + np.array(s_factor_y), color="gold")
         self.handles.append(bar)
-        self.labels.append(f"Performance Index per Day ({y[-1]:0.1f})")
+        self.labels.append(f"Elevation Gain Component ({e_factor_y[-1]:0.1f})")
+
+        bar = ax1.bar(x, s_factor_y, bottom=d_factor_y, color="orange")
+        self.handles.append(bar)
+        self.labels.append(f"Speed Component ({s_factor_y[-1]:0.1f})")
+
+        bar = ax1.bar(x, d_factor_y, color="orangered")
+        self.handles.append(bar)
+        self.labels.append(f"Distance Component ({d_factor_y[-1]:0.1f})")
 
         line, = ax1.plot(x, avg_y, color="tab:blue", marker="o", markersize=3)
         self.handles.append(line)
         self.labels.append(f"Average Performance Index ({avg_y[-1]:0.1f})")
-
-        # component_range = int(max_value / 2)
-        # self.component(ax1, x, component_range, "distance_per_day", "yellow", "Distance", "mi")
-        # self.component(ax1, x, component_range, "speed_per_day", "orange", "Speed", "mph")
-        # self.component(ax1, x, component_range, "elevation_gain_per_day", "orangered", "Elevation Gain", "ft")
