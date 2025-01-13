@@ -46,10 +46,10 @@ class ElevationGraph(Graph):
         y_low = np.array([n if n > 0 else np.nan for n in y_low])
         y_high = np.array([n if n > 0 else np.nan for n in y_high])
 
-        line, = ax1.plot(x, y_low, color="yellow", linestyle="None", marker="o", markersize=3)
-        self.handles.append(line)
-        self.labels.append(f"Elevation Low ({y_low[-1]:0.1f} ft)")
-
         line, = ax1.plot(x, y_high, color="orange", linestyle="None", marker="o", markersize=3)
         self.handles.append(line)
         self.labels.append(f"Elevation High ({y_high[-1]:0.1f} ft)")
+
+        line, = ax1.plot(x, y_low, color="yellow", linestyle="None", marker="o", markersize=3)
+        self.handles.append(line)
+        self.labels.append(f"Elevation Low ({y_low[-1]:0.1f} ft)")
