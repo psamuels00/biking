@@ -25,15 +25,8 @@ On days when someone forgot to use Strava, only distance is available.
 
 The green shades on most graphs indicate the day of week, as follows:
 
-<div style="display: flex; gap: 1px; justify-content: center;">
-    <div style="width: 100px; height: 30px; background-color: rgb(184, 226, 177); display: flex; align-items: center; justify-content: center;">Monday</div>
-    <div style="width: 100px; height: 30px; background-color: rgb(152, 212, 147); display: flex; align-items: center; justify-content: center;">Tuesday</div>
-    <div style="width: 100px; height: 30px; background-color: rgb(115, 195, 117); display: flex; align-items: center; justify-content: center;">Wednesday</div>
-    <div style="width: 100px; height: 30px; background-color: rgb(75, 176, 97); display: flex; align-items: center; justify-content: center;">Thursday</div>
-    <div style="width: 100px; height: 30px; background-color: rgb(46, 151, 78); display: flex; align-items: center; justify-content: center; color: white;">Friday</div>
-    <div style="width: 100px; height: 30px; background-color: rgb(21, 126, 58); display: flex; align-items: center; justify-content: center; color: white;">Saturday</div>
-    <div style="width: 100px; height: 30px; background-color: rgb(0, 100, 40); display: flex; align-items: center; justify-content: center; color: white;">Sunday</div>
-</div>
+![Days of Week](images/green_legend.png)
+
 
 
 ## Performance Index
