@@ -154,3 +154,29 @@ on the console.  Here's what it looked like when last captured:
     elevation range (ft)  low:  min   max   avg   high:  min   max   avg
                                 ----  ----  ----         ----  ----  ----
                                  17   256   141           390  1009   540
+
+    Date range: 2024-10-11 to 2025-01-12
+
+    days  total  biked  tracked  skipped  ride rate
+          -----  -----  -------  -------  ---------
+             94     85     55        9     90.43%
+
+    distance (miles)  min   max   avg   total
+                      ----  ----  ----  -------
+                       6.9  31.4  15.0   1272.3
+
+    speed (mph)  min   max   avg   wavg
+                 ----  ----  ----  ----
+                  9.1  14.5  11.4  11.4
+
+    top speed (mph)  min   max   avg
+                     ----  ----  ----
+                     22.9  42.9  30.0
+
+    elevation gain (ft)  min   max   avg   total    total miles
+                         ----  ----  ----  -------  -----------
+                          287  2031   743    40874          7.7
+
+    elevation range (ft)  low:  min   max   avg   high:  min   max   avg
+                                ----  ----  ----         ----  ----  ----
+                                 17   256   141           390  1009   540
