@@ -45,7 +45,7 @@ class InputData:
         "2024-11-21": {"skipped": "Lazy?"},
         "2024-11-24": {"distance": 11},  # Hercules/Pinole, w G
         "2024-11-25": {"skipped": "Weather"},
-        "2024-11-27": {"distance": 16.3, "op": "add"},  # Hercules
+        "2024-11-27": {"distance": 16.3, "elevation_gain": 300, "op": "add"},  # return half of route not recorded by Strava
         "2024-12-16": {"skipped": "Weather"},
         "2024-12-18": {"distance": 12, "op": "add"},
         "2024-12-20": {"skipped": "Sick"},
@@ -121,6 +121,7 @@ class InputData:
             pass
         elif "op" in manual_record and manual_record["op"] == "add":
             record["distance"] += manual_record["distance"]
+            record["total_elevation_gain"] += manual_record.get("elevation_gain", 0)
         else:
             record["distance"] = manual_record["distance"]
 

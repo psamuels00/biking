@@ -5,12 +5,14 @@ from datetime import datetime
 
 
 class Graph:
-    def __init__(self, stats, output_file):
+    def __init__(self, stats, output_file, only_tracked_days):
         self.stats = stats
         self.num_days = stats["num_days"]
+        self.num_biked_days = stats["num_biked_days"]
         self.output_file = output_file
         self.handles = []
         self.labels = []
+        self.show_only_tracked_days = only_tracked_days
 
     def get_ticks(self, period):
         offsets = [0] + [x - 1 for x in range(period, self.num_days, period)]
@@ -46,7 +48,7 @@ class Graph:
 
         plt.title(title, pad=5)
 
-    def legend(self, loc="lower center"):
+    def legend(self, loc="upper left"):
         plt.legend(
             loc=loc,
             fontsize="small",

@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 
-from biking.graph import DistanceGraph, ElevationGraph, PerformanceGraph, RideRateGraph, SpeedGraph
+from biking.graph import (
+    DistanceGraph,
+    ElevationGraph,
+    PerformanceGraph,
+    RideRateGraph,
+    SpeedGraph,
+    TopSpeedGraph,
+)
 from biking.input import InputData
 from biking.params import Parameters
 from biking.stats import Statistics
@@ -13,21 +20,31 @@ def calculate_statistics(input_data):
     return statistics.stats
 
 
-def generate_graphs(stats):
-    parameters = Parameters()
-    file = parameters.file
+def generate_graph(parameters, stats, file_type, type):
+    file = parameters.file(file_type)
+    only_tracked_days = parameters.only_tracked_days
 
-    DistanceGraph(stats, file("distance")).generate()
-    ElevationGraph(stats, file("elevation")).generate()
-    PerformanceGraph(stats, file("performance")).generate()
-    RideRateGraph(stats, file("ride_rate")).generate()
-    SpeedGraph(stats, file("speed")).generate()
+    graph = type(stats, file, only_tracked_days)
+    graph.generate()
+
+
+def generate_graphs(parameters, stats):
+    def generate(file_type, type):
+        generate_graph(parameters, stats, file_type, type)
+
+    generate("distance", DistanceGraph)
+    generate("ride_rate", RideRateGraph)
+    generate("speed", SpeedGraph)
+    generate("top_speed", TopSpeedGraph)
+    generate("elevation", ElevationGraph)
+    generate("performance", PerformanceGraph)
 
 
 def main():
+    parameters = Parameters()
     input_data = InputData()
     stats = calculate_statistics(input_data)
-    generate_graphs(stats)
+    generate_graphs(parameters, stats)
 
 
 main()

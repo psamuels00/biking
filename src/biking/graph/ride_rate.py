@@ -8,7 +8,8 @@ class RideRateGraph(Graph):
         self.x_axis_days(ax1)
         self.y_axis(ax1)
 
-        self.legend()
+        self.legend("upper right")
+        #self.legend("lower center")
 
     def y_axis(self, ax1):
         x = list(range(self.num_days))
@@ -22,8 +23,7 @@ class RideRateGraph(Graph):
         ax1.grid(axis="y", linestyle="-", alpha=0.15)
         self.add_scale(ax1, lower_limit, upper_limit, scale),
 
-        num_biked_days = self.stats["num_biked_days"]
-        ride_rate = round(num_biked_days / self.num_days * 100, 2)
+        ride_rate = ride_rate_y[-1]
         line, = ax1.plot(x, ride_rate_y, marker="o", markersize=3)
         self.handles.append(line)
-        self.labels.append(f"Ride Rate ({ride_rate:5.2f}%)")
+        self.labels.append(f"Ride Rate per Day ({ride_rate:5.2f}%)")
