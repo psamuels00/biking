@@ -34,11 +34,11 @@ class ElevationGraph(Graph):
         colors = self.get_colors()
         bar = ax1.bar(x, y, color=colors)
         self.handles.append(bar)
-        self.labels.append(f"Elevation Gain per Day ({y[-1]:0.1f} mi)")
+        self.labels.append(f"Elevation Gain per Day ({y[-1]:0.1f} ft)")
 
         line, = ax1.plot(x, avg_y, color="tab:blue", marker="o", markersize=3)
         self.handles.append(line)
-        self.labels.append(f"Average Elevation Gain ({avg_y[-1]:0.1f} mph)")
+        self.labels.append(f"Average Elevation Gain ({avg_y[-1]:0.1f} ft)")
 
         y_low = self.stats["data"]["elevation_low_per_day"]
         y_high = self.stats["data"]["elevation_high_per_day"]
