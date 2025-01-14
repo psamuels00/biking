@@ -45,7 +45,7 @@ class SpeedGraph(Graph):
         colors = self.get_colors()
         bar = ax1.bar(x, y, color=colors)
         self.handles.append(bar)
-        self.labels.append(f"{self.label()} per Day ({y[-1]:0.1f} mi)")
+        self.labels.append(f"{self.label()} per Day ({y[-1]:0.1f} mph)")
 
         line, = ax1.plot(x, avg_y, color="tab:blue", marker="o", markersize=3)
         self.handles.append(line)
