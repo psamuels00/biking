@@ -42,14 +42,20 @@ class ElevationGraph(Graph):
 
         y_low = self.stats["data"]["elevation_low_per_day"]
         y_high = self.stats["data"]["elevation_high_per_day"]
+        y_start = self.stats["data"]["elevation_start_per_day"]
 
         y_low = np.array([n if n > 0 else np.nan for n in y_low])
         y_high = np.array([n if n > 0 else np.nan for n in y_high])
+        y_start = np.array([np.nan if n is None else n for n in y_start])
 
-        line, = ax1.plot(x, y_high, color="orange", linestyle="None", marker="o", markersize=3)
+        line, = ax1.plot(x, y_high, color="orange", linestyle="None", marker="o", markersize=2)
         self.handles.append(line)
         self.labels.append(f"Elevation High ({y_high[-1]:0.1f} ft)")
 
-        line, = ax1.plot(x, y_low, color="yellow", linestyle="None", marker="o", markersize=3)
+        line, = ax1.plot(x, y_start, color="red", linestyle="None", marker="o", markersize=2)
+        self.handles.append(line)
+        self.labels.append(f"Start Elevation ({y_start[-1]:0.1f} ft)")
+
+        line, = ax1.plot(x, y_low, color="yellow", linestyle="None", marker="o", markersize=2)
         self.handles.append(line)
         self.labels.append(f"Elevation Low ({y_low[-1]:0.1f} ft)")

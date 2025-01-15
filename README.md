@@ -52,7 +52,20 @@ If only Distance is available for a day,
 the Performance Index will not be calculated.
 
 
-## Replicate This Project
+## Elevation Notes
+
+Strava does not provide the starting elevation, but it provides the starting location as latitude and longitude.
+The Open Elevation API is used to determine the elevation from this.
+
+Do not ask how the elevation high can be lower than the starting elevation.
+I'm still trying to get to the bottom of that, but it looks like Strava is
+providing a starting location that is 1170 feet away.
+This may be because I'm hiding my starting and ending location.
+
+For now, there is a shameless hack to convert a starting elevation of 148 meters to 120 meters.
+
+
+## To Replicate This Project
 
 #### 1. Create a Strava app
 
