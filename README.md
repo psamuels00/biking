@@ -5,12 +5,12 @@ See <a href="#notes">Graph Notes</a>
 and <a href="#performance_index">Performance Index</a>
 below for an explanation.
 
-![Daily Bike Ride - Performance](output/Performance.jpg)
-![Daily Bike Ride - Distance](output/Distance.jpg)
-![Daily Bike Ride - Speed](output/Speed.jpg)
-![Daily Bike Ride - Elevation](output/Elevation.jpg)
-![Daily Bike Ride - Ride Rate](output/RideRate.jpg)
-![Daily Bike Ride - Top Speed](output/TopSpeed.jpg)
+![Daily Bike Ride - Performance](output/graph/Performance.jpg)
+![Daily Bike Ride - Distance](output/graph/Distance.jpg)
+![Daily Bike Ride - Speed](output/graph/Speed.jpg)
+![Daily Bike Ride - Elevation](output/graph/Elevation.jpg)
+![Daily Bike Ride - Ride Rate](output/graph/RideRate.jpg)
+![Daily Bike Ride - Top Speed](output/graph/TopSpeed.jpg)
 
 
 ## Graph Notes
@@ -25,7 +25,7 @@ On days when someone forgot to use Strava, only distance is available.
 
 The green shades on most graphs indicate the day of week, as follows:
 
-<img src="images/green_legend.png" alt="Days of Week" style="width: 75%; margin-left: 1em">
+<img src="output/legend/green_legend.jpg" alt="Days of Week" style="width: 75%; margin-left: 1em">
 
 
 ## Performance Index
