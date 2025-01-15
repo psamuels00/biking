@@ -1,4 +1,4 @@
-# Biking Statistics
+# Biking Performance
 
 Generate graphs such as the following from data collected using Strava.
 See <a href="#notes">Graph Notes</a> 
