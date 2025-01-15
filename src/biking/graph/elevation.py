@@ -54,7 +54,7 @@ class ElevationGraph(Graph):
 
         line, = ax1.plot(x, y_start, color="red", linestyle="None", marker="o", markersize=2)
         self.handles.append(line)
-        self.labels.append(f"Start Elevation ({y_start[-1]:0.1f} ft)")
+        self.labels.append(f"Elevation Start ({y_start[-1]:0.1f} ft)")
 
         line, = ax1.plot(x, y_low, color="yellow", linestyle="None", marker="o", markersize=2)
         self.handles.append(line)
