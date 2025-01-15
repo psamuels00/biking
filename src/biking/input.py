@@ -5,6 +5,10 @@ from .geoloc import get_elevation
 from .strava import get_activities
 
 
+def approx_equal(a, b, delta=1e-8):
+    return abs(a - b) < delta
+
+
 class InputData:
     # used to capture info on skipped days and rides prior to the use of Strava
     # ...or days when *someone* forgets to record a route using Strava
@@ -46,10 +50,11 @@ class InputData:
         "2024-11-21": {"skipped": "Lazy?"},
         "2024-11-24": {"distance": 11},  # Hercules/Pinole, w G
         "2024-11-25": {"skipped": "Weather"},
-        "2024-11-27": {"distance": 16.3, "elevation_gain": 300, "op": "add"},  # return half of route not recorded by Strava
+        "2024-11-27": {"distance": 16.3, "total_elevation_gain": 300, "op": "add"},  # return half of route not recorded by Strava
         "2024-12-16": {"skipped": "Weather"},
         "2024-12-18": {"distance": 12, "op": "add"},
         "2024-12-20": {"skipped": "Sick"},
+        "2024-12-22": {"distance": 2.6, "total_elevation_gain": 566, "start_latlng": [37.990, -121.855], "op": "add"},  # initial, uphill part of route not recorded by Strava
         "2025-01-02": {"distance": 11.83},  # w G
     }
 
@@ -74,9 +79,12 @@ class InputData:
         for activity in activities:
             ymd = activity["start_date_local"][:10]
 
-            elevation = get_elevation(cache_name, *activity["start_latlng"])
-            if elevation == 148:  # Total hack!!!  See README
-                elevation = 120
+            # hack to convert starting location
+            lat, lng = activity["start_latlng"]
+            if approx_equal(lat, 37.96) and approx_equal(lng, -121.94):
+                lat, lng = 37.96039, -121.94409  # nonsense location, but it has the right elevation
+
+            elevation = get_elevation(cache_name, lat, lng)
 
             record = dict(
                 ymd=ymd,
@@ -125,15 +133,23 @@ class InputData:
 
         return daily_data
 
-    @staticmethod
-    def apply_manual_record(record, manual_record):
+    def apply_manual_record(self, record, manual_record):
         if "skipped" in manual_record:
-            pass
-        elif "op" in manual_record and manual_record["op"] == "add":
-            record["distance"] += manual_record["distance"]
-            record["total_elevation_gain"] += manual_record.get("elevation_gain", 0)
+            return
+
+        if "op" in manual_record and manual_record["op"] == "add":
+            record["distance"] += manual_record.get("distance", 0)
+            record["total_elevation_gain"] += manual_record.get("total_elevation_gain", 0)
         else:
-            record["distance"] = manual_record["distance"]
+            if "distance" in manual_record:
+                record["distance"] = manual_record["distance"]
+            if "total_elevation_gain" in manual_record:
+                record["total_elevation_gain"] = manual_record["total_elevation_gain"]
+
+        if "start_latlng" in manual_record:
+            cache_name = self.params.cache_name
+            elevation = get_elevation(cache_name, *manual_record["start_latlng"])
+            record["elev_start"] = meters2feet(elevation)
 
     def add_manual_data(self, daily_data):
         for record in daily_data:
