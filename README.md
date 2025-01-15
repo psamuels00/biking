@@ -42,16 +42,16 @@ The performance index is calculated as a function of
 Each component is normalized to the range of values for the component.
 For example, if the range for speed is 9 - 15 mph, a value of 12,
 right in the middle, is normalized to 0.50.  The normalized values
-are weighted, summed, and adjusted by a final constant for a pleasant
-scale.  The formula for peformance index is:
+are weighted and summed as follows:
 
-    5 * (normal_distance + normal_speed * 2 + normal_elevation * 3)
+    normalized_distance + normalized_speed * 2.0 + normalized_elevation * 3.0
 
 In other words, speed contributes twice as much to the PI as distance,
-elevation gain contributes three times as much.  The formula will,
-no doubt, require tuning.
-If only Distance is available for a day,
-the Performance Index will not be calculated.
+and elevation gain contributes three times as much.  Finally, all the
+values are normalized to a scale from 0 to 10.
+
+The formula will, no doubt, require tuning.
+If only Distance is available for a day, the Performance Index will not be calculated.
 
 
 ## Open Elevation
@@ -164,9 +164,3 @@ Output looks like this:
     elevation range (ft)  low:  min   max   avg   high:  min   max   avg
                                 ----  ----  ----         ----  ----  ----
                                  17   256   140           390  1009   547
-    @@@ <class 'biking.graph.distance.DistanceGraph'>
-    @@@ <class 'biking.graph.ride_rate.RideRateGraph'>
-    @@@ <class 'biking.graph.speed.SpeedGraph'>
-    @@@ <class 'biking.graph.top_speed.TopSpeedGraph'>
-    @@@ <class 'biking.graph.elevation.ElevationGraph'>
-    @@@ <class 'biking.graph.performance.PerformanceGraph'>

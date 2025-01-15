@@ -24,8 +24,8 @@ class ElevationGraph(Graph):
 
         max_value = int(np.nanmax(nan_y))
         lower_limit = 0
-        upper_limit = max_value + 100
-        scale = range(lower_limit, upper_limit, 100)
+        upper_limit = max_value
+        scale = range(lower_limit, upper_limit + 100, 100)
 
         ax1.set_ylabel("Feet")
         ax1.grid(axis="y", linestyle="-", alpha=0.15)
