@@ -1,6 +1,7 @@
 # TODO
 
 ### High Priority
+- Remove all my personal data from the GitHub repo
 - Pull multiple pages of activity data from Strava, not just the first one
 
 ### Medium Priority
