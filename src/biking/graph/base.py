@@ -39,20 +39,16 @@ class Graph:
         return colors
 
     def title(self, metric):
-        from_date = "Oct 11, 2024"
-        to_date = datetime.now().strftime("%b %d, %Y")
-        title = "\n".join([
-            f"Daily Bike Ride - {metric}",
-            f"{from_date} - {to_date}",
-        ])
-
+        title = f"Bike Ride - Daily {metric}"
         plt.title(title, pad=5)
 
     def legend(self, loc="upper left"):
+        from_date = "Oct 11, 2024"
+        to_date = datetime.now().strftime("%b %d, %Y")
         plt.legend(
             loc=loc,
             fontsize="small",
-            title="Legend: (latest value in parentheses)",
+            title=f"{from_date} - {to_date}",
             title_fontsize="small",
             handles=self.handles,
             labels=self.labels,
