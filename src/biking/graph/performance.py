@@ -41,7 +41,7 @@ class PerformanceGraph(Graph):
         d_factor = 1.0
         s_factor = 2.0
         e_factor = 3.0
-        global_factor = 10.0
+        global_factor = 5.0
         performance_y = [
             0 if s == 0 else (d * d_factor + e * e_factor + s * s_factor) * global_factor
             for d, s, e in zip(distance_y, speed_y, elevation_y)
