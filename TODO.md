@@ -1,5 +1,6 @@
 # TODO
 
+- Fix the elevation start hack (see README > Elevation)
 - Completely separate configuration from the code
 - Simplify input.py by relying on activities manually added to Strava
 - Add support for multiple activities per day
