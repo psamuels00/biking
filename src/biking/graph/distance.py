@@ -18,8 +18,8 @@ class DistanceGraph(Graph):
         avg_y = self.stats["data"]["avg_distance_per_day"]
 
         lower_limit = 0
-        upper_limit = math.ceil(max(y)) + 1
-        scale = range(lower_limit, upper_limit, 1)
+        upper_limit = math.ceil(max(y))
+        scale = range(lower_limit, upper_limit + 1, 1)
 
         ax1.set_ylabel("Miles")
         ax1.grid(axis="y", linestyle="-", alpha=0.15)

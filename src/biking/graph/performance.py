@@ -41,14 +41,18 @@ class PerformanceGraph(Graph):
         d_factor = 1.0
         s_factor = 2.0
         e_factor = 3.0
-        global_factor = 5.0
+        max_pi_scale = 10.0
+
         performance_y = [
-            0 if s == 0 else (d * d_factor + e * e_factor + s * s_factor) * global_factor
+            0 if s == 0 else (d * d_factor + e * e_factor + s * s_factor)
             for d, s, e in zip(distance_y, speed_y, elevation_y)
         ]
-        d_factor_y = [d * d_factor * global_factor for d in distance_y]
-        s_factor_y = [s * s_factor * global_factor for s in speed_y]
-        e_factor_y = [e * e_factor * global_factor for e in elevation_y]
+        max_pi = max(performance_y)
+        performance_y = [n / max_pi * max_pi_scale for n in performance_y]
+
+        d_factor_y = [d * d_factor / max_pi * max_pi_scale for d in distance_y]
+        s_factor_y = [s * s_factor / max_pi * max_pi_scale for s in speed_y]
+        e_factor_y = [e * e_factor / max_pi * max_pi_scale for e in elevation_y]
 
         return performance_y, (d_factor_y, s_factor_y, e_factor_y)
 
@@ -77,8 +81,8 @@ class PerformanceGraph(Graph):
 
         max_value = int(np.nanmax(nan_y))
         lower_limit = 0
-        upper_limit = max_value + 1
-        scale = range(lower_limit, upper_limit, 1)
+        upper_limit = max_value
+        scale = range(lower_limit, upper_limit + 1, 1)
 
         ax1.set_ylabel("Performance Index Unit")
         ax1.grid(axis="y", linestyle="-", alpha=0.15)

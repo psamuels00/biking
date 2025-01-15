@@ -35,8 +35,8 @@ class SpeedGraph(Graph):
         min_value = np.nanmin(nan_y)
         max_value = np.nanmax(nan_y)
         lower_limit = max(0, int(min_value) - 1)
-        upper_limit = math.ceil(max_value) + 1
-        scale = np.arange(lower_limit, upper_limit, self.scale_step())
+        upper_limit = math.ceil(max_value)
+        scale = np.arange(lower_limit, upper_limit + 1, self.scale_step())
 
         ax1.set_ylabel("Miles/Hour")
         ax1.grid(axis="y", linestyle="-", alpha=0.15)
