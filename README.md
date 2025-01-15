@@ -23,11 +23,11 @@ The timeline for data analysis is:
 - Day 43 (Nov 22, 2024) - Start to access Strava data via API and generate graphs
 - Day 93 (Jan 11, 2025) - Start calculating Performance Index
 
-On days when someone forgets to use Strava, only distance is available.
-
 The green shades on most graphs indicate the day of week, as follows:
 
 <img src="output/legend/green_legend.jpg" alt="Days of Week" style="width: 75%; margin-left: 1em">
+
+On days when someone forgets to use Strava, only distance is available.
 
 
 ## Performance Index
