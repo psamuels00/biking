@@ -23,8 +23,9 @@ def calculate_statistics(input_data):
 def generate_graph(parameters, stats, file_type, type):
     file = parameters.file(file_type)
     only_tracked_days = parameters.only_tracked_days
+    linspace_params = parameters.linspace_params
 
-    graph = type(stats, file, only_tracked_days)
+    graph = type(stats, file, only_tracked_days, linspace_params)
     graph.generate()
 
 
