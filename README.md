@@ -57,7 +57,7 @@ If only Distance is available for a day, the Performance Index will not be calcu
 ## Open Elevation
 
 Strava does not provide the starting elevation, but it provides the starting location as latitude and longitude.
-The Open Elevation API is used to determine the elevation from this.
+The [Open Elevation](https://www.open-elevation.com/) API is used to determine the elevation from this.
 
 
 ## To Replicate This Project
