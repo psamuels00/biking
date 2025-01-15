@@ -57,15 +57,15 @@ class Graph:
     def x_axis_days(self, ax1):
         ax1.set_xlabel("Day")
         tick_offsets, tick_labels = self.get_ticks(period=5)
-        plt.xticks(tick_offsets, tick_labels, fontsize="x-small")
+        plt.xticks(tick_offsets, tick_labels, fontsize="x-small", alpha=0.5)
 
     def add_scale(self, ax1, lower_limit, upper_limit, scale):
         ax1.set_ylim(lower_limit, upper_limit)
-        ax1.set_yticks(scale, labels=scale, fontsize="x-small")
+        ax1.set_yticks(scale, labels=scale, fontsize="x-small", alpha=0.5)
 
         ax2 = ax1.twinx()
         ax2.set_ylim(lower_limit, upper_limit)
-        ax2.set_yticks(scale, labels=scale, fontsize="x-small", alpha=0.25)
+        ax2.set_yticks(scale, labels=scale, fontsize="x-small", alpha=0.5)
 
     def build(self, ax1):
         pass
