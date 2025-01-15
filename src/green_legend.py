@@ -9,7 +9,6 @@ from biking.params import Parameters
 
 days_of_week = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 text_color = ("black", "black", "black", "black", "white", "white", "white")
-white_color_offset = 4
 
 
 def write_file(dir, file, content):
