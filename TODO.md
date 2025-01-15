@@ -6,8 +6,8 @@
 ### Medium Priority
 - Add date labels somehow instead of day number, for example:
 
-      | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
-          1 Dec   5        10        15        20        25        30 1 Jan   5
+      | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
+          1 Dec   5        10        15        20        25        30   1 Jan   5
 
 - Completely separate configuration from the code
 - Add support for multiple activities per day
