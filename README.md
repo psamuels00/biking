@@ -6,9 +6,9 @@ and <a href="#performance_index">Performance Index</a>
 below for an explanation.
 
 ![Daily Bike Ride - Performance](output/graph/Performance.jpg)
-![Daily Bike Ride - Distance](output/graph/Distance.jpg)
 ![Daily Bike Ride - Speed](output/graph/Speed.jpg)
 ![Daily Bike Ride - Elevation](output/graph/Elevation.jpg)
+![Daily Bike Ride - Distance](output/graph/Distance.jpg)
 ![Daily Bike Ride - Ride Rate](output/graph/RideRate.jpg)
 ![Daily Bike Ride - Top Speed](output/graph/TopSpeed.jpg)
 
