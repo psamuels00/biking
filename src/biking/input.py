@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from .conversions import meters2feet, meters2miles, mps2mph, ymd2date
+from .geoloc import get_elevation
 from .strava import get_activities
 
 
@@ -52,8 +53,9 @@ class InputData:
         "2025-01-02": {"distance": 11.83},  # w G
     }
 
-    def __init__(self):
+    def __init__(self, params):
         self.date_range = self.manual_data_date_range()
+        self.params = params
 
     def manual_data_date_range(self):
         manual_dates = sorted(self.manual_data.keys())
@@ -66,9 +68,15 @@ class InputData:
 
     def get_strava_data(self):
         data = {}
+        cache_name = self.params.cache_name
+
         activities = get_activities()
         for activity in activities:
             ymd = activity["start_date_local"][:10]
+
+            elevation = get_elevation(cache_name, *activity["start_latlng"])
+            if elevation == 148:  # Total hack!!!  See README
+                elevation = 120
 
             record = dict(
                 ymd=ymd,
@@ -78,6 +86,7 @@ class InputData:
                 max_speed=mps2mph(activity["max_speed"]),
                 elev_high=meters2feet(activity["elev_high"]),
                 elev_low=meters2feet(activity["elev_low"]),
+                elev_start=meters2feet(elevation),
             )
             data[ymd] = record
 
@@ -108,6 +117,7 @@ class InputData:
                     max_speed=0,
                     elev_high=0,
                     elev_low=0,
+                    elev_start=None,
                 )
             daily_data.append(record)
 

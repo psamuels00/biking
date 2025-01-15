@@ -43,7 +43,7 @@ def generate_graphs(parameters, stats):
 
 def main():
     parameters = Parameters()
-    input_data = InputData()
+    input_data = InputData(parameters)
     stats = calculate_statistics(input_data)
     generate_graphs(parameters, stats)
 

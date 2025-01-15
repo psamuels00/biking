@@ -39,6 +39,7 @@ class Statistics:
             avg_elevation_gain_per_day=[],
             elevation_high_per_day=[],
             elevation_low_per_day=[],
+            elevation_start_per_day=[],
         )
 
         daily_data = self.input_data.get_daily_data()
@@ -72,6 +73,7 @@ class Statistics:
             data["avg_elevation_gain_per_day"].append(safe_div(total_elevation_gain, num_data_tracked_days))
             data["elevation_high_per_day"].append(record["elev_high"])
             data["elevation_low_per_day"].append(record["elev_low"])
+            data["elevation_start_per_day"].append(record["elev_start"])
 
         first_date, last_date = self.input_data.date_range
         first_day_of_week = calendar.weekday(first_date.year, first_date.month, first_date.day)
