@@ -16,12 +16,14 @@ below for an explanation.
 ## Graph Notes
 <a name="notes"></a>
 
-The timeline for data collection is:
+The timeline for data analysis is:
 
-- Oct 11, 2024 - distance data only (manual collection)
-- Nov 9, 2024 - distance, speed, and elevation data (using Strava)
+- Day 1 (Oct 11, 2024) - Start tracking distance manually
+- Day 30 (Nov 9, 2024) - Start tracking distance, speed, and elevation using Strava
+- Day 43 (Nov 22, 2024) - Start to access Strava data via API and generate graphs
+- Day 93 (Jan 11, 2025) - Start calculating Performance Index
 
-On days when someone forgot to use Strava, only distance is available.
+On days when someone forgets to use Strava, only distance is available.
 
 The green shades on most graphs indicate the day of week, as follows:
 

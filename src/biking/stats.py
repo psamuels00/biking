@@ -43,6 +43,8 @@ class Statistics:
         )
 
         daily_data = self.input_data.get_daily_data()
+        # for num, record in enumerate(daily_data, 1):
+        #     print("@@@", num, record["ymd"])
 
         for record in daily_data:
             distance = record["distance"]
