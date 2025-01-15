@@ -45,7 +45,7 @@ right in the middle, is normalized to 0.50.  The normalized values
 are weighted, summed, and adjusted by a final constant for a pleasant
 scale.  The formula for peformance index is:
 
-    10 * (normal_distance + normal_speed * 2 + normal_elevation * 3)
+    5 * (normal_distance + normal_speed * 2 + normal_elevation * 3)
 
 In other words, speed contributes twice as much to the PI as distance,
 elevation gain contributes three times as much.  The formula will,
