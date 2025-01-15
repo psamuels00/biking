@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from datetime import datetime
-
 
 class Graph:
     def __init__(self, stats, output_file, only_tracked_days, linspace_params):
@@ -44,7 +42,7 @@ class Graph:
 
     def legend(self, loc="upper left"):
         from_date = "Oct 11, 2024"
-        to_date = datetime.now().strftime("%b %d, %Y")
+        to_date = self.stats["last_date"].strftime("%b %d, %Y")
         plt.legend(
             loc=loc,
             fontsize="small",

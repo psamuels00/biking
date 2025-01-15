@@ -54,17 +54,10 @@ If only Distance is available for a day,
 the Performance Index will not be calculated.
 
 
-## Elevation Notes
+## Open Elevation
 
 Strava does not provide the starting elevation, but it provides the starting location as latitude and longitude.
 The Open Elevation API is used to determine the elevation from this.
-
-Do not ask how the elevation high can be lower than the starting elevation.
-I'm still trying to get to the bottom of that, but it looks like Strava is
-providing a starting location that is 1170 feet away.
-This may be because I'm hiding my starting and ending location.
-
-For now, there is a shameless hack to convert a starting elevation of 148 meters to 120 meters.
 
 
 ## To Replicate This Project
@@ -154,7 +147,7 @@ Output looks like this:
 
     distance (miles)  min   max   avg   total
                       ----  ----  ----  -------
-                       6.9  31.4  15.1   1317.9
+                       6.9  31.4  15.2   1320.5
 
     speed (mph)  min   max   avg
                  ----  ----  ----
@@ -166,8 +159,14 @@ Output looks like this:
 
     elevation gain (ft)  min   max   avg   total    total miles
                          ----  ----  ----  -------  -----------
-                          287  2031   757    43156          8.2
+                          287  2031   767    43722          8.3
 
     elevation range (ft)  low:  min   max   avg   high:  min   max   avg
                                 ----  ----  ----         ----  ----  ----
                                  17   256   140           390  1009   547
+    @@@ <class 'biking.graph.distance.DistanceGraph'>
+    @@@ <class 'biking.graph.ride_rate.RideRateGraph'>
+    @@@ <class 'biking.graph.speed.SpeedGraph'>
+    @@@ <class 'biking.graph.top_speed.TopSpeedGraph'>
+    @@@ <class 'biking.graph.elevation.ElevationGraph'>
+    @@@ <class 'biking.graph.performance.PerformanceGraph'>
