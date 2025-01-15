@@ -1,5 +1,9 @@
 # TODO
 
+### High Priority
+- Pull multiple pages of activity data from Strava, not just the first one
+
+### Medium Priority
 - Add date labels somehow instead of day number, for example:
 
       | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
@@ -7,8 +11,9 @@
 
 - Completely separate configuration from the code
 - Add support for multiple activities per day
-- Simplify input.py: maybe add activities manually via Strava
-  or at least make it easier to enter data manually
+- Simplify input: maybe add activities manually via Strava, or at least make it easier to enter data manually
+
+### Low Priority
 - Add Weekly, Monthly, and Yearly rollup graphs
 - Make the graphs interactive!?
-- Add a spreadsheet, word processor, and AI chat!!?
+- Add a spreadsheet, word processor, and AI chat!!? _(just kidding)_
