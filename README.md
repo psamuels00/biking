@@ -16,12 +16,10 @@ below for an explanation.
 ## Graph Notes
 <a name="notes"></a>
 
-The timeline for data analysis is:
+The timeline for data collection is:
 
 - Day 1 (Oct 11, 2024) - Start tracking distance manually
 - Day 30 (Nov 9, 2024) - Start tracking distance, speed, and elevation using Strava
-- Day 43 (Nov 22, 2024) - Start to access Strava data via API and generate graphs
-- Day 93 (Jan 11, 2025) - Start calculating Performance Index
 
 The green shades on most graphs indicate the day of week, as follows:
 
@@ -113,9 +111,19 @@ To update graphs and upload the changes to Github:
 ## Manual Data Updates
 
 There are two ways to add biking data manually:
-1. Use Strava to add an activity, or
-2. Add an entry to the InputData.manual_data dict in src/biking/input.py.
 
+1. Use Strava to add an activity, or
+2. Add an entry to the data journal, `data/journal.json`. For example:
+
+       "2024-12-22": {
+           "distance": 2.6,
+           "total_elevation_gain": 566,
+           "start_latlng": [13.45647, -16.57196],
+           "note": "comment is ignored"
+       },
+
+The distance and total_elevation gain are optional, added in addition to any values from Strava.
+The start_latlng is also optional and replaces the starting location of any Strava activity for the day.
 
 ## New Rides
 
