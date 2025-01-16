@@ -31,7 +31,6 @@ class Statistics:
 
             speed_per_day=[],  # ie, average speed
             avg_speed_per_day=[],  # ie, average of averages
-            weighted_avg_speed_per_day=[],  # Note: weighted wrt distance, but not elevation
             top_speed_per_day=[],
             avg_top_speed_per_day=[],
 
