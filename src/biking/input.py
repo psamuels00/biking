@@ -25,6 +25,9 @@ class InputData:
         return data
 
     def manual_data_date_range(self, data):
+        if not data:
+            return None
+
         manual_dates = sorted(data.keys())
         date_range = [
             ymd2date(manual_dates[0]),
@@ -66,12 +69,14 @@ class InputData:
                 max_speed=mps2mph(activity["max_speed"]),
                 elev_high=meters2feet(activity["elev_high"]),
                 elev_low=meters2feet(activity["elev_low"]),
-                elev_start=meters2feet(elevation),
+                elev_start=elevation,
             )
             data[ymd] = record
 
             dt = ymd2date(ymd)
-            if dt < self.date_range[0]:
+            if not self.date_range:
+                self.date_range = [dt, dt]
+            elif dt < self.date_range[0]:
                 self.date_range[0] = dt
             elif dt > self.date_range[1]:
                 self.date_range[1] = dt
@@ -80,6 +85,8 @@ class InputData:
 
     def get_normalized_strava_data(self):
         strava_data = self.get_strava_data()
+        if not strava_data:
+            return []
 
         daily_data = []
         cur_date = self.date_range[0]
