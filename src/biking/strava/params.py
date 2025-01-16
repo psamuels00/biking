@@ -5,7 +5,7 @@ import sys
 
 class Parameters:
     def __init__(self):
-        self.http_cache_name = ".strava_cache"
+        self.http_cache_name = ".cache_strava"
         self.http_cache_expire_sec = 24 * 3600
         self.access_tokens_file = ".access_tokens"
         self.strava_client_id = self.load("strava_client_id")

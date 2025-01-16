@@ -5,7 +5,8 @@
   - report_days = number of days to limit graph to, eg: 30 to show the most recent 30 days
   - factor_all_days = True to include all days in calculation of averages, False to include only the report days
 - Ensure no overlap in X-axis tick labels
-- Use separate file for OpenElevation cache
+- Make sure everything works when there are no Strava activities
+- Filter biking activities from all returned by Strava
 
 ### Medium Priority
 - Add date labels somehow instead of day number, for example:
