@@ -63,7 +63,8 @@ class Statistics:
             num_biked_days += (1 if distance else 0)
             num_data_tracked_days += (1 if speed and elevation else 0)
 
-            data["ride_rate_per_day"].append((num_biked_days * 100)/num_days)
+            ride_rate = num_biked_days * 100 / num_days
+            data["ride_rate_per_day"].append(ride_rate)
             data["distance_per_day"].append(distance)
             data["avg_distance_per_day"].append(total_distance/num_biked_days)
             data["speed_per_day"].append(speed)
