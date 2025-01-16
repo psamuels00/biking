@@ -64,7 +64,14 @@ class Strava(StravaBase):
             per_page=100,
             page=1,
         )
-        data = self.fetch(url, params)
+        data = []
+
+        while True:
+            page_data = self.fetch(url, params)
+            if not page_data:
+                break
+            data.extend(page_data)
+            params["page"] += 1
 
         return data
 
