@@ -5,5 +5,4 @@
 misc/
 .python-version
 .strava_cache.sqlite
-DailyBikeRide.jpg
-strava_cache.sqlite
+data/journal.json
