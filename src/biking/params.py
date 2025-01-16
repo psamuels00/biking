@@ -3,7 +3,7 @@ import os
 
 class Parameters:
     def __init__(self):
-        self.cache_name = ".strava_cache"
+        self.elevation_cache_name = ".cache_open_elevation"
         self.files = dict(
             distance="Distance.jpg",
             elevation="Elevation.jpg",

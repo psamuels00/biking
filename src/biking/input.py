@@ -46,7 +46,7 @@ class InputData:
                 elevation = self.params.std_start_elevation_ft
 
         if elevation is None:
-            cache_name = self.params.cache_name
+            cache_name = self.params.elevation_cache_name
             elevation_meters = get_elevation(cache_name, lat, lng)
             elevation = meters2feet(elevation_meters)
 
@@ -117,7 +117,7 @@ class InputData:
         record["total_elevation_gain"] += manual_record.get("total_elevation_gain", 0)
 
         if "start_latlng" in manual_record:
-            cache_name = self.params.cache_name
+            cache_name = self.params.elevation_cache_name
             elevation = get_elevation(cache_name, *manual_record["start_latlng"])
             record["elev_start"] = meters2feet(elevation)
 

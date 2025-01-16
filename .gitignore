@@ -1,8 +1,9 @@
 *.bak
 .DS_Store
 .access_tokens
+.cache_open_elevation.sqlite
+.cache_strava.sqlite
 .idea/
-misc/
 .python-version
-.strava_cache.sqlite
 data/journal.json
+misc/
