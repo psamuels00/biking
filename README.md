@@ -87,7 +87,10 @@ Define the following environment variables:
 
 ## Installation
 
+    # clone repo, then...
     pip install -r requirements
+    mkdir data
+    touch data/journal.json
 
 
 ## Execution
