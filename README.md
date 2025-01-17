@@ -10,6 +10,7 @@ See <a href="#graph_notes">Graph Notes</a>.
 - <a href="#ride_rate">Ride Rate</a>
 
 <a name="performance"></a>
+
 ![Daily Bike Ride - Performance](output/graph/Performance.jpg)
 
 <a name="speed"></a>
