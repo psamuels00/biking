@@ -1,10 +1,10 @@
 # TODO
 
 ### High Priority
-- Ensure no overlap in X-axis tick labels
+_None_
 
 ### Medium Priority
-- Completely separate configuration from the code
+- Define all configuration values in one place.
 - Add support for multiple activities per day
 - Add date labels somehow instead of day number, for example:
 
