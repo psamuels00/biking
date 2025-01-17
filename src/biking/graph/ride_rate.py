@@ -11,7 +11,7 @@ class RideRateGraph(Graph):
         self.legend("upper right")
 
     def y_axis(self, ax1):
-        x = list(range(self.num_days))
+        x = self.x_axis_values()
         ride_rate_y = self.stats["data"]["ride_rate_per_day"]
 
         min_ride_rate = min(ride_rate_y)

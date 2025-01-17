@@ -3,7 +3,7 @@ import numpy as np
 
 
 class Graph:
-    def __init__(self, stats, output_file, only_tracked_days, linspace_params):
+    def __init__(self, params, stats, output_file, only_tracked_days, linspace_params):
         self.stats = stats
         self.num_days = stats["num_days"]
         self.num_biked_days = stats["num_biked_days"]
@@ -12,6 +12,7 @@ class Graph:
         self.labels = []
         self.show_only_tracked_days = only_tracked_days
         self.linspace_params = linspace_params
+        self.params = params
 
     def get_ticks(self, period):
         offsets = [0] + [x - 1 for x in range(period, self.num_days, period)]
@@ -51,6 +52,13 @@ class Graph:
             handles=self.handles,
             labels=self.labels,
         )
+
+    def x_axis_values(self):
+        values = np.arange(self.num_days)
+        if self.params.report_days is not None:
+            values = values[-self.params.report_days:]
+
+        return values
 
     def x_axis_days(self, ax1):
         ax1.set_xlabel("Day")

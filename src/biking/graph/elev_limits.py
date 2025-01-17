@@ -13,7 +13,7 @@ class ElevationLimitsGraph(Graph):
         self.legend()
 
     def y_axis(self, ax1):
-        x = np.arange(self.num_days)
+        x = self.x_axis_values()
         y_low = self.stats["data"]["elevation_low_per_day"]
         y_high = self.stats["data"]["elevation_high_per_day"]
         y_start = self.stats["data"]["elevation_start_per_day"]

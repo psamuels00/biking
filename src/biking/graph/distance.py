@@ -13,7 +13,7 @@ class DistanceGraph(Graph):
         self.legend()
 
     def y_axis(self, ax1):
-        x = list(range(self.num_days))
+        x = self.x_axis_values()
         y = self.stats["data"]["distance_per_day"]
         avg_y = self.stats["data"]["avg_distance_per_day"]
 

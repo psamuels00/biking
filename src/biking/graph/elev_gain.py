@@ -13,7 +13,7 @@ class ElevationGainGraph(Graph):
         self.legend()
 
     def y_axis(self, ax1):
-        x = np.arange(self.num_days)
+        x = self.x_axis_values()
         y = self.stats["data"]["elevation_gain_per_day"]
         avg_y = self.stats["data"]["avg_elevation_gain_per_day"]
 

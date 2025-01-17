@@ -8,7 +8,8 @@ def safe_div(a, b):
 
 
 class Statistics:
-    def __init__(self, input_data):
+    def __init__(self, params, input_data):
+        self.params = params
         self.input_data = input_data
         self.stats = self.calculate()
 
@@ -44,6 +45,9 @@ class Statistics:
         # for num, record in enumerate(daily_data, 1):
         #     print("@@@", num, record["ymd"])
 
+        if self.params.report_days is not None and not self.params.factor_all_days:
+            daily_data = daily_data[-self.params.report_days:]
+
         for record in daily_data:
             distance = record["distance"]
             total_distance += distance
@@ -74,6 +78,11 @@ class Statistics:
             data["elevation_high_per_day"].append(record["elev_high"])
             data["elevation_low_per_day"].append(record["elev_low"])
             data["elevation_start_per_day"].append(record["elev_start"])
+
+        if self.params.report_days is not None and self.params.factor_all_days:
+            for key in data:
+                print("@", len(data[key]), key)
+                data[key] = data[key][-self.params.report_days:]
 
         first_date, last_date = self.input_data.date_range
         first_day_of_week = calendar.weekday(first_date.year, first_date.month, first_date.day)

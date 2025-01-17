@@ -23,7 +23,7 @@ class SpeedGraph(Graph):
         self.speed_y_axis(ax1, "speed_per_day", "avg_speed_per_day")
 
     def speed_y_axis(self, ax1, speed_attr, avg_speed_attr):
-        x = np.arange(self.num_days)
+        x = self.x_axis_values()
         y = self.stats["data"][speed_attr]
         avg_y = self.stats["data"][avg_speed_attr]
 

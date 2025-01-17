@@ -70,7 +70,7 @@ class PerformanceGraph(Graph):
         return avg_performance_y
 
     def y_axis(self, ax1):
-        x = np.arange(self.num_days)
+        x = self.x_axis_values()
         y, factors_y = self.performance_index()
         avg_y = self.avg_performance_index(y)
 
