@@ -13,10 +13,9 @@ def approx_equal(a, b, delta=1e-8):
 
 class InputData:
     def __init__(self, params):
-        file = params.journal_file
-        self.manual_data = self.load_json_file(file)
-        self.date_range = self.manual_data_date_range(self.manual_data)
         self.params = params
+        self.manual_data = self.load_json_file(params.journal_file)
+        self.date_range = self.manual_data_date_range(self.manual_data)
 
     def load_json_file(self, file):
         with open(file) as fh:
@@ -36,10 +35,9 @@ class InputData:
 
         return date_range
 
-    def calculate_elevation(self, activity):
+    def calculate_elevation(self, lat, lng):
         elevation = None
 
-        lat, lng = activity["start_latlng"]
         if self.params.obscured_std_start_latlng and self.params.std_start_elevation_ft is not None:
             std_start_lat, std_start_lng = self.params.obscured_std_start_latlng
             if approx_equal(lat, std_start_lat) and approx_equal(lng, std_start_lng):
@@ -59,7 +57,7 @@ class InputData:
         for activity in activities:
             ymd = activity["start_date_local"][:10]
 
-            elevation = self.calculate_elevation(activity)
+            elev_start = self.calculate_elevation(*activity["start_latlng"])
 
             record = dict(
                 ymd=ymd,
@@ -69,12 +67,12 @@ class InputData:
                 max_speed=mps2mph(activity["max_speed"]),
                 elev_high=meters2feet(activity["elev_high"]),
                 elev_low=meters2feet(activity["elev_low"]),
-                elev_start=elevation,
+                elev_start=elev_start,
             )
             data[ymd] = record
 
             dt = ymd2date(ymd)
-            if not self.date_range:
+            if self.date_range is None:
                 self.date_range = [dt, dt]
             elif dt < self.date_range[0]:
                 self.date_range[0] = dt
@@ -85,8 +83,6 @@ class InputData:
 
     def get_normalized_strava_data(self):
         strava_data = self.get_strava_data()
-        if not strava_data:
-            return []
 
         daily_data = []
         cur_date = self.date_range[0]

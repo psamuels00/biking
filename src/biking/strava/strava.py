@@ -70,7 +70,7 @@ class Strava(StravaBase):
             page_data = self.fetch(url, params)
             if not page_data:
                 break
-            data.extend(page_data)
+            data.extend(item for item in page_data if item["sport_type"] == "Ride")
             params["page"] += 1
 
         return data

@@ -1,7 +1,7 @@
 # TODO
 
 ### High Priority
-- Make sure everything works when there are no Strava activities and activities other than biking
+- Separate Elevation Gain graph from Elevation Limits graph
 - Add configuration parameters:
   - report_days = number of days to limit graph to, eg: 30 to show the most recent 30 days
   - factor_all_days = True to include all days in calculation of averages, False to include only the report days

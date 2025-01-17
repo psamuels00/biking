@@ -1,7 +1,7 @@
 #!/bin/sh
 
 analyze() {
-    rm .strava_cache.sqlite
+    rm .cache_strava.sqlite
     local mark='Output looks like this:'
     (
         sed "/$mark/q" README.md

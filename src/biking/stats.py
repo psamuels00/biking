@@ -21,7 +21,6 @@ class Statistics:
         total_speed = 0  # mph
         total_top_speed = 0  # mph
         total_elevation_gain = 0  # feet
-        total_time = 0  # hours
 
         data = dict(
             ride_rate_per_day=[],
@@ -51,7 +50,6 @@ class Statistics:
 
             speed = record["average_speed"]
             total_speed += speed
-            total_time += safe_div(distance, speed)
 
             top_speed = record["max_speed"]
             total_top_speed += top_speed
@@ -90,18 +88,12 @@ class Statistics:
             num_days=num_days,
             total_distance=total_distance,
             total_elevation_gain=total_elevation_gain,
-            total_time=total_time,
         )
 
         return stats
 
-    def report(self):
+    def report_basic_data(self):
         stats = self.stats
-        data = stats["data"]
-
-        min_val = lambda field: min(x for x in data[field] if x > 0)
-        max_val = lambda field: max(data[field])
-        sum_vals = lambda field: sum(data[field])
 
         first_date = stats["first_date"]
         last_date = stats["last_date"]
@@ -109,22 +101,55 @@ class Statistics:
         num_biked_days = stats["num_biked_days"]
         num_data_tracked_days = stats["num_data_tracked_days"]
 
-        # distance
-        total_distance = stats["total_distance"]
+        first_day = first_date.strftime("%Y-%m-%d")
+        last_day = last_date.strftime("%Y-%m-%d")
+        num_skipped_days = num_days - num_biked_days
+        ride_rate = num_biked_days / num_days * 100
+
+        print(f"Date range: {first_day} to {last_day}")
+        print()
+        print("days  total  biked  tracked  skipped  ride rate")
+        print("      -----  -----  -------  -------  ---------")
+        print(f"{num_days:11}  {num_biked_days:5}  {num_data_tracked_days:5}  {num_skipped_days:7}  {ride_rate:8.2f}%")
+        print()
+
+    def report_distance_data(self):
+        stats = self.stats
+        data = stats["data"]
+
+        min_val = lambda field: min(x for x in data[field] if x > 0)
+        max_val = lambda field: max(data[field])
+
         min_distance = min_val("distance_per_day")
         max_distance = max_val("distance_per_day")
+
+        num_biked_days = stats["num_biked_days"]
+        total_distance = stats["total_distance"]
         avg_distance = total_distance / num_biked_days
 
+        print("distance (miles)  min   max   avg   total")
+        print("                  ----  ----  ----  -------")
+        print(f"{min_distance:22.1f}  {max_distance:4.1f}  {avg_distance:4.1f}  {total_distance:7.1f}")
+        print()
+
+    def report_tracked_data(self):
+        stats = self.stats
+        data = stats["data"]
+        num_data_tracked_days = stats["num_data_tracked_days"]
+
+        min_val = lambda field: min(x for x in data[field] if x > 0)
+        max_val = lambda field: max(data[field])
+        sum_vals = lambda field: sum(data[field])
+
         # speed
-        total_time = stats["total_time"]
         min_speed = min_val("speed_per_day")
         max_speed = max_val("speed_per_day")
-        avg_speed = sum_vals("speed_per_day")/num_data_tracked_days
+        avg_speed = sum_vals("speed_per_day") / num_data_tracked_days
 
         # top speed
         min_top_speed = min_val("top_speed_per_day")
         max_top_speed = max_val("top_speed_per_day")
-        avg_top_speed = sum_vals("top_speed_per_day")/num_data_tracked_days
+        avg_top_speed = sum_vals("top_speed_per_day") / num_data_tracked_days
 
         # elevation gain
         total_elev_gain = int(sum_vals("elevation_gain_per_day"))
@@ -143,22 +168,6 @@ class Statistics:
         max_elev_high = int(max_val("elevation_high_per_day"))
         avg_elev_high = int(sum_vals("elevation_high_per_day") / num_data_tracked_days)
 
-        first_day = first_date.strftime("%Y-%m-%d")
-        last_day = last_date.strftime("%Y-%m-%d")
-        num_skipped_days = num_days - num_biked_days
-
-        ride_rate = num_biked_days / num_days * 100
-
-        print(f"Date range: {first_day} to {last_day}")
-        print()
-        print("days  total  biked  tracked  skipped  ride rate")
-        print("      -----  -----  -------  -------  ---------")
-        print(f"{num_days:11}  {num_biked_days:5}  {num_data_tracked_days:5}  {num_skipped_days:7}  {ride_rate:8.2f}%")
-        print()
-        print("distance (miles)  min   max   avg   total")
-        print("                  ----  ----  ----  -------")
-        print(f"{min_distance:22.1f}  {max_distance:4.1f}  {avg_distance:4.1f}  {total_distance:7.1f}")
-        print()
         print("speed (mph)  min   max   avg")
         print("             ----  ----  ----")
         print(f"{min_speed:17.1f}  {max_speed:4.1f}  {avg_speed:4.1f}")
@@ -174,3 +183,16 @@ class Statistics:
         print("elevation range (ft)  low:  min   max   avg   high:  min   max   avg")
         print("                            ----  ----  ----         ----  ----  ----")
         print(f"{min_elev_low:31}  {max_elev_low:4}  {avg_elev_low:4}  {min_elev_high:12}  {max_elev_high:4}  {avg_elev_high:4}")
+
+    def report(self):
+        num_days = self.stats["num_days"]
+        num_data_tracked_days = self.stats["num_data_tracked_days"]
+
+        if num_days == 0:
+            print("No activity found to report on.")
+            return
+
+        self.report_basic_data()
+        self.report_distance_data()
+        if num_data_tracked_days > 0:
+            self.report_tracked_data()
