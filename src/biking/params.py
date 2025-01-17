@@ -6,7 +6,8 @@ class Parameters:
         self.elevation_cache_name = ".cache_open_elevation"
         self.files = dict(
             distance="Distance.jpg",
-            elevation="Elevation.jpg",
+            elev_gain="ElevationGain.jpg",
+            elev_limits="ElevationLimits.jpg",
             ride_rate="RideRate.jpg",
             performance="Performance.jpg",
             speed="Speed.jpg",
