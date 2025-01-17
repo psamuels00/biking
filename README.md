@@ -1,21 +1,25 @@
 # Biking Performance
 
-Generate graphs such as the following from data collected using Strava.
-See <a href="#notes">Graph Notes</a> 
-and <a href="#performance_index">Performance Index</a>
-below for an explanation.
+Generate simple graphs from data collected using Strava.
+See <a href="#graph_notes">Graph Notes</a>.
 
-![Daily Bike Ride - Performance](output/graph/Performance.jpg)
-![Daily Bike Ride - Speed](output/graph/Speed.jpg)
-![Daily Bike Ride - Elevation Gain](output/graph/ElevationGain.jpg)
-![Daily Bike Ride - Elevation Limits](output/graph/ElevationLimits.jpg)
-![Daily Bike Ride - Distance](output/graph/Distance.jpg)
-![Daily Bike Ride - Ride Rate](output/graph/RideRate.jpg)
-![Daily Bike Ride - Top Speed](output/graph/TopSpeed.jpg)
+- <a href="#performance">Performance</a> (see <a href="#performance_calc">Performance Calculation</a>)
+- <a href="#speed">Speed</a> &amp; <a href="#top_speed">Top Speed</a>
+- <a href="#elev_gain">Elevation Gain</a> &amp; <a href="#elev_limits">Elevation Limits</a>
+- <a href="#distance">Distance</a>
+- <a href="#ride_rate">Ride Rate</a>
+
+<a name="performance">![Daily Bike Ride - Performance](output/graph/Performance.jpg)</a>
+<a name="speed">![Daily Bike Ride - Speed](output/graph/Speed.jpg)</a>
+<a name="top_speed">![Daily Bike Ride - Top Speed](output/graph/TopSpeed.jpg)</a>
+<a name="elev_gain">![Daily Bike Ride - Elevation Gain](output/graph/ElevationGain.jpg)</a>
+<a name="elev_limits">![Daily Bike Ride - Elevation Limits](output/graph/ElevationLimits.jpg)</a>
+<a name="distance">![Daily Bike Ride - Distance](output/graph/Distance.jpg)</a>
+<a name="ride_rate">![Daily Bike Ride - Ride Rate](output/graph/RideRate.jpg)</a>
 
 
+<a name="graph_notes"></a>
 ## Graph Notes
-<a name="notes"></a>
 
 The timeline for data collection is:
 
@@ -29,8 +33,8 @@ The green shades on most graphs indicate the day of week, as follows:
 On days when someone forgets to use Strava, only distance is available.
 
 
-## Performance Index
-<a name="performance_index"></a>
+<a name="performance_calc"></a>
+## Performance Calculation
 
 The performance index is calculated as a function of
 

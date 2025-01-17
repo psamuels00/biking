@@ -16,5 +16,3 @@
 
 ### Low Priority
 - Add Weekly, Monthly, and Yearly rollup graphs
-- Make the graphs interactive!?
-- Add a spreadsheet, IDE, and AI chat!!? _(just kidding)_
