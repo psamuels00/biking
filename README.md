@@ -17,9 +17,6 @@ See <a href="#graph_notes">Graph Notes</a>.
 <a name="speed"></a>
 ![Daily Bike Ride - Speed](output/graph/Speed.jpg)
 
-<a name="top_speed"></a>
-![Daily Bike Ride - Top Speed](output/graph/TopSpeed.jpg)
-
 <a name="elev_gain"></a>
 ![Daily Bike Ride - Elevation Gain](output/graph/ElevationGain.jpg)
 
@@ -28,6 +25,9 @@ See <a href="#graph_notes">Graph Notes</a>.
 
 <a name="distance"></a>
 ![Daily Bike Ride - Distance](output/graph/Distance.jpg)
+
+<a name="top_speed"></a>
+![Daily Bike Ride - Top Speed](output/graph/TopSpeed.jpg)
 
 <a name="ride_rate"></a>
 ![Daily Bike Ride - Ride Rate](output/graph/RideRate.jpg)
