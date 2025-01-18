@@ -183,11 +183,11 @@ Output looks like this:
 
     distance (miles)  min   max   avg   total
                       ----  ----  ----  -------
-                       6.9  36.3  15.5   1410.4
+                       6.9  31.4  15.3   1396.4
 
     speed (mph)  min   max   avg
                  ----  ----  ----
-                  9.1  14.5  11.5
+                  9.1  14.5  11.4
 
     top speed (mph)  min   max   avg
                      ----  ----  ----
@@ -199,4 +199,4 @@ Output looks like this:
 
     elevation range (ft)  low:  min   max   avg   high:  min   max   avg
                                 ----  ----  ----         ----  ----  ----
-                                 17   329   139           390  1088   561
+                                 17   329   143           390  1088   561
