@@ -175,15 +175,15 @@ In addition to generating the graphs, a summary of metrics is printed
 on the console.
 Output looks like this:
 
-    Date range: 2024-10-11 to 2025-01-18
+    Date range: 2024-10-11 to 2025-01-19
 
     days  total  biked  tracked  skipped  ride rate
           -----  -----  -------  -------  ---------
-            100     91     61        9     91.00%
+            101     92     62        9     91.09%
 
     distance (miles)  min   max   avg   total
                       ----  ----  ----  -------
-                       6.9  31.4  15.3   1396.4
+                       6.9  31.4  15.4   1416.3
 
     speed (mph)  min   max   avg
                  ----  ----  ----
@@ -191,12 +191,12 @@ Output looks like this:
 
     top speed (mph)  min   max   avg
                      ----  ----  ----
-                     22.9  42.9  30.5
+                     22.9  42.9  30.6
 
     elevation gain (ft)  min   max   avg   total    total miles
                          ----  ----  ----  -------  -----------
-                          287  2031   801    48904          9.3
+                          287  2031   811    50341          9.5
 
     elevation range (ft)  low:  min   max   avg   high:  min   max   avg
                                 ----  ----  ----         ----  ----  ----
-                                 17   329   143           390  1088   561
+                                 17   329   143           390  1088   564
