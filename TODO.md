@@ -4,7 +4,6 @@
 _None_
 
 ### Medium Priority
-- Generate HTML file to present all the graphs.
 - Define all configuration values in one place.
 - Make sure show_only_tracked_days still works.
 - Add date labels somehow instead of day number, for example:
