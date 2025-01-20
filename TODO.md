@@ -4,12 +4,14 @@
 _None_
 
 ### Medium Priority
+- Generate HTML file to present all the graphs.
 - Define all configuration values in one place.
-- Add support for multiple activities per day
+- Make sure show_only_tracked_days still works.
 - Add date labels somehow instead of day number, for example:
 
       | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
           1 Dec   5        10        15        20        25        30   1 Jan   5
 
 ### Low Priority
-- Add Weekly, Monthly, and Yearly rollup graphs
+- Convert journal format from JSON to YAML
+- Add Weekly, Monthly, and Yearly rollup graphs.

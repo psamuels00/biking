@@ -1,140 +1,81 @@
 from datetime import timedelta
 
-import json
-
-from .conversions import meters2feet, meters2miles, mps2mph, ymd2date
-from .geoloc import get_elevation
+from .conversions import ymd2date
+from .elevation import Elevation
+from .journal import Journal
+from .rollup.daily import DailyRollup
 from .strava import get_activities
-
-
-def approx_equal(a, b, delta=1e-8):
-    return abs(a - b) < delta
 
 
 class InputData:
     def __init__(self, params):
         self.params = params
-        self.manual_data = self.load_json_file(params.journal_file)
-        self.date_range = self.manual_data_date_range(self.manual_data)
+        self.date_range = None
+        self.journal = Journal(params)
+        self.elevation = Elevation(params)
 
-    def load_json_file(self, file):
-        with open(file) as fh:
-            data = json.load(fh)
+    def set_date_range(self, activities, journal):
+        t0 = None
+        t1 = None
 
-        return data
-
-    def manual_data_date_range(self, data):
-        if not data:
-            return None
-
-        manual_dates = sorted(data.keys())
-        date_range = [
-            ymd2date(manual_dates[0]),
-            ymd2date(manual_dates[-1]),
-        ]
-
-        return date_range
-
-    def calculate_elevation(self, lat, lng):
-        elevation = None
-
-        if self.params.obscured_std_start_latlng and self.params.std_start_elevation_ft is not None:
-            std_start_lat, std_start_lng = self.params.obscured_std_start_latlng
-            if approx_equal(lat, std_start_lat) and approx_equal(lng, std_start_lng):
-                elevation = self.params.std_start_elevation_ft
-
-        if elevation is None:
-            cache_name = self.params.elevation_cache_name
-            elevation_meters = get_elevation(cache_name, lat, lng)
-            elevation = meters2feet(elevation_meters)
-
-        return elevation
-
-    def get_strava_data(self):
-        data = {}
-
-        activities = get_activities()
         for activity in activities:
             ymd = activity["start_date_local"][:10]
+            if t0 is None or ymd < t0:
+                t0 = ymd
+            if t1 is None or ymd > t1:
+                t1 = ymd
 
-            elev_start = self.calculate_elevation(*activity["start_latlng"])
+        if journal:
+            journal_dates = sorted(journal.keys())
+            if journal_dates[0] < t0:
+                t0 = journal_dates[0]
+            if journal_dates[-1] > t1:
+                t1 = journal_dates[-1]
 
-            record = dict(
-                ymd=ymd,
-                distance=meters2miles(activity["distance"]),
-                total_elevation_gain=meters2feet(activity["total_elevation_gain"]),
-                average_speed=mps2mph(activity["average_speed"]),
-                max_speed=mps2mph(activity["max_speed"]),
-                elev_high=meters2feet(activity["elev_high"]),
-                elev_low=meters2feet(activity["elev_low"]),
-                elev_start=elev_start,
-            )
-            data[ymd] = record
+        self.date_range = (ymd2date(t0), ymd2date(t1))
 
-            dt = ymd2date(ymd)
-            if self.date_range is None:
-                self.date_range = [dt, dt]
-            elif dt < self.date_range[0]:
-                self.date_range[0] = dt
-            elif dt > self.date_range[1]:
-                self.date_range[1] = dt
+    def init_daily_data(self):
+        daily_data = {}
 
-        return data
-
-    def get_normalized_strava_data(self):
-        strava_data = self.get_strava_data()
-
-        daily_data = []
         cur_date = self.date_range[0]
         while cur_date <= self.date_range[1]:
             ymd = cur_date.strftime("%Y-%m-%d")
-
-            if ymd in strava_data:
-                record = strava_data[ymd]
-            else:
-                record = dict(
-                    ymd=ymd,
-                    distance=0,
-                    total_elevation_gain=0,
-                    average_speed=0,
-                    max_speed=0,
-                    elev_high=0,
-                    elev_low=0,
-                    elev_start=None,
-                )
-            daily_data.append(record)
-
+            daily_data[ymd] = DailyRollup(self.params, ymd)
             cur_date += timedelta(days=1)
 
         return daily_data
 
-    def apply_manual_record(self, record, manual_record):
-        record["distance"] += manual_record.get("distance", 0)
-        record["total_elevation_gain"] += manual_record.get("total_elevation_gain", 0)
+    def consolidate_data_sources(self, activities, journal):
+        daily_data = self.init_daily_data()
 
-        if "start_latlng" in manual_record:
-            cache_name = self.params.elevation_cache_name
-            elevation = get_elevation(cache_name, *manual_record["start_latlng"])
-            record["elev_start"] = meters2feet(elevation)
+        for activity in activities:
+            ymd = activity["start_date_local"][:10]
+            elev_start_ft = self.elevation.calculate_activity_start(activity)
+            daily_data[ymd].add_activity(activity, elev_start_ft)
 
-    def add_manual_data(self, daily_data):
-        for record in daily_data:
-            ymd = record["ymd"]
-            if ymd in self.manual_data:
-                manual_record = self.manual_data[ymd]
-                self.apply_manual_record(record, manual_record)
+        for ymd, record in journal.items():
+            daily_data[ymd].add_manual_activity(record)
+
+        daily_data = [
+            rollup.aggregate_values()
+            for rollup in sorted(daily_data.values(), key=lambda a: a.ymd)
+        ]
+
+        return daily_data
 
     def get_daily_data(self):
-        daily_data = self.get_normalized_strava_data()
-        self.add_manual_data(daily_data)
+        activities = get_activities()
+        journal = self.journal.load()
+        self.set_date_range(activities, journal)
+        daily_data = self.consolidate_data_sources(activities, journal)
 
         return daily_data
 
     def summarize(self):
-        print("date        miles  elevation  speed")
-        print("----------  -----  ---------  -----")
+        print("date        distance  elevation gain  speed")
+        print("----------  --------  --------------  -----")
         for rec in self.get_daily_data():
-            if rec['distance']:
-                print(f"{rec['ymd']}  {rec['distance']:5.1f}    {rec['total_elevation_gain']:5.0f}    {rec['average_speed']:5.1f}")
+            if rec["distance"]:
+                print(f"{rec["ymd"]}  {rec["distance"]:8.1f}    {rec["total_elevation_gain"]:10.0f}    {rec["average_speed"]:5.1f}")
             else:
-                print(rec['ymd'])
+                print(rec["ymd"])

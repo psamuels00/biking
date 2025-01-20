@@ -56,7 +56,7 @@ On days when someone forgets to use Strava, only distance is available.
 <a name="performance_calc"></a>
 ## Performance Calculation
 
-The performance index is calculated as a function of
+The performance index (_pi_) is calculated as a function of
 
 - Distance,
 - Speed, and
@@ -67,14 +67,16 @@ For example, if the range for speed is 9 - 15 mph, a value of 12,
 right in the middle, is normalized to 0.50.  The normalized values
 are weighted and summed as follows:
 
-    normalized_distance + normalized_speed * 2.0 + normalized_elevation * 3.0
+![Performance Indicator formula](output/formula/pi.png)
 
-In other words, speed contributes twice as much to the PI as distance,
+In other words, speed contributes twice as much to the _pi_ as distance,
 and elevation gain contributes three times as much.  Finally, all the
 values are normalized to a scale from 0 to 10.
 
+![Performance Indicator Normalization formula](output/formula/pi_normal.png)
+
 The formula will, no doubt, require tuning.
-If only Distance is available for a day, the Performance Index will not be calculated.
+If only distance is available for a day, the Performance Index will not be calculated.
 
 
 ## Open Elevation
@@ -169,12 +171,18 @@ eg:
     ./scripts/prep_new_route.sh 15 && ./scripts/add_new_route.sh
 
 
+## Formulas
+
+Created using https://latexeditor.lagrida.com/ from the files in src/tex.
+
+
 ## Output
 
 In addition to generating the graphs, a summary of metrics is printed
 on the console.
 Output looks like this:
 
+    @@@ 53.0
     Date range: 2024-10-11 to 2025-01-19
 
     days  total  biked  tracked  skipped  ride rate
