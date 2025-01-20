@@ -81,7 +81,6 @@ class Statistics:
 
         if self.params.report_days is not None and self.params.factor_all_days:
             for key in data:
-                print("@", len(data[key]), key)
                 data[key] = data[key][-self.params.report_days:]
 
         first_date, last_date = self.input_data.date_range

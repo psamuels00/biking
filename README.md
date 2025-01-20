@@ -182,7 +182,6 @@ In addition to generating the graphs, a summary of metrics is printed
 on the console.
 Output looks like this:
 
-    @@@ 53.0
     Date range: 2024-10-11 to 2025-01-19
 
     days  total  biked  tracked  skipped  ride rate
