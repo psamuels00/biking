@@ -1,7 +1,8 @@
 # Biking Performance
 
 Generate simple graphs from data collected using Strava.
-See <a href="#graph_notes">Graph Notes</a> and <a href="output/doc/graphs/daily.html">All Graphs</a>.
+See <a href="#graph_notes">Graph Notes</a> and
+<a href="https://psamuels00.github.io/biking/">All Graphs</a>.
 
 - <a href="#performance">Performance</a> (see <a href="#performance_calc">Performance Calculation</a>)
 - <a href="#speed">Speed</a> &amp; <a href="#top_speed">Top Speed</a>

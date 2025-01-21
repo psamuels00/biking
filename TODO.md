@@ -1,7 +1,7 @@
 # TODO
 
 ### High Priority
-- Set up GitHub Pages for the _All Graphs_ link from the README file.
+_None_
 
 ### Medium Priority
 - Define all configuration values in one place.
