@@ -16,8 +16,6 @@ class Graph:
 
     def get_ticks(self, period):
         offsets = [0] + [x - 1 for x in range(period, self.num_days, period)]
-        if self.num_days % period != 1:
-            offsets += [self.num_days - 1]
         labels = [str(x + 1) for x in offsets]
 
         return offsets, labels
