@@ -5,8 +5,7 @@ publish() {
     cp output/graph/* docs/graph/
 
     git add docs
-    git commit -m "publish update"
-    git push
+    git commit -m "publish updates"
 }
 
 publish

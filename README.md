@@ -121,24 +121,6 @@ Define the following environment variables:
     touch data/journal.yaml
 
 
-## Execution
-
-To update the graphs based on new activities in Strava:
-
-    src/analyze.py
-
-To update the graphs and also the output in the README file:
-
-    ./scripts/analyze.sh
-
-
-## Update Github
-
-To update graphs and upload the changes to Github:
-
-    ./scripts/add_new_route.sh
-
-
 ## Manual Data Updates
 
 There are two ways to add biking data manually:
@@ -155,6 +137,29 @@ There are two ways to add biking data manually:
 The distance and total_elevation gain are optional, added in addition to any values from Strava.
 The start_latlng is also optional and replaces the starting location of any Strava activity for the day.
 
+
+## Execution
+
+To update the graphs based on new activities in Strava:
+
+    src/analyze.py
+
+To update the graphs and also the output in the README file:
+
+    ./scripts/analyze.sh
+
+To push the changes from either command to GitHub:
+
+    ./scripts/add_bike_ride.sh && git push
+
+
+## Publish Updates to GitHub Pages
+
+Set up GitHub pages to serve content from /docs.  Then do this:
+
+    ./scripts/publish_updates.sh && git push
+
+
 ## New Rides
 
 This isn't necessary, but I usually create an image of a Google map
@@ -162,13 +167,16 @@ showing my route after a ride, and add this to the images directory.
 From a Mac, I use Ctrl-Shift-4 to capture a window.  Then I move
 this file into the images directory and run the following:
 
-    ./scripts/prep_new_route.sh <#miles>
-    ./scripts/add_new_route.sh
+    ./scripts/prep_new_ride.sh <#miles>
 
 where <#miles> is the whole number length of the route in miles.
-eg:
+Putting everything together, run something like this:
 
-    ./scripts/prep_new_route.sh 15 && ./scripts/add_new_route.sh
+    ./scripts/prep_new_ride.sh 15 && ./scripts/add_new_ride.sh && ./scripts/publish_updates.sh && git push
+
+or more simply:
+
+    ./scripts/today.sh 15
 
 
 ## Formulas

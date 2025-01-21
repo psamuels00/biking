@@ -12,7 +12,6 @@ process_route() {
         magick "$in_file" -crop +0+240 $out_file && \
         rm "$in_file" && \
         echo "Screenshot file $in_file replaced by $out_file." && \
-
         ./scripts/analyze.sh
     elif [ $num_files = 0 ]; then
         echo "Screenshot file not found."
@@ -29,4 +28,3 @@ if [ -z "$num_miles" ]; then
 fi
 
 process_route $num_miles
-

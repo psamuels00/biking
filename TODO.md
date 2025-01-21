@@ -5,7 +5,6 @@ _None_
 
 ### Medium Priority
 - Fix the default journal file for project and update README.
-- Automatically publish new graphs.
 - Define all configuration values in one place.
 - Make sure show_only_tracked_days still works.
 - Add date labels somehow instead of day number, for example:
