@@ -23,7 +23,7 @@ process_route() {
 num_miles=$1
 
 if [ -z "$num_miles" ]; then
-    echo "usage: $1 <num_miles>"
+    echo "usage: $0 <num_miles>"
     exit 1
 fi
 
