@@ -4,7 +4,6 @@
 _None_
 
 ### Medium Priority
-- Clean up title at top of graphs.
 - Fix the default journal file for project and update README.
 - Automatically publish new graphs.
 - Define all configuration values in one place.

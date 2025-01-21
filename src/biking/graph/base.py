@@ -38,8 +38,7 @@ class Graph:
         return colors
 
     def title(self, metric):
-        title = f"Bike Ride - Daily {metric}"
-        plt.title(title, pad=5)
+        plt.title(metric, pad=5)
 
     def legend(self, loc="upper left"):
         from_date = "Oct 11, 2024"
