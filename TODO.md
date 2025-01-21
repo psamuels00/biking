@@ -1,7 +1,7 @@
 # TODO
 
 ### High Priority
-_None_
+- Set up GitHub Pages for the _All Graphs_ link from the README file.
 
 ### Medium Priority
 - Define all configuration values in one place.
@@ -12,5 +12,4 @@ _None_
           1 Dec   5        10        15        20        25        30   1 Jan   5
 
 ### Low Priority
-- Convert journal format from JSON to YAML
 - Add Weekly, Monthly, and Yearly rollup graphs.

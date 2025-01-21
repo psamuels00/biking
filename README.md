@@ -117,7 +117,7 @@ Define the following environment variables:
     # clone repo, then...
     pip install -r requirements
     mkdir data
-    touch data/journal.json
+    touch data/journal.yaml
 
 
 ## Execution
@@ -143,14 +143,13 @@ To update graphs and upload the changes to Github:
 There are two ways to add biking data manually:
 
 1. Use Strava to add an activity, or
-2. Add an entry to the data journal, `data/journal.json`. For example:
+2. Add an entry to the data journal, `data/journal.yaml`. For example:
 
-       "2024-12-22": {
-           "distance": 2.6,
-           "total_elevation_gain": 566,
-           "start_latlng": [13.45647, -16.57196],
-           "note": "comment is ignored"
-       },
+       2024-12-22:
+           distance: 2.6
+           total_elevation_gain: 566
+           start_latlng: [13.45647, -16.57196]
+           note: comment is ignored
 
 The distance and total_elevation gain are optional, added in addition to any values from Strava.
 The start_latlng is also optional and replaces the starting location of any Strava activity for the day.

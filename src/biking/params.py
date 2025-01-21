@@ -16,7 +16,7 @@ class Parameters:
         self.green_legend_dir = "output/legend"
         self.green_legend_html_file = "green_legend.html"
         self.green_legend_img_file = "green_legend.jpg"
-        self.journal_file = "data/journal.json"
+        self.journal_file = "data/journal.yaml"
         self.linspace_params = (0.3, 0.9)
         self.obscured_std_start_latlng = (37.96, -121.94)
         self.only_tracked_days = True
