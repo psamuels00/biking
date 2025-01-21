@@ -16,3 +16,4 @@ _None_
 ### Low Priority
 - Maybe separate legends from graphs as a separate image??
 - Add Weekly, Monthly, and Yearly rollup graphs.
+
