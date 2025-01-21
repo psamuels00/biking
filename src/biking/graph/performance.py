@@ -90,7 +90,7 @@ class PerformanceGraph(Graph):
 
         d_factor_y, s_factor_y, e_factor_y = factors_y
 
-        bar = ax1.bar(x, e_factor_y, bottom=np.array(d_factor_y) + np.array(s_factor_y), color="gold")
+        bar = ax1.bar(x, e_factor_y, bottom=np.array(d_factor_y) + np.array(s_factor_y), color="orangered")
         self.handles.append(bar)
         self.labels.append(f"Elevation Gain Component ({e_factor_y[-1]:0.1f})")
 
@@ -98,7 +98,7 @@ class PerformanceGraph(Graph):
         self.handles.append(bar)
         self.labels.append(f"Speed Component ({s_factor_y[-1]:0.1f})")
 
-        bar = ax1.bar(x, d_factor_y, color="orangered")
+        bar = ax1.bar(x, d_factor_y, color="gold")
         self.handles.append(bar)
         self.labels.append(f"Distance Component ({d_factor_y[-1]:0.1f})")
 
