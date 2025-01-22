@@ -104,27 +104,27 @@ class PerformanceGraph(Graph):
 
         bottom_y = np.zeros_like(d_factor_y)
 
-        bar = ax1.bar(x, d_factor_y, color="#e59866")
+        bar = ax1.bar(x, d_factor_y, color="gold")
         self.handles.append(bar)
         self.labels.append(f"Distance Component ({d_factor_y[-1]:0.1f})")
         bottom_y += np.array(d_factor_y)
 
-        bar = ax1.bar(x, s_factor_y, bottom=bottom_y, color="#f7dc6f")
+        bar = ax1.bar(x, s_factor_y, bottom=bottom_y, color="orange")
         self.handles.append(bar)
         self.labels.append(f"Speed Component ({s_factor_y[-1]:0.1f})")
         bottom_y += np.array(s_factor_y)
 
-        bar = ax1.bar(x, st_factor_y, bottom=bottom_y, color="#f1c40f")
-        self.handles.append(bar)
-        self.labels.append(f"Speed Longevity Boost ({st_factor_y[-1]:0.1f})")
-        bottom_y += np.array(st_factor_y)
+        # bar = ax1.bar(x, st_factor_y, bottom=bottom_y, color="orange")
+        # self.handles.append(bar)
+        # self.labels.append(f"Speed Longevity Boost ({st_factor_y[-1]:0.1f})")
+        # bottom_y += np.array(st_factor_y)
 
-        bar = ax1.bar(x, e_factor_y, bottom=bottom_y, color="#f5b7b1")
+        bar = ax1.bar(x, e_factor_y, bottom=bottom_y, color="orangered")
         self.handles.append(bar)
         self.labels.append(f"Elevation Gain Component ({e_factor_y[-1]:0.1f})")
         bottom_y += np.array(e_factor_y)
 
-        bar = ax1.bar(x, er_factor_y, bottom=bottom_y, color="#f1948a")
+        bar = ax1.bar(x, er_factor_y, bottom=bottom_y, color="crimson")
         self.handles.append(bar)
         self.labels.append(f"Elevation Gain Rate Boost ({er_factor_y[-1]:0.1f})")
 
