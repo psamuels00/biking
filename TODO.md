@@ -1,7 +1,7 @@
 # TODO
 
 ### High Priority
-- Tweak the Performance Index calculation so high speed for a long time scores higher than the same speed for less time.
+- Tweak the Performance Index calculation so short, high-elevation gain rides with little flat land score as high as long, not-quite-as-high-elevation gain rides with more flat land.  The latter is scoring higher because of the higher speed achieved due to less elevation gain.
 
 ### Medium Priority
 - Make sure show_only_tracked_days still works.
