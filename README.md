@@ -187,7 +187,7 @@ this file into the images directory and run the following:
 where <#miles> is the whole number length of the route in miles.
 Putting everything together, run something like this:
 
-    ./scripts/prep_new_ride.sh 15 && ./scripts/add_new_ride.sh && ./scripts/publish_updates.sh && git push
+    ./scripts/prep_new_ride.sh 15 && ./scripts/add_bike_ride.sh && ./scripts/publish_updates.sh && git push
 
 or more simply:
 
@@ -205,15 +205,15 @@ In addition to generating the graphs, a summary of metrics is printed
 on the console.
 Output looks like this:
 
-    Date range: 2024-10-11 to 2025-01-20
+    Date range: 2024-10-11 to 2025-01-21
 
     days  total  biked  tracked  skipped  ride rate
           -----  -----  -------  -------  ---------
-            102     93     63        9     91.18%
+            103     94     64        9     91.26%
 
     distance (miles)  min   max   avg   total
                       ----  ----  ----  -------
-                       6.9  31.4  15.4   1428.6
+                       6.9  31.4  15.4   1450.9
 
     speed (mph)  min   max   avg
                  ----  ----  ----
@@ -225,8 +225,8 @@ Output looks like this:
 
     elevation gain (ft)  min   max   avg   total    total miles
                          ----  ----  ----  -------  -----------
-                          287  2031   824    51956          9.8
+                          287  2212   846    54168         10.3
 
     elevation range (ft)  low:  min   max   avg   high:  min   max   avg
                                 ----  ----  ----         ----  ----  ----
-                                 17   329   146           390  1088   572
+                                 17   329   146           390  1088   578
