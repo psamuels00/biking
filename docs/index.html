@@ -6,43 +6,114 @@
   <title>Biking Performance Graphs</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="flex flex-col items-center min-h-screen bg-gray-200">
-  <!-- Title Section -->
-  <header class="w-full text-center py-6 bg-gray-300">
+<body class="flex flex-col items-center min-h-screen bg-gray-200 pb-4">
+
+  <header id="top" class="w-full text-center py-6 bg-gray-300">
     <h1 class="text-4xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
   </header>
 
-  <!-- Grid Section -->
+
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-4/5 max-w-5xl mt-6">
-    <!-- Column 1 -->
+
     <div class="space-y-4">
-      <a href="graph/Performance.jpg">
-        <img src="graph/Performance.jpg" alt="Performance graph" class="rounded-md w-full m-2 border border-transparent hover:border-blue-500">
+      <a href="#performance">
+        <img src="graph/Performance.jpg" alt="Performance graph" class="rounded-lg w-full m-4 border-2 border-transparent hover:border-blue-400">
       </a>
-      <a href="graph/Distance.jpg">
-        <img src="graph/Distance.jpg" alt="Distance graph" class="rounded-md w-full m-2 border border-transparent hover:border-blue-500">
+      <a href="#distance">
+        <img src="graph/Distance.jpg" alt="Distance graph" class="rounded-lg w-full m-4 border-2 border-transparent hover:border-blue-400">
       </a>
-      <a href="graph/RideRate.jpg">
-        <img src="graph/RideRate.jpg" alt="Ride Rate graph" class="rounded-md w-full m-2 border border-transparent hover:border-blue-500">
+      <a href="#ride_rate">
+        <img src="graph/RideRate.jpg" alt="Ride Rate graph" class="rounded-lg w-full m-4 border-2 border-transparent hover:border-blue-400">
       </a>
     </div>
-    <!-- Column 2 -->
+
     <div class="space-y-4">
-      <a href="graph/Speed.jpg">
-        <img src="graph/Speed.jpg" alt="Speed graph" class="rounded-md w-full m-2 border border-transparent hover:border-blue-500">
+      <a href="#speed">
+        <img src="graph/Speed.jpg" alt="Speed graph" class="rounded-lg w-full m-4 border-2 border-transparent hover:border-blue-400">
       </a>
-      <a href="graph/TopSpeed.jpg">
-        <img src="graph/TopSpeed.jpg" alt="Top Speed graph" class="rounded-md w-full m-2 border border-transparent hover:border-blue-500">
+      <a href="#top_speed">
+        <img src="graph/TopSpeed.jpg" alt="Top Speed graph" class="rounded-lg w-full m-4 border-2 border-transparent hover:border-blue-400">
       </a>
     </div>
-    <!-- Column 3 -->
+
     <div class="space-y-4">
-      <a href="graph/ElevationGain.jpg">
-        <img src="graph/ElevationGain.jpg" alt="Elevation Gain graph" class="rounded-md w-full m-2 border border-transparent hover:border-blue-500">
+      <a href="#elevation_gain">
+        <img src="graph/ElevationGain.jpg" alt="Elevation Gain graph" class="rounded-lg w-full m-4 border-2 border-transparent hover:border-blue-400">
       </a>
-      <a href="graph/ElevationLimits.jpg">
-        <img src="graph/ElevationLimits.jpg" alt="Elevation Limits graph" class="rounded-md w-full m-2 border border-transparent hover:border-blue-500">
+      <a href="#elevation_limits">
+        <img src="graph/ElevationLimits.jpg" alt="Elevation Limits graph" class="rounded-lg w-full m-4 border-2 border-transparent hover:border-blue-400">
       </a>
+    </div>
+  </div>
+
+  <div class="text-center text-gray-500 italic pt-2">
+    Select a small image to jump to the large one.  Select the large image to jump back to the top.
+  </div>
+
+  <div class="border-t-4 border-gray-400 border-dotted w-5/6 my-8"></div>
+
+  <div class="grid grid-cols-1 gap-4 w-4/5 max-w-5xl">
+    <div id="performance">
+      <a href="#top">
+        <img src="graph/Performance.jpg" alt="Performance graph" class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+      </a>
+      <div class="flex justify-end">
+        <a class="text-gray-500 hover:text-blue-500 hover:underline" href="graph/Performance.jpg">see full image</a>
+      </div>
+    </div>
+
+    <div id="speed">
+      <a href="#top">
+        <img src="graph/Speed.jpg" alt="Speed graph" class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+      </a>
+      <div class="flex justify-end">
+        <a class="text-gray-500 hover:text-blue-500 hover:underline" href="graph/Speed.jpg">see full image</a>
+      </div>
+    </div>
+
+    <div id="elevation_gain">
+      <a href="#top">
+        <img src="graph/ElevationGain.jpg" alt="Elevation Gain graph" class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+      </a>
+      <div class="flex justify-end">
+        <a class="text-gray-500 hover:text-blue-500 hover:underline" href="graph/ElevationGain.jpg">see full image</a>
+      </div>
+    </div>
+
+    <div id="distance">
+      <a href="#top">
+        <img src="graph/Distance.jpg" alt="Distance graph" class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+      </a>
+      <div class="flex justify-end">
+        <a class="text-gray-500 hover:text-blue-500 hover:underline" href="graph/Distance.jpg">see full image</a>
+      </div>
+    </div>
+
+    <div id="top_speed">
+      <a href="#top">
+        <img src="graph/TopSpeed.jpg" alt="Top Speed graph" class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+      </a>
+      <div class="flex justify-end">
+        <a class="text-gray-500 hover:text-blue-500 hover:underline" href="graph/TopSpeed.jpg">see full image</a>
+      </div>
+    </div>
+
+    <div id="elevation_limits">
+      <a href="#top">
+        <img src="graph/ElevationLimits.jpg" alt="Elevation Limits graph" class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+      </a>
+      <div class="flex justify-end">
+        <a class="text-gray-500 hover:text-blue-500 hover:underline" href="graph/ElevationLimits.jpg">see full image</a>
+      </div>
+    </div>
+
+    <div id="ride_rate">
+      <a href="#top">
+        <img src="graph/RideRate.jpg" alt="Ride Rate graph" class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+      </a>
+      <div class="flex justify-end">
+        <a class="text-gray-500 hover:text-blue-500 hover:underline" href="graph/RideRate.jpg">see full image</a>
+      </div>
     </div>
   </div>
 </body>
