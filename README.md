@@ -152,12 +152,27 @@ To push the changes from either command to GitHub:
 
     ./scripts/add_bike_ride.sh && git push
 
+Putting it all together, eg:
+
+    ./scripts/analyze.sh && ./scripts/add_bike_ride.sh && git push
+
 
 ## Publish Updates to GitHub Pages
 
 Set up GitHub pages to serve content from /docs.  Then do this:
 
     ./scripts/publish_updates.sh && git push
+
+
+## Execute and Publish
+
+To update the graphs and publish updates:
+
+    ./scripts/analyze.sh && ./scripts/add_bike_ride.sh && ./scripts/publish_updates.sh && git push
+
+or more simply:
+
+    ./scripts/update.sh
 
 
 ## New Rides
