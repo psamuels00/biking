@@ -1,12 +1,14 @@
 # TODO
 
 ### High Priority
-_None_
+- Tweak the Performance Index calculation so high speed for a long time scores higher than the same speed for less time.
 
 ### Medium Priority
+- Make sure show_only_tracked_days still works.
+- Reorg files so output/ contains only generated files.
 - Fix the default journal file for project and update README.
 - Define all configuration values in one place.
-- Make sure show_only_tracked_days still works.
+- Generate page mapping day number to date as mitigation for adding better date labels..
 - Add date labels somehow instead of day number, for example:
 
       | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |

@@ -44,6 +44,9 @@ class Statistics:
         daily_data = self.input_data.get_daily_data()
         # for num, record in enumerate(daily_data, 1):
         #     print("@@@", num, record["ymd"])
+        #     if num in (30, 38):
+        #         import json
+        #         print(json.dumps(record, indent=4))
 
         if self.params.report_days is not None and not self.params.factor_all_days:
             daily_data = daily_data[-self.params.report_days:]
