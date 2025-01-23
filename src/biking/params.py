@@ -1,4 +1,16 @@
 import os
+from collections import namedtuple
+
+
+class PerformanceParams:
+    def __init__(self):
+        self.d_factor = 1.0
+        self.s_factor = 2.0
+        self.st_factor = 0
+        self.e_factor = 3.0
+        self.er_factor = 1.0
+
+        self.max_pi_scale = 10.0
 
 
 class Parameters:
@@ -21,6 +33,7 @@ class Parameters:
         self.obscured_std_start_latlng = (37.96, -121.94)
         self.only_tracked_days = True
         self.output_path = "output/graph"
+        self.performance = PerformanceParams()
         self.std_start_elevation_ft = 397
         self.report_days = None
         self.factor_all_days = True

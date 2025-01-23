@@ -1,18 +1,15 @@
 import numpy as np
-from collections import namedtuple
 
 from .base import Graph
 
 
-def stats(values):
+def normalize_to_range(values, new_low=0):
     values = [value if value > 0 else np.nan for value in values]
 
     maximum = np.nanmax(values)
     minimum = np.nanmin(values)
-    range = maximum - minimum
 
-    Stats = namedtuple("Stats", ["min", "range"])
-    return Stats(minimum, range)
+    return [(n - minimum) / (maximum - minimum) if n > minimum else new_low for n in values]
 
 
 class PerformanceGraph(Graph):
@@ -25,6 +22,7 @@ class PerformanceGraph(Graph):
         self.legend()
 
     def performance_index(self):
+        # get metrics as "y" values
         distance_y = self.stats["data"]["distance_per_day"]
         speed_y = self.stats["data"]["speed_per_day"]
         time_y = [d / s if s != 0 else 0 for d, s in zip(distance_y, speed_y)]
@@ -32,39 +30,36 @@ class PerformanceGraph(Graph):
         elevation_y = self.stats["data"]["elevation_gain_per_day"]
         elevation_rate_y = [e / t if t != 0 else 0 for e, t in zip(elevation_y, time_y)]
 
-        d_factor = 1.0
-        s_factor = 2.0
-        st_factor = 0
-        e_factor = 3.0
-        er_factor = 1.0
-        max_pi_scale = 10.0
+        # normalize metrics to the range of values for that metric
+        distance_y = normalize_to_range(distance_y)
+        speed_y = normalize_to_range(speed_y)
+        speed_time_y = normalize_to_range(speed_time_y)
+        elevation_y = normalize_to_range(elevation_y)
+        elevation_rate_y = normalize_to_range(elevation_rate_y)
 
-        distance = stats(distance_y)
-        speed = stats(speed_y)
-        speed_time = stats(speed_time_y)
-        elevation = stats(elevation_y)
-        elevation_rate = stats(elevation_rate_y)
+        d_factor = self.params.performance.d_factor
+        s_factor = self.params.performance.s_factor
+        st_factor = self.params.performance.st_factor
+        e_factor = self.params.performance.e_factor
+        er_factor = self.params.performance.er_factor
+        max_pi_scale = self.params.performance.max_pi_scale
 
-        new_low = 0
-        distance_y = [(n - distance.min) / distance.range if n > distance.min else new_low for n in distance_y]
-        speed_y = [(n - speed.min) / speed.range if n > speed.min else new_low for n in speed_y]
-        speed_time_y = [(n - speed_time.min) / speed_time.range if n > speed_time.min else new_low for n in speed_time_y]
-        elevation_y = [(n - elevation.min) / elevation.range if n > elevation.min else new_low for n in elevation_y]
-        elevation_rate_y = [(n - elevation_rate.min) / elevation_rate.range if n > elevation_rate.min else new_low for n in elevation_rate_y]
-
+        # calculate performance index
         performance_y = [
             0 if s == 0 else (d * d_factor + s * s_factor + st * st_factor + e * e_factor + er * er_factor)
             for d, s, st, e, er in zip(distance_y, speed_y, speed_time_y, elevation_y, elevation_rate_y)
         ]
 
         max_pi = max(performance_y)
-        performance_y = [n / max_pi * max_pi_scale for n in performance_y]
+        norm_to_scale = lambda values, factor=1: [n * factor / max_pi * max_pi_scale for n in values]
 
-        d_factor_y = [d * d_factor / max_pi * max_pi_scale for d in distance_y]
-        s_factor_y = [s * s_factor / max_pi * max_pi_scale for s in speed_y]
-        st_factor_y = [st * st_factor / max_pi * max_pi_scale for st in speed_time_y]
-        e_factor_y = [e * e_factor / max_pi * max_pi_scale for e in elevation_y]
-        er_factor_y = [er * er_factor / max_pi * max_pi_scale for er in elevation_rate_y]
+        # normalize performance index and components thereof to the PI scale
+        performance_y = norm_to_scale(performance_y)
+        d_factor_y = norm_to_scale(distance_y, d_factor)
+        s_factor_y = norm_to_scale(speed_y, s_factor)
+        st_factor_y = norm_to_scale(speed_time_y, st_factor)
+        e_factor_y = norm_to_scale(elevation_y, e_factor)
+        er_factor_y = norm_to_scale(elevation_rate_y, er_factor)
 
         return performance_y, (d_factor_y, s_factor_y, st_factor_y, e_factor_y, er_factor_y)
 
@@ -112,19 +107,21 @@ class PerformanceGraph(Graph):
         self.handles.append(bar)
         self.labels.append(f"Elevation Gain Component ({e_factor_y[-1]:0.1f})")
 
-        # bottom_y = np.array(d_factor_y) + np.array(s_factor_y)
-        # bar = ax1.bar(x, st_factor_y, bottom=bottom_y, color="orange")
-        # self.handles.append(bar)
-        # self.labels.append(f"Speed Longevity Boost ({st_factor_y[-1]:0.1f})")
+        if self.params.performance.st_factor > 0:
+            bottom_y = np.array(d_factor_y) + np.array(s_factor_y)
+            bar = ax1.bar(x, st_factor_y, bottom=bottom_y, color="orange")
+            self.handles.append(bar)
+            self.labels.append(f"Speed Longevity Boost ({st_factor_y[-1]:0.1f})")
 
         bottom_y = np.array(d_factor_y)
         bar = ax1.bar(x, s_factor_y, bottom=bottom_y, color="orange")
         self.handles.append(bar)
         self.labels.append(f"Speed Component ({s_factor_y[-1]:0.1f})")
 
-        bar = ax1.bar(x, d_factor_y, color="gold")
-        self.handles.append(bar)
-        self.labels.append(f"Distance Component ({d_factor_y[-1]:0.1f})")
+        if self.params.performance.d_factor > 0:
+            bar = ax1.bar(x, d_factor_y, color="gold")
+            self.handles.append(bar)
+            self.labels.append(f"Distance Component ({d_factor_y[-1]:0.1f})")
 
         line, = ax1.plot(x, avg_y, color="tab:blue", marker="o", markersize=3)
         self.handles.append(line)
