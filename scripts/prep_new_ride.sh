@@ -11,7 +11,7 @@ process_route() {
 
         magick "$in_file" -crop +0+240 $out_file && \
         rm "$in_file" && \
-        echo "Screenshot file $in_file replaced by $out_file." && \
+        echo "Screenshot file $in_file replaced by $out_file."
     elif [ $num_files = 0 ]; then
         echo "Screenshot file not found."
     else
