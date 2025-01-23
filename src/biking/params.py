@@ -1,5 +1,4 @@
 import os
-from collections import namedtuple
 
 
 class PerformanceParams:
@@ -11,6 +10,12 @@ class PerformanceParams:
         self.er_factor = 1.0
 
         self.max_pi_scale = 10.0
+
+
+class FormulaParams:
+    def __init__(self):
+        self.output_path = "output/formula"
+        self.source_path = "src/tex"
 
 
 class Parameters:
@@ -25,6 +30,7 @@ class Parameters:
             speed="Speed.jpg",
             top_speed="TopSpeed.jpg",
         )
+        self.formula = FormulaParams()
         self.green_legend_dir = "output/legend"
         self.green_legend_html_file = "green_legend.html"
         self.green_legend_img_file = "green_legend.jpg"

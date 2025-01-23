@@ -60,24 +60,76 @@ On days when someone forgets to use Strava, only distance is available.
 The performance index (_pi_) is calculated as a function of
 
 - Distance,
-- Speed, and
-- Elevation Gain
+- Speed,
+- Elevation Gain, and
+- Rate of Elevation Gain
 
 Each component is normalized to the range of values for the component.
-For example, if the range for speed is 9 - 15 mph, a value of 12,
-right in the middle, is normalized to 0.50.  The normalized values
-are weighted and summed as follows:
+For example, if the range for speed is 9 - 15 mph, a value of 12 for a particular day,
+right in the middle, is normalized to 0.50.
 
-![Performance Indicator formula](output/formula/pi.png)
+![Performance Index Components](output/formula/components.png)
 
-In other words, speed contributes twice as much to the _pi_ as distance,
-and elevation gain contributes three times as much.  Finally, all the
-values are normalized to a scale from 0 to 10.
+The normalized values are weighted and summed.
 
-![Performance Indicator Normalization formula](output/formula/pi_normal.png)
+![Performance Index Formula](output/formula/pi.png)
 
-The formula will, no doubt, require tuning.
+The current weights are as follows.
+
+![Performance Index Weights](output/formula/weights.png)
+
+Finally, all the values are normalized to a scale from 0 to 10.
+
+![Performance Index Normalized](output/formula/pi_normal.png)
+
+The formula will, no doubt, require tuning. 
 If only distance is available for a day, the Performance Index will not be calculated.
+
+### Analysis of Performance Calculation
+
+The intuition behind the formula, currently modeled by the Performance Index, is that
+- It is harder to increase speed than to increase distance.
+- It is harder to increase elevation gain than to increase distance.
+- It is harder to gain elevation quickly than over a long period of time.
+
+These intuitions are not necessarily reflected in the current calculation.
+- It is harder to maintain a high speed for a longer distance than a short one.  (The distance component
+  of the PI calculation partially accounts for this, but it is not used as a multiplier of speed in the
+  calculation.)
+- The highest score should be achievable from a very high speed alone, or from very high elevation gain alone,
+  and in both cases, an even higher score should be achieved from a combination of high elevation gain and high speed.
+  (In some cases, this is true, but not in all, depending on the particular route characteristics.)
+
+#### Problems
+The biggest inadequacy of the formula is its failure to model the relationship between elevation gain and speed
+whereby the former always works agains the latter.  Intuitively, this means "credit" or a score boost for high
+elevation gain is easily offset by a low score for speed.  The effect is mitigated by extending a ride with a
+lot of elevation gain with some distance having low elevation gain, but higher speed.
+
+To add one more wrinkle, it is worth noting this mitigation interferes slightly with the purpose for factoring
+in the rate of elevation gain.  Ideally, we would know the portion of the ride containing elevation gain and
+the portion containing various speeds.  But for now all we know is the total elevation gain for a ride, the
+distance, and the average speed.  The rate of elevation gain is more of a lower-limit than the actual rate.
+As more distance is added to the route with little elevation gain, the elevation gain rate appears to go
+down.
+
+#### Assumptions
+It should be noted the performance index is based on the subjective experience of actual rides.
+While I can hope to build a formula that works for others as well, the tuning parameters will still
+most likely need to be personalized.
+
+Almost all my rides are circuits, starting and ending at the same place.  This means implicit in the
+analysis is the understanding that the total elevation gain is the same as the total elevation loss.
+Also, my starting elevation is almost always about 400 feet and goes down quickly in any direction.
+
+#### Future Directions
+One approach going forward takes inspiration from calculus.  Instead of analyzing the whole route, the
+Strava API can be used to pull all the segments that make a route.  If speed and elevation info are
+available per segment, then the same sort of analysis described above can be performed with greater
+resolution on the route by applying separately to each segment.  Ultimately, the challenge will still
+remain as to how the results of each segment should be combined, whether added, multiplied, or otherwise.
+
+Machine learning is another approach.  This would almost certainly be applied to segments as well as routes.
 
 
 ## Open Elevation
@@ -187,16 +239,22 @@ this file into the images directory and run the following:
 where <#miles> is the whole number length of the route in miles.
 Putting everything together, run something like this:
 
-    ./scripts/prep_new_ride.sh 15 && ./scripts/add_bike_ride.sh && ./scripts/publish_updates.sh && git push
+    ./scripts/prep_new_ride.sh 15 && ./scripts/analyze.sh && ./scripts/add_bike_ride.sh && ./scripts/publish_updates.sh && git push
 
 or more simply:
 
-    ./scripts/today.sh 15
+    ./scripts/update.sh 15
 
 
-## Formulas
+## Scripts Summary
 
-Created using https://latexeditor.lagrida.com/ from the files in src/tex.
+- add_bike_ride.sh - Add files updated by analyze.sh to git.
+- analyze.sh - Pull new data, update the graphs and README file.
+- mk_formula_images.sh - Update output/formulas/*.png based on src/tex/*.tex
+- mk_legend_image.sh - Generate output/legend/green_legend.html
+- prep_new_ride.sh - Convert manually generated route map image
+- publish_updates.sh - Publish new graphs to GitHub Pages
+- update.sh - Prep new ride, update everything, publish all, push to GitHub
 
 
 ## Output
