@@ -37,7 +37,7 @@ class DailyRollup:
 
         if record.get("start_latlng"):
             cache_name = self.params.elevation_cache_name
-            elevation = get_elevation(cache_name, *record["start_latlng"], True)
+            elevation = get_elevation(cache_name, *record["start_latlng"])
             self.elev_start.add_measure(meters2feet(elevation))
 
     def aggregate_values(self):
