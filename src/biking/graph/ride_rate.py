@@ -23,10 +23,10 @@ class RideRateGraph(Graph):
         scale = range(lower_limit, 101, step)
 
         ax1.set_ylabel("Percentage")
-        ax1.grid(axis="y", linestyle="-", alpha=0.15)
+        ax1.grid(axis="y", linestyle="-", alpha=self.params.graph.grid_alpha)
         self.add_scale(ax1, lower_limit, upper_limit, scale),
 
-        ride_rate = ride_rate_y[-1]
-        line, = ax1.plot(x, ride_rate_y, marker="o", markersize=3)
+        avg_color = self.params.graph.avg_line_color
+        line, = ax1.plot(x, ride_rate_y, color=avg_color, marker="o", markersize=3)
         self.handles.append(line)
-        self.labels.append(f"Ride Rate per Day ({ride_rate:5.2f}%)")
+        self.labels.append(f"Ride Rate per Day ({ride_rate_y[-1]:5.2f}%)")

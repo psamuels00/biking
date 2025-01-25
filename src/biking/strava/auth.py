@@ -2,15 +2,14 @@ import requests
 
 
 class Authentication:
-    def __init__(self, credentials):
+    def __init__(self, params, credentials):
+        self.params = params
         self.credentials = credentials
 
         if not credentials.load_access_tokens():
             self.exchange_tokens()
 
     def exchange_tokens(self, refresh=False):
-        url = "https://www.strava.com/oauth/token"
-
         data = dict(
             client_id=self.credentials.client_id,
             client_secret=self.credentials.client_secret,
@@ -23,7 +22,7 @@ class Authentication:
             data["refresh_token"] = self.credentials.refresh_token
             data["grant_type"] = "refresh_token"
 
-        response = requests.post(url, data=data)
+        response = requests.post(self.params.url.token, data=data)
 
         if response.status_code == 200:
             data = response.json()

@@ -31,7 +31,7 @@ class ElevationLimitsGraph(Graph):
         scale = range(lower_limit, upper_limit + 100, 100)
 
         ax1.set_ylabel("Feet")
-        ax1.grid(axis="y", linestyle="-", alpha=0.15)
+        ax1.grid(axis="y", linestyle="-", alpha=self.params.graph.grid_alpha)
         self.add_scale(ax1, lower_limit, upper_limit, scale),
 
         colors = self.get_colors()

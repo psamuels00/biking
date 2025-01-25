@@ -1,6 +1,1 @@
-from .strava import build_strava
-
-
-def get_activities():
-    strava = build_strava()
-    return strava.get_activities()
+from .strava import get_activities

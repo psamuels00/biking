@@ -2,18 +2,18 @@ import os
 
 
 class Credentials:
-    def __init__(self, parameters):
-        self.parameters = parameters
+    def __init__(self, params):
+        self.params = params
 
-        self.client_id = parameters.strava_client_id
-        self.client_secret = parameters.strava_client_secret
-        self.app_auth_code = parameters.strava_app_auth_code
+        self.client_id = params.strava_client_id
+        self.client_secret = params.strava_client_secret
+        self.app_auth_code = params.strava_app_auth_code
 
         self.access_token = None
         self.refresh_token = None
 
     def load_access_tokens(self):
-        file = self.parameters.access_tokens_file
+        file = self.params.access_tokens_file
         if not os.path.exists(file):
             return False
 
@@ -33,7 +33,7 @@ class Credentials:
         return self.access_token and self.refresh_token
 
     def store_access_tokens(self):
-        file = self.parameters.access_tokens_file
+        file = self.params.access_tokens_file
 
         with open(file, "w") as f:
             f.write(f"access_token={self.access_token}\n")

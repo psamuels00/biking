@@ -8,6 +8,7 @@ from .params import Parameters
 class StravaBase:
     def __init__(self, params, auth):
         self.auth = auth
+        self.params = params
 
         name = params.http_cache_name
         expire_sec = params.http_cache_expire_sec
@@ -53,13 +54,11 @@ class StravaBase:
 
 class Strava(StravaBase):
     def get_athlete(self):
-        url = "https://www.strava.com/api/v3/athlete"
-        data = self.fetch(url)
+        data = self.fetch(self.params.url.athlete)
 
         return data
 
     def get_activities(self):
-        url = "https://www.strava.com/api/v3/athlete/activities"
         params = dict(
             per_page=100,
             page=1,
@@ -67,7 +66,7 @@ class Strava(StravaBase):
         data = []
 
         while True:
-            page_data = self.fetch(url, params)
+            page_data = self.fetch(self.params.url.activities, params)
             if not page_data:
                 break
             data.extend(item for item in page_data if item["sport_type"] == "Ride")
@@ -76,10 +75,10 @@ class Strava(StravaBase):
         return data
 
 
-def build_strava():
-    parameters = Parameters()
-    credentials = Credentials(parameters)
-    auth = Authentication(credentials)
-    strava = Strava(parameters, auth)
+def get_activities():
+    params = Parameters()
+    credentials = Credentials(params)
+    auth = Authentication(params, credentials)
+    strava = Strava(params, auth)
 
-    return strava
+    return strava.get_activities()

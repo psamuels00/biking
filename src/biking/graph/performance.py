@@ -89,7 +89,7 @@ class PerformanceGraph(Graph):
         scale = range(lower_limit, upper_limit + 1, 1)
 
         ax1.set_ylabel("Performance Index Unit")
-        ax1.grid(axis="y", linestyle="-", alpha=0.15)
+        ax1.grid(axis="y", linestyle="-", alpha=self.params.graph.grid_alpha)
         self.add_scale(ax1, lower_limit, upper_limit, scale),
 
         d_factor_y, s_factor_y, st_factor_y, e_factor_y, er_factor_y = factors_y
@@ -120,6 +120,7 @@ class PerformanceGraph(Graph):
             self.handles.append(bar)
             self.labels.append(f"Distance Component ({d_factor_y[-1]:0.1f})")
 
-        line, = ax1.plot(x, avg_y, color="tab:blue", marker="o", markersize=3)
+        avg_color = self.params.graph.avg_line_color
+        line, = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
         self.handles.append(line)
         self.labels.append(f"Average Performance Index ({avg_y[-1]:0.1f})")

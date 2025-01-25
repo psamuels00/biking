@@ -39,7 +39,7 @@ class SpeedGraph(Graph):
         scale = np.arange(lower_limit, upper_limit + 1, self.scale_step())
 
         ax1.set_ylabel("Miles/Hour")
-        ax1.grid(axis="y", linestyle="-", alpha=0.15)
+        ax1.grid(axis="y", linestyle="-", alpha=self.params.graph.grid_alpha)
         self.add_scale(ax1, lower_limit, upper_limit, scale)
 
         colors = self.get_colors()
@@ -47,6 +47,7 @@ class SpeedGraph(Graph):
         self.handles.append(bar)
         self.labels.append(f"{self.label()} per Day ({y[-1]:0.1f} mph)")
 
-        line, = ax1.plot(x, avg_y, color="tab:blue", marker="o", markersize=3)
+        avg_color = self.params.graph.avg_line_color
+        line, = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
         self.handles.append(line)
         self.labels.append(f"Average {self.label()} ({avg_y[-1]:0.1f} mph)")
