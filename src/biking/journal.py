@@ -24,10 +24,10 @@ class Journal:
         return data
 
     def remove_notes(self, data):
-        # remove "note" and entries containing only "note"
+        # remove "note", "skipped", and "timeline" and entries containing only those fields
         return {
             k: {
-                k2: v2 for k2, v2 in v.items() if k2 != "note"
+                k2: v2 for k2, v2 in v.items() if k2 not in ("note", "skipped", "timeline")
             }
             for k, v in data.items() if len(v) > 1 or "note" not in v
         }
