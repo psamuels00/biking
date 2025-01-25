@@ -5,5 +5,5 @@
 .cache_strava.sqlite
 .idea/
 .python-version
-data/journal.*
+data/journal.yaml
 misc/

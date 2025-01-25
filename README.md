@@ -196,6 +196,10 @@ Set up GitHub Pages to serve data from the docs/ directory of your project.
     # clone repo, then...
     pip install -r requirements
 
+#### 6. Set up Journal file
+
+    cp data/journal.template.yaml data/journal.yaml
+
 
 <a name="graph_notes"></a>
 ## Graph Notes
