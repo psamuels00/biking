@@ -8,6 +8,7 @@ def attributes(name, **values):
 class Parameters:
     def __init__(self):
         self.elevation_cache_name = ".cache_open_elevation"
+        self.factor_all_days = True  # if False and report_days is N, only factor report days into averages
         self.files = dict(
             distance="Distance.jpg",
             elev_gain="ElevationGain.jpg",
@@ -36,10 +37,9 @@ class Parameters:
             er_factor=1.0,
             max_pi_scale=10.0,
         )
+        self.report_days = None  # N to limit days reported on, or None for no limit
         self.show_only_tracked_days = True
         self.std_start_elevation_ft = 397
-        self.report_days = None
-        self.factor_all_days = True
 
     def file(self, name):
         return os.path.join(self.output_path, self.files[name])
