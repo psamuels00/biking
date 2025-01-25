@@ -2,11 +2,7 @@
 
 analyze() {
     rm .cache_strava.sqlite
-    (
-        echo "<pre>"
-        src/analyze.py
-        echo "</pre>"
-    ) > output/console.html
+    src/analyze.py > output/execution/console.txt
 }
 
 analyze
