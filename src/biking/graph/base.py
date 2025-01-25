@@ -31,7 +31,7 @@ class Graph:
             days_of_week.append(day_of_week)
             day_of_week = (day_of_week + 1) % 7
 
-        cm_name = self.params.bar_color_map_name
+        cm_name = self.params.graph.bar_color_map_name
         shades_of_green = plt.cm.get_cmap(cm_name)(np.linspace(*self.linspace_params, 7))
         colors = [shades_of_green[d] for d in days_of_week]
 
@@ -54,14 +54,14 @@ class Graph:
 
     def x_axis_values(self):
         values = np.arange(self.num_days)
-        if self.params.report_days is not None:
-            values = values[-self.params.report_days:]
+        if self.params.report.num_days is not None:
+            values = values[-self.params.report.num_days:]
 
         return values
 
     def x_axis_days(self, ax1):
         ax1.set_xlabel("Day")
-        tick_offsets, tick_labels = self.get_ticks(self.params.x_ticks_period)
+        tick_offsets, tick_labels = self.get_ticks(self.params.graph.x_ticks_period)
         plt.xticks(tick_offsets, tick_labels, fontsize="x-small", alpha=self.params.graph.tick_labels_alpha)
 
     def add_scale(self, ax1, lower_limit, upper_limit, scale):

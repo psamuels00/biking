@@ -7,38 +7,40 @@ def attributes(name, **values):
 
 class Parameters:
     def __init__(self):
-        self.bar_color_map_name = "Greens"
         self.elevation_cache_name = ".cache_open_elevation"
-        self.factor_all_days = True  # if False and report_days is N, only factor report days into averages
-        self.files = dict(
-            distance="Distance.jpg",
-            elev_gain="ElevationGain.jpg",
-            elev_limits="ElevationLimits.jpg",
-            ride_rate="RideRate.jpg",
-            performance="Performance.jpg",
-            speed="Speed.jpg",
-            top_speed="TopSpeed.jpg",
-        )
-        self.formula = attributes("FormulaParams",
+        self.formula = attributes("Formula",
             output_path="output/formula",
             source_path="src/tex",
         )
-        self.graph = attributes("GraphParams",
+        self.graph = attributes("Graph",
             avg_line_color="tab:blue",
+            bar_color_map_name="Greens",
             dpi=300,
+            file_names=dict(
+                distance="Distance.jpg",
+                elev_gain="ElevationGain.jpg",
+                elev_limits="ElevationLimits.jpg",
+                ride_rate="RideRate.jpg",
+                performance="Performance.jpg",
+                speed="Speed.jpg",
+                top_speed="TopSpeed.jpg",
+            ),
             grid_alpha=0.15,
+            linspace_params=(0.3, 0.9),
+            show_only_tracked_days=True,
             title_pad=10,
             tick_labels_alpha=0.5,
+            x_ticks_period=10,
         )
-        self.green_legend_dir = "output/legend"
-        self.green_legend_html_file = "green_legend.html"
-        self.green_legend_img_file = "green_legend.jpg"
         self.initial_date = "Oct 11, 2024"
         self.journal_file = "data/journal.yaml"
-        self.linspace_params = (0.3, 0.9)
-        self.obscured_std_start_latlng = (37.96, -121.94)
+        self.legend = attributes("Legend",
+            dir="output/legend",
+            html_file="green_legend.html",
+            img_file="green_legend.jpg",
+        )
         self.output_path = "output/graph"
-        self.performance = attributes("PerformanceParams",
+        self.performance = attributes("Performance",
             d_factor=1.0,
             s_factor=2.0,
             st_factor=0,
@@ -46,13 +48,14 @@ class Parameters:
             er_factor=1.0,
             max_pi_scale=10.0,
         )
-        self.report_days = None  # N to limit days reported on, or None for no limit
-        self.show_only_tracked_days = True
-        self.std_start_elevation_ft = 397
-        self.strava = attributes("StravaParams",
-            token_url = "https://www.strava.com/oauth/token",
+        self.report = attributes("Report",
+            num_days=None,  # N to limit days reported on, or None for no limit
+            factor_all_days=True,  # if False and report_days is N, only factor report days into averages
         )
-        self.x_ticks_period = 10
+        self.std_start = attributes("StdStart",
+            elevation_ft=397,
+            obscured_latlng=(37.96, -121.94),
+        )
 
-    def file(self, name):
-        return os.path.join(self.output_path, self.files[name])
+    def graph_file(self, name):
+        return os.path.join(self.output_path, self.graph.file_names[name])

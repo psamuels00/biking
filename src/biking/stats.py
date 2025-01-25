@@ -48,8 +48,8 @@ class Statistics:
         #         import json
         #         print(json.dumps(record, indent=4))
 
-        if self.params.report_days is not None and not self.params.factor_all_days:
-            daily_data = daily_data[-self.params.report_days:]
+        if self.params.report.num_days is not None and not self.params.report.factor_all_days:
+            daily_data = daily_data[-self.params.report.num_days:]
 
         for record in daily_data:
             distance = record["distance"]
@@ -82,9 +82,9 @@ class Statistics:
             data["elevation_low_per_day"].append(record["elev_low"])
             data["elevation_start_per_day"].append(record["elev_start"])
 
-        if self.params.report_days is not None and self.params.factor_all_days:
+        if self.params.report.num_days is not None and self.params.report.factor_all_days:
             for key in data:
-                data[key] = data[key][-self.params.report_days:]
+                data[key] = data[key][-self.params.report.num_days:]
 
         first_date, last_date = self.input_data.date_range
         first_day_of_week = calendar.weekday(first_date.year, first_date.month, first_date.day)

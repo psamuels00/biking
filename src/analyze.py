@@ -14,25 +14,25 @@ from biking.params import Parameters
 from biking.stats import Statistics
 
 
-def calculate_statistics(parameters, input_data):
-    statistics = Statistics(parameters, input_data)
+def calculate_statistics(params, input_data):
+    statistics = Statistics(params, input_data)
     statistics.report()
 
     return statistics.stats
 
 
-def generate_graph(parameters, stats, file_type, type):
-    file = parameters.file(file_type)
-    show_only_tracked_days = parameters.show_only_tracked_days
-    linspace_params = parameters.linspace_params
+def generate_graph(params, stats, file_type, type):
+    file = params.graph_file(file_type)
+    show_only_tracked_days = params.graph.show_only_tracked_days
+    linspace_params = params.graph.linspace_params
 
-    graph = type(parameters, stats, file, show_only_tracked_days, linspace_params)
+    graph = type(params, stats, file, show_only_tracked_days, linspace_params)
     graph.generate()
 
 
-def generate_graphs(parameters, stats):
+def generate_graphs(params, stats):
     def generate(file_type, type):
-        generate_graph(parameters, stats, file_type, type)
+        generate_graph(params, stats, file_type, type)
 
     generate("ride_rate", RideRateGraph)
     generate("distance", DistanceGraph)
@@ -45,12 +45,12 @@ def generate_graphs(parameters, stats):
 
 
 def main():
-    parameters = Parameters()
-    input_data = InputData(parameters)
-    stats = calculate_statistics(parameters, input_data)
+    params = Parameters()
+    input_data = InputData(params)
+    stats = calculate_statistics(params, input_data)
 
     if stats["num_days"] > 0:
-        generate_graphs(parameters, stats)
+        generate_graphs(params, stats)
 
 
 main()

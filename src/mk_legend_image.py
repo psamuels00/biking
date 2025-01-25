@@ -37,14 +37,15 @@ def html_content(shades_of_green):
 
 
 def main():
-    parameters = Parameters()
+    params = Parameters()
 
-    linspace_params = parameters.linspace_params
-    shades_of_green = plt.cm.Greens(np.linspace(*linspace_params, 7))
+    cm_name = params.graph.bar_color_map_name
+    linspace_params = params.graph.linspace_params
+    shades_of_green = plt.cm.get_cmap(cm_name)(np.linspace(*linspace_params, 7))
     content = html_content(shades_of_green)
 
-    dir = parameters.green_legend_dir
-    file = parameters.green_legend_html_file
+    dir = params.legend.dir
+    file = params.legend.html_file
     write_file(dir, file, content)
 
 

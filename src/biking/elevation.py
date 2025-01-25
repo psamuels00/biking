@@ -19,10 +19,10 @@ class Elevation:
         elevation = None
         lat, lng = activity["start_latlng"]
 
-        if self.params.obscured_std_start_latlng and self.params.std_start_elevation_ft is not None:
-            std_start_lat, std_start_lng = self.params.obscured_std_start_latlng
+        if self.params.std_start.obscured_latlng and self.params.std_start.elevation_ft is not None:
+            std_start_lat, std_start_lng = self.params.std_start.obscured_latlng
             if approx_equal(lat, std_start_lat) and approx_equal(lng, std_start_lng):
-                elevation = self.params.std_start_elevation_ft
+                elevation = self.params.std_start.elevation_ft
 
         if elevation is None:
             cache_name = self.params.elevation_cache_name
