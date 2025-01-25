@@ -1,21 +1,8 @@
 import os
 
 
-class PerformanceParams:
-    def __init__(self):
-        self.d_factor = 1.0
-        self.s_factor = 2.0
-        self.st_factor = 0
-        self.e_factor = 3.0
-        self.er_factor = 1.0
-
-        self.max_pi_scale = 10.0
-
-
-class FormulaParams:
-    def __init__(self):
-        self.output_path = "output/formula"
-        self.source_path = "src/tex"
+def attributes(name, **values):
+    return type(name, (object,), values)()
 
 
 class Parameters:
@@ -30,7 +17,10 @@ class Parameters:
             speed="Speed.jpg",
             top_speed="TopSpeed.jpg",
         )
-        self.formula = FormulaParams()
+        self.formula = attributes("FormulaParams",
+            output_path="output/formula",
+            source_path="src/tex",
+        )
         self.green_legend_dir = "output/legend"
         self.green_legend_html_file = "green_legend.html"
         self.green_legend_img_file = "green_legend.jpg"
@@ -38,7 +28,14 @@ class Parameters:
         self.linspace_params = (0.3, 0.9)
         self.obscured_std_start_latlng = (37.96, -121.94)
         self.output_path = "output/graph"
-        self.performance = PerformanceParams()
+        self.performance = attributes("PerformanceParams",
+            d_factor=1.0,
+            s_factor=2.0,
+            st_factor=0,
+            e_factor=3.0,
+            er_factor=1.0,
+            max_pi_scale=10.0,
+        )
         self.show_only_tracked_days = True
         self.std_start_elevation_ft = 397
         self.report_days = None
