@@ -1,4 +1,4 @@
 #!/bin/sh
 
-git add images output README.md && \
+git add output && \
 git commit -m "add data"
