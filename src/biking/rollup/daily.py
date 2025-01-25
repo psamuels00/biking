@@ -2,7 +2,7 @@ import numpy as np
 
 from biking.geoloc import get_elevation
 from biking.conversions import meters2feet, meters2miles, mps2mph
-from biking.metric import Metric
+from .metric import Metric
 
 
 class DailyRollup:
