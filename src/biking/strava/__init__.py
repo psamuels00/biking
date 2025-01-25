@@ -1,1 +1,1 @@
-from .strava import get_activities
+from .strava import Strava

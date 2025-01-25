@@ -4,7 +4,6 @@
 _None_
 
 ### Medium Priority
-- Define all configuration values in one place.
 - Generate graphs for most recent 30, 60, 90 days
 - Improve the Performance Index calculation.
 
@@ -15,4 +14,4 @@ _None_
 
       | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
           1 Dec   5        10        15        20        25        30   1 Jan   5
-- Use imgkit and wkhtmltoimage to convert green_legend.html to green_legend.jpg
+- Generate green_legend.jpg automatically (maybe using imgkit and wkhtmltoimage)

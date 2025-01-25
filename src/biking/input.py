@@ -4,7 +4,7 @@ from .conversions import ymd2date
 from .elevation import Elevation
 from .journal import Journal
 from .rollup.daily import DailyRollup
-from .strava import get_activities
+from .strava import Strava
 
 
 class InputData:
@@ -64,7 +64,8 @@ class InputData:
         return daily_data
 
     def get_daily_data(self):
-        activities = get_activities()
+        strava = Strava(self.params.strava)
+        activities = strava.get_activities()
         journal = self.journal.load()
         self.set_date_range(activities, journal)
         daily_data = self.consolidate_data_sources(activities, journal)

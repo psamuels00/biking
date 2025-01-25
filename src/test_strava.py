@@ -2,11 +2,13 @@
 
 import json
 
-from biking.strava import build_strava
+from biking.params import Parameters
+from biking.strava import Strava
 
 
 def main():
-    strava = build_strava()
+    params = Parameters()
+    strava = Strava(params)
 
     data = strava.get_athlete()
     print("Athlete:")

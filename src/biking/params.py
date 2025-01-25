@@ -1,8 +1,18 @@
 import os
+import sys
 
 
 def attributes(name, **values):
     return type(name, (object,), values)()
+
+
+def env_load(name):
+    value = os.getenv(name)
+    if not value:
+        print(f"Error: environment variable '{name}' not set or empty.", file=sys.stderr)
+        sys.exit(1)
+
+    return value
 
 
 class Parameters:
@@ -56,6 +66,24 @@ class Parameters:
             elevation_ft=397,
             obscured_latlng=(37.96, -121.94),
         )
+        self.strava = attributes("Strava",
+            auth=attributes("Auth",
+                access_tokens_file=".access_tokens",
+                client_id=env_load("strava_client_id"),
+                client_secret=env_load("strava_client_secret"),
+                app_code=env_load("strava_app_auth_code"),
+            ),
+            http_cache=attributes("HttpCache",
+                file=".cache_strava",
+                expire_sec=24*3600,
+            ),
+            url=attributes("Url",
+                token="https://www.strava.com/oauth/token",
+                athlete="https://www.strava.com/api/v3/athlete",
+                activities="https://www.strava.com/api/v3/athlete/activities",
+            ),
+        )
+
 
     def graph_file(self, name):
         return os.path.join(self.graph.output_path, self.graph.file_names[name])

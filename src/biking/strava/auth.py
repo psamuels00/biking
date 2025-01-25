@@ -3,7 +3,7 @@ import requests
 
 class Authentication:
     def __init__(self, params, credentials):
-        self.params = params
+        self.token_url = params.url.token
         self.credentials = credentials
 
         if not credentials.load_access_tokens():
@@ -22,7 +22,7 @@ class Authentication:
             data["refresh_token"] = self.credentials.refresh_token
             data["grant_type"] = "refresh_token"
 
-        response = requests.post(self.params.url.token, data=data)
+        response = requests.post(self.token_url, data=data)
 
         if response.status_code == 200:
             data = response.json()
