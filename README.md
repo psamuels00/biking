@@ -195,8 +195,6 @@ Set up GitHub Pages to serve data from the docs/ directory of your project.
 
     # clone repo, then...
     pip install -r requirements
-    mkdir data
-    touch data/journal.yaml
 
 
 <a name="graph_notes"></a>

@@ -1,0 +1,20 @@
+# Format is <date>: <field...>.  For example
+#
+#     2024-10-11:
+#         distance: 10
+#     2024-10-12:
+#         distance: 17
+#
+# The following fields are all optional:
+#
+#    average_speed - int or float, speed in mph
+#    distance - int or float, distance in miles
+#    elev_high = int or float, elevation high point in feet
+#    elev_low = int or float, elevation low point in feet
+#    note - any comment; ignored
+#    skipped - reason for skipping the day; ignored
+#    start_latlng - starting location, will replace any from a Strava activity, used only for starting elevation
+#    timeline - significance of date in timeline of project; ignored
+#    top_speed - int or float, speed in mph
+#    total_elevation_gain - int or float, elevation gain in feet
+#
