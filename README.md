@@ -1,8 +1,8 @@
 # Biking Performance
 
 Generate simple graphs from data collected using Strava.
-See [the graphs](https://psamuels00.github.io.biking/)
-and [console output](https://psamuels00.github.io.biking/console.txt).
+See [the graphs](https://psamuels00.github.io/biking/)
+and [console output](https://psamuels00.github.io/biking/console.txt).
 
 The original motivation for this project was the development of a Performance Index to estimate power output for a
 comparison of rides that vary in speed and elevation gain. See also the <a href="#graph_notes">Graph Notes</a>.
