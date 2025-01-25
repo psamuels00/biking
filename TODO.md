@@ -1,14 +1,13 @@
 # TODO
 
 ### High Priority
-- Simplify deployment.  Make README static.  Simplify README.
+- Simplify deployment.
 
 ### Medium Priority
 - Make sure show_only_tracked_days still works.
 - Reorg files so output/ contains only generated files.
 - Fix the default journal file for project and update README.
 - Define all configuration values in one place.
-- Generate page mapping day number to date as mitigation for adding better date labels..
 - Add date labels somehow instead of day number, for example:
 
       | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |

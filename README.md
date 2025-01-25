@@ -1,57 +1,11 @@
 # Biking Performance
 
 Generate simple graphs from data collected using Strava.
-See <a href="#graph_notes">Graph Notes</a> and
-<a href="https://psamuels00.github.io/biking/">All Graphs</a>.
+See [the graphs](https://psamuels00.github.io.biking/)
+and [console output](https://psamuels00.github.io.biking/console.txt).
 
-- <a href="#performance">Performance</a> (see <a href="#performance_calc">Performance Calculation</a>)
-- <a href="#speed">Speed</a> &amp; <a href="#top_speed">Top Speed</a>
-- <a href="#elev_gain">Elevation Gain</a> &amp; <a href="#elev_limits">Elevation Limits</a>
-- <a href="#distance">Distance</a>
-- <a href="#ride_rate">Ride Rate</a>
-
-<a name="performance"></a>
-
-![Daily Bike Ride - Performance](output/graph/Performance.jpg)
-
-<a name="speed"></a>
-
-![Daily Bike Ride - Speed](output/graph/Speed.jpg)
-
-<a name="elev_gain"></a>
-
-![Daily Bike Ride - Elevation Gain](output/graph/ElevationGain.jpg)
-
-<a name="elev_limits"></a>
-
-![Daily Bike Ride - Elevation Limits](output/graph/ElevationLimits.jpg)
-
-<a name="distance"></a>
-
-![Daily Bike Ride - Distance](output/graph/Distance.jpg)
-
-<a name="top_speed"></a>
-
-![Daily Bike Ride - Top Speed](output/graph/TopSpeed.jpg)
-
-<a name="ride_rate"></a>
-
-![Daily Bike Ride - Ride Rate](output/graph/RideRate.jpg)
-
-
-<a name="graph_notes"></a>
-## Graph Notes
-
-The timeline for data collection is:
-
-- Day 1 (Oct 11, 2024) - Start tracking distance manually
-- Day 30 (Nov 9, 2024) - Start tracking distance, speed, and elevation using Strava
-
-The green shades on most graphs indicate the day of week, as follows:
-
-<img src="output/legend/green_legend.jpg" alt="Days of Week" style="width: 75%; margin-left: 1em">
-
-On days when someone forgets to use Strava, only distance is available.
+The original motivation for this project was the development of a Performance Index to estimate power output for a
+comparison of rides that vary in speed and elevation gain. See also the <a href="#graph_notes">Graph Notes</a>.
 
 
 <a name="performance_calc"></a>
@@ -85,31 +39,34 @@ Finally, all the values are normalized to a scale from 0 to 10.
 The formula will, no doubt, require tuning. 
 If only distance is available for a day, the Performance Index will not be calculated.
 
-### Analysis of Performance Calculation
+### Analysis
 
 The intuition behind the formula, currently modeled by the Performance Index, is that
 - It is harder to increase speed than to increase distance.
 - It is harder to increase elevation gain than to increase distance.
 - It is harder to gain elevation quickly than over a long period of time.
+- It is harder to increase both speed and elevation gain with equal energy than to increase only one.
 
-These intuitions are not necessarily reflected in the current calculation.
-- It is harder to maintain a high speed for a longer distance than a short one.  (The distance component
-  of the PI calculation partially accounts for this, but it is not used as a multiplier of speed in the
-  calculation.)
-- The highest score should be achievable from a very high speed alone, or from very high elevation gain alone,
-  and in both cases, an even higher score should be achieved from a combination of high elevation gain and high speed.
-  (In some cases, this is true, but not in all, depending on the particular route characteristics.)
+The following intuitions are _not_ reflected in the current calculation:
+- The highest PI value should be achievable from a very high speed alone, even with very low elevation gain.
+- The highest PI value should be achievalbe from a very high elevation gain alone, even at very low speed.
+
+The following intuition is _partially_ reflected in the current calculation:
+- It is harder to maintain a high speed for a longer distance than for a shorter distance.
+  The distance component of PI partially accounts for this, but it is not used as a
+  multiplier of speed.  (Perhaps it should be?? ...and perhaps distance should be removed
+  as a separate component of the PI calculation.)
 
 #### Problems
 The biggest inadequacy of the formula is its failure to model the relationship between elevation gain and speed
 whereby the former always works agains the latter.  Intuitively, this means "credit" or a score boost for high
-elevation gain is easily offset by a low score for speed.  The effect is mitigated by extending a ride with a
-lot of elevation gain with some distance having low elevation gain, but higher speed.
+elevation gain is easily offset by a low score for speed.  The effect is mitigated by extending a
+high-elevation-gain ride with some distance having low elevation gain in order to increase overall speed.
 
 To add one more wrinkle, it is worth noting this mitigation interferes slightly with the purpose for factoring
 in the rate of elevation gain.  Ideally, we would know the portion of the ride containing elevation gain and
-the portion containing various speeds.  But for now all we know is the total elevation gain for a ride, the
-distance, and the average speed.  The rate of elevation gain is more of a lower-limit than the actual rate.
+the speed at various position along the route.  But for now all we know is the total elevation gain for a ride,
+the distance, and the average speed.  The rate of elevation gain is more of a lower-limit than the actual rate.
 As more distance is added to the route with little elevation gain, the elevation gain rate appears to go
 down.
 
@@ -132,6 +89,70 @@ remain as to how the results of each segment should be combined, whether added, 
 Machine learning is another approach.  This would almost certainly be applied to segments as well as routes.
 
 
+## Manual Data Updates
+
+There are two ways to add biking data manually:
+
+1. Use Strava to add an activity, or
+2. Add an entry to the data journal, `data/journal.yaml`. For example:
+
+       2024-12-22:
+           distance: 2.6
+           total_elevation_gain: 566
+           start_latlng: [13.45647, -16.57196]
+           note: comment is ignored
+
+### Journal fields
+
+The journal file offers more flexibility than adding an activity manually through Strava.
+Here's a full list of recognized fields in the Journal.  All are optional:
+
+- average_speed - int or float, speed in mph
+- distance - int or float
+- elev_high = int or float, elevation high point in feet
+- elev_low = int or float, elevation low point in feet
+- note - any comment; ignored
+- skipped - reason for skipping the day; ignored
+- start_latlng - starting location, will replace any from a Strava activity, used only for starting elevation
+- timeline - significance of date in timeline of project; ignored
+- top_speed - int or float, speed in mph
+- total_elevation_gain - int or float, elevation gain in feet
+
+
+## Scripts
+
+To update the graphs based on new activities in Strava:
+
+    src/analyze.py
+
+To update the graphs and push changes to GitHub:
+
+    src/analyze.py && ./scripts/add_bike_ride.sh && git push
+
+To also publish updates to GitHub Pages,
+set up GitHub pages to serve content from /docs.  Then do this:
+
+    ./scripts/publish_updates.sh && git push
+
+Or more simply, to update the graphs and publish them:
+
+    ./scripts/update.sh
+
+
+## Manual Route Map
+
+This isn't necessary, but I usually create an image of a Google map
+showing my route after a ride, and add this to the images directory.
+From a Mac, I use Ctrl-Shift-4 to capture a window.  Then I move
+this file into the images directory and run the following:
+
+    ./scripts/update.sh <#miles>
+
+for example:
+
+    ./scripts/update.sh 15
+
+
 ## Open Elevation
 
 Strava does not provide the starting elevation, but it provides the starting location as latitude and longitude.
@@ -142,7 +163,7 @@ The [Open Elevation](https://www.open-elevation.com/) API is used to determine t
 
 #### 1. Create a Strava app
 
-If you wish to set up something like this yourself, first follow 
+If you wish to set up something like this yourself, first follow
 [Getting Started with the Strava API](https://developers.strava.com/docs/getting-started/)
 to create a Strava app.
 
@@ -165,7 +186,12 @@ Define the following environment variables:
     strava_app_auth_code=4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c
 
 
-## Installation
+#### 4. Set up GitHub Pages
+
+Set up GitHub Pages to serve data from the docs/ directory of your project.
+
+
+#### 5. Clone and install repo
 
     # clone repo, then...
     pip install -r requirements
@@ -173,118 +199,16 @@ Define the following environment variables:
     touch data/journal.yaml
 
 
-## Manual Data Updates
+<a name="graph_notes"></a>
+## Graph Notes
 
-There are two ways to add biking data manually:
+The timeline for data collection is:
 
-1. Use Strava to add an activity, or
-2. Add an entry to the data journal, `data/journal.yaml`. For example:
+- Day 1 (Oct 11, 2024) - Start tracking distance manually
+- Day 30 (Nov 9, 2024) - Start tracking distance, speed, and elevation using Strava
 
-       2024-12-22:
-           distance: 2.6
-           total_elevation_gain: 566
-           start_latlng: [13.45647, -16.57196]
-           note: comment is ignored
+The green shades on most graphs indicate the day of week, as follows:
 
-The distance and total_elevation gain are optional, added in addition to any values from Strava.
-The start_latlng is also optional and replaces the starting location of any Strava activity for the day.
+<img src="output/legend/green_legend.jpg" alt="Days of Week" style="width: 75%; margin-left: 1em">
 
-
-## Execution
-
-To update the graphs based on new activities in Strava:
-
-    src/analyze.py
-
-To update the graphs and also the output in the README file:
-
-    ./scripts/analyze.sh
-
-To push the changes from either command to GitHub:
-
-    ./scripts/add_bike_ride.sh && git push
-
-Putting it all together, eg:
-
-    ./scripts/analyze.sh && ./scripts/add_bike_ride.sh && git push
-
-
-## Publish Updates to GitHub Pages
-
-Set up GitHub pages to serve content from /docs.  Then do this:
-
-    ./scripts/publish_updates.sh && git push
-
-
-## Execute and Publish
-
-To update the graphs and publish updates:
-
-    ./scripts/analyze.sh && ./scripts/add_bike_ride.sh && ./scripts/publish_updates.sh && git push
-
-or more simply:
-
-    ./scripts/update.sh
-
-
-## New Rides
-
-This isn't necessary, but I usually create an image of a Google map
-showing my route after a ride, and add this to the images directory.
-From a Mac, I use Ctrl-Shift-4 to capture a window.  Then I move
-this file into the images directory and run the following:
-
-    ./scripts/prep_new_ride.sh <#miles>
-
-where <#miles> is the whole number length of the route in miles.
-Putting everything together, run something like this:
-
-    ./scripts/prep_new_ride.sh 15 && ./scripts/analyze.sh && ./scripts/add_bike_ride.sh && ./scripts/publish_updates.sh && git push
-
-or more simply:
-
-    ./scripts/update.sh 15
-
-
-## Scripts Summary
-
-- add_bike_ride.sh - Add files updated by analyze.sh to git.
-- analyze.sh - Pull new data, update the graphs and README file.
-- mk_formula_images.sh - Update output/formulas/*.png based on src/tex/*.tex
-- mk_legend_image.sh - Generate output/legend/green_legend.html
-- prep_new_ride.sh - Convert manually generated route map image
-- publish_updates.sh - Publish new graphs to GitHub Pages
-- update.sh - Prep new ride, update everything, publish all, push to GitHub
-
-
-## Output
-
-In addition to generating the graphs, a summary of metrics is printed
-on the console.
-Output looks like this:
-
-    Date range: 2024-10-11 to 2025-01-23
-
-    days  total  biked  tracked  skipped  ride rate
-          -----  -----  -------  -------  ---------
-            105     96     66        9     91.43%
-
-    distance (miles)  min   max   avg   total
-                      ----  ----  ----  -------
-                       6.9  31.4  15.5   1489.6
-
-    speed (mph)  min   max   avg
-                 ----  ----  ----
-                  9.1  14.5  11.4
-
-    top speed (mph)  min   max   avg
-                     ----  ----  ----
-                     22.9  42.9  30.8
-
-    elevation gain (ft)  min   max   avg   total    total miles
-                         ----  ----  ----  -------  -----------
-                          287  2212   848    55987         10.6
-
-    elevation range (ft)  low:  min   max   avg   high:  min   max   avg
-                                ----  ----  ----         ----  ----  ----
-                                 17   329   144           390  1088   576
+On days when someone forgets to use Strava, only distance is available.
