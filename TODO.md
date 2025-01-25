@@ -6,6 +6,7 @@ _None_
 ### Medium Priority
 - Define all configuration values in one place.
 - Stop uploading Google map route images to GitHub
+- Generate graphs for most recent 30, 60, 90 days
 - Improve the Performance Index calculation.
 
 ### Low Priority
