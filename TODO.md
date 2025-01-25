@@ -1,12 +1,12 @@
 # TODO
 
 ### High Priority
-- Simplify deployment.
+_None_
 
 ### Medium Priority
 - Make sure show_only_tracked_days still works.
-- Reorg files so output/ contains only generated files.
 - Fix the default journal file for project and update README.
+- Reorg files so output/ contains only generated files.
 - Define all configuration values in one place.
 - Add date labels somehow instead of day number, for example:
 
