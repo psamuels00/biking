@@ -27,6 +27,7 @@ class Parameters:
             ),
             grid_alpha=0.15,
             linspace_params=(0.3, 0.9),
+            output_path="output/graph",
             show_only_tracked_days=True,
             title_pad=10,
             tick_labels_alpha=0.5,
@@ -39,7 +40,6 @@ class Parameters:
             html_file="green_legend.html",
             img_file="green_legend.jpg",
         )
-        self.output_path = "output/graph"
         self.performance = attributes("Performance",
             d_factor=1.0,
             s_factor=2.0,
@@ -58,4 +58,4 @@ class Parameters:
         )
 
     def graph_file(self, name):
-        return os.path.join(self.output_path, self.graph.file_names[name])
+        return os.path.join(self.graph.output_path, self.graph.file_names[name])
