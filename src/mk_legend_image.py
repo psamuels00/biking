@@ -41,7 +41,7 @@ def main():
 
     cm_name = params.graph.bar_color_map_name
     linspace_params = params.graph.linspace_params
-    shades_of_green = plt.cm.get_cmap(cm_name)(np.linspace(*linspace_params, 7))
+    shades_of_green = plt.get_cmap(cm_name)(np.linspace(*linspace_params, 7))
     content = html_content(shades_of_green)
 
     dir = params.legend.dir

@@ -32,7 +32,7 @@ class Graph:
             day_of_week = (day_of_week + 1) % 7
 
         cm_name = self.params.graph.bar_color_map_name
-        shades_of_green = plt.cm.get_cmap(cm_name)(np.linspace(*self.linspace_params, 7))
+        shades_of_green = plt.get_cmap(cm_name)(np.linspace(*self.linspace_params, 7))
         colors = [shades_of_green[d] for d in days_of_week]
 
         return colors
