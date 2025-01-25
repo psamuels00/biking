@@ -37,9 +37,9 @@ class Parameters:
         self.journal_file = "data/journal.yaml"
         self.linspace_params = (0.3, 0.9)
         self.obscured_std_start_latlng = (37.96, -121.94)
-        self.only_tracked_days = True
         self.output_path = "output/graph"
         self.performance = PerformanceParams()
+        self.show_only_tracked_days = True
         self.std_start_elevation_ft = 397
         self.report_days = None
         self.factor_all_days = True

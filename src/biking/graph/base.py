@@ -3,14 +3,14 @@ import numpy as np
 
 
 class Graph:
-    def __init__(self, params, stats, output_file, only_tracked_days, linspace_params):
+    def __init__(self, params, stats, output_file, show_only_tracked_days, linspace_params):
         self.stats = stats
         self.num_days = stats["num_days"]
         self.num_biked_days = stats["num_biked_days"]
         self.output_file = output_file
         self.handles = []
         self.labels = []
-        self.show_only_tracked_days = only_tracked_days
+        self.show_only_tracked_days = show_only_tracked_days
         self.linspace_params = linspace_params
         self.params = params
 
