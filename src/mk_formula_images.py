@@ -16,10 +16,10 @@ def load_file(file):
 
 
 def generate_image(latex_code, file):
-    fig, ax = plt.subplots(figsize=(4, 2)) #figsize=(0.5, 0.5))
+    fig, ax = plt.subplots(figsize=(4, 2))
     ax.axis("off")
 
-    plt.text(0.5, 0.5, latex_code, fontsize=4)#, va="center", ha="center")
+    plt.text(0.5, 0.5, latex_code, fontsize=4)
 
     plt.savefig(file, dpi=300, bbox_inches="tight", pad_inches=0.1)
     plt.close()
