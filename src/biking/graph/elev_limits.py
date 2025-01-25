@@ -22,8 +22,10 @@ class ElevationLimitsGraph(Graph):
             y_low = np.array([n if n > 0 else np.nan for n in y_low])
             y_high = np.array([n if n > 0 else np.nan for n in y_high])
             y_start = np.array([np.nan if n is None else n for n in y_start])
+            max_value = int(np.nanmax(np.concatenate((y_high, y_start))))
+        else:
+            max_value = int(max(*y_high, *(x for x in y_start if x is not None)))
 
-        max_value = int(np.nanmax(np.concatenate((y_high, y_start))))
         lower_limit = 0
         upper_limit = max_value
         scale = range(lower_limit, upper_limit + 100, 100)

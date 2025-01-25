@@ -80,12 +80,9 @@ class PerformanceGraph(Graph):
         x = self.x_axis_values()
         y, factors_y = self.performance_index()
         avg_y = self.avg_performance_index(y)
-
-        nan_y = np.array(y)
-        if self.show_only_tracked_days:
-            y = nan_y
         avg_y = np.array(avg_y)
 
+        nan_y = np.array(y)
         max_value = int(np.nanmax(nan_y))
         lower_limit = 0
         upper_limit = max_value

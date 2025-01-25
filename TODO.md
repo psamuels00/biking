@@ -4,7 +4,6 @@
 _None_
 
 ### Medium Priority
-- Make sure show_only_tracked_days still works.
 - Fix the default journal file for project and update README.
 - Reorg files so output/ contains only generated files.
 - Define all configuration values in one place.
