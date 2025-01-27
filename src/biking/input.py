@@ -1,5 +1,7 @@
 from datetime import timedelta
 
+import json
+
 from .conversions import ymd2date
 from .elevation import Elevation
 from .journal import Journal
@@ -69,8 +71,15 @@ class InputData:
         journal = self.journal.load()
         self.set_date_range(activities, journal)
         daily_data = self.consolidate_data_sources(activities, journal)
+        # self.debug(daily_data)
 
         return daily_data
+
+    def debug(self, daily_data, day_numbers=None):
+        for num, record in enumerate(daily_data, 1):
+            print("@@@", num, record["ymd"])
+            if day_numbers is None or num in day_numbers:
+                print(json.dumps(record, indent=4))
 
     def summarize(self):
         print("date        distance  elevation gain  speed")

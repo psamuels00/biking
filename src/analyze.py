@@ -49,7 +49,7 @@ def main():
     input_data = InputData(params)
 
     for period in ("all", "last30", "last60", "last90"):
-        print(period)
+        print(params.report.title[period])
         stats = calculate_statistics(params, input_data, period)
 
         # if stats["num_days"] > 0:

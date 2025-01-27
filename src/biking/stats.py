@@ -1,7 +1,7 @@
 import calendar
 import os
 
-from .conversions import feet2miles
+from .conversions import feet2miles, ymd2date
 
 
 def safe_div(a, b):
@@ -54,19 +54,11 @@ class Statistics:
         )
 
         daily_data = self.input_data.get_daily_data()
-        # for num, record in enumerate(daily_data, 1):
-        #     print("@@@", num, record["ymd"])
-        #     if num in (30, 38):
-        #         import json
-        #         print(json.dumps(record, indent=4))
 
         report_num_days = self.params.report.num_days[period]
         factor_all_days = self.params.report.factor_all_days[period]
-        if report_num_days is not None and not factor_all_days:
-            print(f"    len(daily_data) = {len(daily_data)}")
+        if not factor_all_days and report_num_days is not None:
             daily_data = daily_data[-report_num_days:]
-            print(f"    len(daily_data) = {len(daily_data)}")
-            print()
 
         for record in daily_data:
             distance = record["distance"]
@@ -99,14 +91,18 @@ class Statistics:
             data["elevation_low_per_day"].append(record["elev_low"])
             data["elevation_start_per_day"].append(record["elev_start"])
 
-        if report_num_days is not None and factor_all_days:
+        if factor_all_days and report_num_days is not None:
             for key in data:
                 print(f"    {key} len(data[{key}]) = {len(data[key])}")
                 data[key] = data[key][-report_num_days:]
                 print(f"    {key} len(data[{key}]) = {len(data[key])}")
                 print()
 
-        first_date, last_date = self.input_data.date_range
+        first_date, last_date = None, None
+        if daily_data:
+            first_date = ymd2date(daily_data[0]["ymd"])
+            last_date = ymd2date(daily_data[0]["ymd"])
+
         first_day_of_week = calendar.weekday(first_date.year, first_date.month, first_date.day)
 
         stats = dict(
@@ -137,9 +133,9 @@ class Statistics:
         num_skipped_days = num_days - num_biked_days
         ride_rate = num_biked_days / num_days * 100
 
-        period = self.params.report.title[self.period]
+        title = self.params.report.title[self.period]
 
-        self.print(f"Period: {period}")
+        self.print(f"Period: {title}")
         self.print()
         self.print(f"Date range: {first_day} to {last_day}")
         self.print()
@@ -158,8 +154,8 @@ class Statistics:
         min_distance = min_val("distance_per_day")
         max_distance = max_val("distance_per_day")
 
-        num_biked_days = stats["num_biked_days"]
         total_distance = stats["total_distance"]
+        num_biked_days = stats["num_biked_days"]
         avg_distance = total_distance / num_biked_days
 
         self.print()
