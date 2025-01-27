@@ -14,8 +14,8 @@ from biking.params import Parameters
 from biking.stats import Statistics
 
 
-def calculate_statistics(params, input_data):
-    statistics = Statistics(params, input_data)
+def calculate_statistics(params, input_data, period):
+    statistics = Statistics(params, input_data, period)
     statistics.report()
 
     return statistics.stats
@@ -47,10 +47,13 @@ def generate_graphs(params, stats):
 def main():
     params = Parameters()
     input_data = InputData(params)
-    stats = calculate_statistics(params, input_data)
 
-    if stats["num_days"] > 0:
-        generate_graphs(params, stats)
+    for period in ("all", "last30", "last60", "last90"):
+        print(period)
+        stats = calculate_statistics(params, input_data, period)
+
+        # if stats["num_days"] > 0:
+        #     generate_graphs(params, stats)
 
 
 main()

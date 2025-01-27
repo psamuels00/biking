@@ -1,16 +1,16 @@
 #!/bin/sh
 
 publish() {
-    sed 's/\.\.\/\.\.\///' src/pages/graphs/daily.html > docs/index.html
-    cp output/graph/* docs/graph/
-    (
-        echo "<pre>"
-        cat output/execution/console.txt
-        echo "</pre>"
-    ) > docs/console.html
+    cp src/pages/graphs/daily/all.html docs/index.html
+    cp src/pages/graphs/daily/last*.html docs/
 
-    git add docs
-    git commit -m "publish updates"
+    cp -r output/graph/* docs/graph/
+
+    mkdir -p docs/summary
+    cp -r output/summary/* docs/summary/
+
+#    git add docs
+#    git commit -m "publish updates"
 }
 
 publish

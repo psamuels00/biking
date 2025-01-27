@@ -1,4 +1,5 @@
 import calendar
+import os
 
 from .conversions import feet2miles
 
@@ -8,12 +9,23 @@ def safe_div(a, b):
 
 
 class Statistics:
-    def __init__(self, params, input_data):
+    def __init__(self, params, input_data, period):
         self.params = params
         self.input_data = input_data
-        self.stats = self.calculate()
+        self.period = period
+        self.stats = self.calculate(period)
+        self.text = []
 
-    def calculate(self):
+    def print(self, line="<br>"):
+        self.text.append(line)
+
+    def save_results(self):
+        file = os.path.join(self.params.summary.output_path, f"{self.period}.html")
+        content = "\n".join(self.text) + "\n"
+        with open(file, "w") as fh:
+            fh.write(content)
+
+    def calculate(self, period):
         num_days = 0
         num_biked_days = 0  # based on availability of distance info
         num_data_tracked_days = 0  # ...plus speed and elevation data from Strava
@@ -48,8 +60,13 @@ class Statistics:
         #         import json
         #         print(json.dumps(record, indent=4))
 
-        if self.params.report.num_days is not None and not self.params.report.factor_all_days:
-            daily_data = daily_data[-self.params.report.num_days:]
+        report_num_days = self.params.report.num_days[period]
+        factor_all_days = self.params.report.factor_all_days[period]
+        if report_num_days is not None and not factor_all_days:
+            print(f"    len(daily_data) = {len(daily_data)}")
+            daily_data = daily_data[-report_num_days:]
+            print(f"    len(daily_data) = {len(daily_data)}")
+            print()
 
         for record in daily_data:
             distance = record["distance"]
@@ -82,9 +99,12 @@ class Statistics:
             data["elevation_low_per_day"].append(record["elev_low"])
             data["elevation_start_per_day"].append(record["elev_start"])
 
-        if self.params.report.num_days is not None and self.params.report.factor_all_days:
+        if report_num_days is not None and factor_all_days:
             for key in data:
-                data[key] = data[key][-self.params.report.num_days:]
+                print(f"    {key} len(data[{key}]) = {len(data[key])}")
+                data[key] = data[key][-report_num_days:]
+                print(f"    {key} len(data[{key}]) = {len(data[key])}")
+                print()
 
         first_date, last_date = self.input_data.date_range
         first_day_of_week = calendar.weekday(first_date.year, first_date.month, first_date.day)
@@ -117,12 +137,16 @@ class Statistics:
         num_skipped_days = num_days - num_biked_days
         ride_rate = num_biked_days / num_days * 100
 
-        print(f"Date range: {first_day} to {last_day}")
-        print()
-        print("days  total  biked  tracked  skipped  ride rate")
-        print("      -----  -----  -------  -------  ---------")
-        print(f"{num_days:11}  {num_biked_days:5}  {num_data_tracked_days:5}  {num_skipped_days:7}  {ride_rate:8.2f}%")
-        print()
+        period = self.params.report.title[self.period]
+
+        self.print(f"Period: {period}")
+        self.print()
+        self.print(f"Date range: {first_day} to {last_day}")
+        self.print()
+        self.print()
+        self.print("days  total  biked  tracked  skipped  ride rate")
+        self.print("      -----  -----  -------  -------  ---------")
+        self.print(f"{num_days:11}  {num_biked_days:5}  {num_data_tracked_days:5}  {num_skipped_days:7}  {ride_rate:8.2f}%")
 
     def report_distance_data(self):
         stats = self.stats
@@ -138,10 +162,11 @@ class Statistics:
         total_distance = stats["total_distance"]
         avg_distance = total_distance / num_biked_days
 
-        print("distance (miles)  min   max   avg   total")
-        print("                  ----  ----  ----  -------")
-        print(f"{min_distance:22.1f}  {max_distance:4.1f}  {avg_distance:4.1f}  {total_distance:7.1f}")
-        print()
+        self.print()
+        self.print()
+        self.print("distance (miles)  min   max   avg   total")
+        self.print("                  ----  ----  ----  -------")
+        self.print(f"{min_distance:22.1f}  {max_distance:4.1f}  {avg_distance:4.1f}  {total_distance:7.1f}")
 
     def report_tracked_data(self):
         stats = self.stats
@@ -179,31 +204,38 @@ class Statistics:
         max_elev_high = int(max_val("elevation_high_per_day"))
         avg_elev_high = int(sum_vals("elevation_high_per_day") / num_data_tracked_days)
 
-        print("speed (mph)  min   max   avg")
-        print("             ----  ----  ----")
-        print(f"{min_speed:17.1f}  {max_speed:4.1f}  {avg_speed:4.1f}")
-        print()
-        print("top speed (mph)  min   max   avg")
-        print("                 ----  ----  ----")
-        print(f"{min_top_speed:21.1f}  {max_top_speed:4.1f}  {avg_top_speed:4.1f}")
-        print()
-        print("elevation gain (ft)  min   max   avg   total    total miles")
-        print("                     ----  ----  ----  -------  -----------")
-        print(f"{min_elev_gain:25}  {max_elev_gain:4}  {avg_elev_gain:4}  {total_elev_gain:7}  {total_elev_gain_miles:11.1f}")
-        print()
-        print("elevation range (ft)  low:  min   max   avg   high:  min   max   avg")
-        print("                            ----  ----  ----         ----  ----  ----")
-        print(f"{min_elev_low:31}  {max_elev_low:4}  {avg_elev_low:4}  {min_elev_high:12}  {max_elev_high:4}  {avg_elev_high:4}")
+        self.print()
+        self.print()
+        self.print("speed (mph)  min   max   avg")
+        self.print("             ----  ----  ----")
+        self.print(f"{min_speed:17.1f}  {max_speed:4.1f}  {avg_speed:4.1f}")
+        self.print()
+        self.print("top speed (mph)  min   max   avg")
+        self.print("                 ----  ----  ----")
+        self.print(f"{min_top_speed:21.1f}  {max_top_speed:4.1f}  {avg_top_speed:4.1f}")
+        self.print()
+        self.print()
+        self.print("elevation gain (ft)  min   max   avg   total    total miles")
+        self.print("                     ----  ----  ----  -------  -----------")
+        self.print(f"{min_elev_gain:25}  {max_elev_gain:4}  {avg_elev_gain:4}  {total_elev_gain:7}  {total_elev_gain_miles:11.1f}")
+        self.print()
+        self.print("elevation range (ft)  low:  min   max   avg   high:  min   max   avg")
+        self.print("                            ----  ----  ----         ----  ----  ----")
+        self.print(f"{min_elev_low:31}  {max_elev_low:4}  {avg_elev_low:4}  {min_elev_high:12}  {max_elev_high:4}  {avg_elev_high:4}")
 
     def report(self):
         num_days = self.stats["num_days"]
         num_data_tracked_days = self.stats["num_data_tracked_days"]
 
-        if num_days == 0:
-            print("No activity found to report on.")
-            return
+        self.print("<pre>")
 
-        self.report_basic_data()
-        self.report_distance_data()
-        if num_data_tracked_days > 0:
-            self.report_tracked_data()
+        if num_days > 0:
+            self.report_basic_data()
+            self.report_distance_data()
+            if num_data_tracked_days > 0:
+                self.report_tracked_data()
+        else:
+            self.print("No activity found to report on.")
+
+        self.print("</pre>")
+        self.save_results()

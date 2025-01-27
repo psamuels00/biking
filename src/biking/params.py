@@ -37,7 +37,7 @@ class Parameters:
             ),
             grid_alpha=0.15,
             linspace_params=(0.3, 0.9),
-            output_path="output/graph",
+            output_path="output/graph/daily/all",
             show_only_tracked_days=True,
             title_pad=10,
             tick_labels_alpha=0.5,
@@ -59,8 +59,28 @@ class Parameters:
             max_pi_scale=10.0,
         )
         self.report = attributes("Report",
-            num_days=None,  # N to limit days reported on, or None for no limit
-            factor_all_days=True,  # if False and report_days is N, only factor report days into averages
+            title=dict(
+                last30="Last 30 Days",
+                last60="Last 60 Days",
+                last90="Last 90 Days",
+                all="All Time",
+            ),
+
+            # N to limit days reported on, or None for no limit
+            num_days=dict(
+                last30=30,
+                last60=60,
+                last90=90,
+                all=None,
+            ),
+
+            # if False and report_days is N, only factor report days into averages
+            factor_all_days=dict(
+                last30=False,
+                last60=False,
+                last90=False,
+                all=True,
+            ),
         )
         self.std_start = attributes("StdStart",
             elevation_ft=397,
@@ -83,7 +103,9 @@ class Parameters:
                 activities="https://www.strava.com/api/v3/athlete/activities",
             ),
         )
-
+        self.summary = attributes("Summary",
+            output_path = "output/summary/daily",
+        )
 
     def graph_file(self, name):
         return os.path.join(self.graph.output_path, self.graph.file_names[name])
