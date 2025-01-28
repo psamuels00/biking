@@ -9,8 +9,8 @@ publish() {
     mkdir -p docs/summary
     cp -r output/summary/* docs/summary/
 
-    #git add docs
-    #git commit -m "publish updates"
+    git add docs
+    git commit -m "publish updates"
 }
 
 publish
