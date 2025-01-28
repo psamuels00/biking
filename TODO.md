@@ -4,7 +4,6 @@
 _None_
 
 ### Medium Priority
-- Generate graphs for most recent 30, 60, 90 days
 - Ensure output directories are created if necessary
 - Improve the Performance Index calculation.
 

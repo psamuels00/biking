@@ -12,6 +12,7 @@ from biking.graph import (
 from biking.input import InputData
 from biking.params import Parameters
 from biking.stats import Statistics
+from biking.template import render
 
 
 def calculate_statistics(params, input_data, period):
@@ -29,6 +30,14 @@ def generate_graph(params, stats, period, file_type, type):
     graph = type(params, stats, file, period, show_only_tracked_days, linspace_params)
     graph.generate()
 
+
+def generate_html(params, period):
+    template_path = params.html.template_path
+    template_file = params.html.template_file
+    output_path = params.html.output_path
+    output_file = f"{period}.html"
+    data = dict(period=period)
+    render(template_path, template_file, data, output_path, output_file)
 
 def generate_graphs(params, stats, period):
     def generate(file_type, type):
@@ -53,6 +62,7 @@ def main():
         stats = calculate_statistics(params, input_data, period)
 
         if stats["num_days"] > 0:
+            generate_html(params, period)
             generate_graphs(params, stats, period)
 
 

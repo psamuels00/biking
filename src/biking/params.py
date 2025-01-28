@@ -43,6 +43,11 @@ class Parameters:
             tick_labels_alpha=0.5,
             x_ticks_period=5,
         )
+        self.html = attributes("Html",
+            template_path="src/pages/graphs",
+            template_file="daily.html",
+            output_path="output/doc",
+        )
         self.journal_file = "data/journal.yaml"
         self.legend = attributes("Legend",
             dir="output/legend",

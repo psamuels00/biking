@@ -1,8 +1,8 @@
 #!/bin/sh
 
 publish() {
-    cp src/pages/graphs/daily/*.html docs/
-    cp src/pages/graphs/daily/last30.html docs/index.html
+    cp output/doc/*.html docs/
+    cp output/doc/last30.html docs/index.html
 
     cp -r output/graph/* docs/graph/
 
