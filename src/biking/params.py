@@ -44,7 +44,7 @@ class Parameters:
             x_ticks_period=5,
         )
         self.html = attributes("Html",
-            template_path="src/pages/graphs",
+            template_path="src/pages",
             template_file="daily.html",
             output_path="output/doc",
         )
