@@ -33,6 +33,7 @@ def main():
     for file in tex_files(source_path):
         latex_code = load_file(f"{source_path}/{file}.tex")
         latex_code = latex_code.replace("\n", "").replace(r"\\", "\n")
+        os.makedirs(output_path, exist_ok=True)
         generate_image(latex_code, f"{output_path}/{file}.png")
 
 

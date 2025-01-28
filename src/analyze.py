@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import os
+
 from biking.graph import (
     DistanceGraph,
     ElevationGainGraph,
@@ -27,6 +29,8 @@ def generate_graph(params, stats, period, file_type, type):
     show_only_tracked_days = params.graph.show_only_tracked_days
     linspace_params = params.graph.linspace_params
 
+    path = os.path.join(params.graph.output_path, period)
+    os.makedirs(path, exist_ok=True)
     graph = type(params, stats, file, period, show_only_tracked_days, linspace_params)
     graph.generate()
 

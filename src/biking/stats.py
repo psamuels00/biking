@@ -20,7 +20,9 @@ class Statistics:
         self.text.append(line)
 
     def save_results(self):
-        file = os.path.join(self.params.summary.output_path, f"{self.period}.html")
+        path = self.params.summary.output_path
+        os.makedirs(path, exist_ok=True)
+        file = os.path.join(path, f"{self.period}.html")
         content = "\n".join(self.text) + "\n"
         with open(file, "w") as fh:
             fh.write(content)

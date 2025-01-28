@@ -13,5 +13,6 @@ def render(path, file, data, output_path, output_file):
     template = env.get_template(file)
     content = template.render(data)
 
+    os.makedirs(output_path, exist_ok=True)
     out_file = os.path.join(output_path, output_file)
     write_file(out_file, content)

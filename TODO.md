@@ -4,7 +4,6 @@
 _None_
 
 ### Medium Priority
-- Ensure output directories are created if necessary
 - Improve the Performance Index calculation.
 
 ### Low Priority
