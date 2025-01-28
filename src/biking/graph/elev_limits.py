@@ -35,7 +35,8 @@ class ElevationLimitsGraph(Graph):
         self.add_scale(ax1, lower_limit, upper_limit, scale),
 
         colors = self.get_colors()
-        vlines = ax1.vlines(x, ymin=y_low, ymax=y_high, colors=colors, linewidth=4)
+        linewidth = 8 if self.num_days <= 30 else 4
+        vlines = ax1.vlines(x, ymin=y_low, ymax=y_high, colors=colors, linewidth=linewidth)
         self.handles.append(vlines)
         self.labels.append(f"Elevation Range ({y_low[-1]:0.0f} - {y_high[-1]:0.0f} ft)")
 

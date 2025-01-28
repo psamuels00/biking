@@ -17,8 +17,7 @@ class RideRateGraph(Graph):
         min_ride_rate = min(ride_rate_y)
         lower_limit = int(max(0, min_ride_rate // 5 * 5 - 5))
         upper_limit = 100
-        step = int((100 - min(ride_rate_y)) / 10)
-        step = 5 if step > 1 else 1
+        step = 1
         scale = range(lower_limit, 101, step)
 
         ax1.set_ylabel("Percentage")

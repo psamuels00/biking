@@ -15,7 +15,14 @@ class Graph:
         self.show_only_tracked_days = show_only_tracked_days
         self.stats = stats
 
-    def get_ticks(self, period):
+    def get_ticks(self):
+        if self.num_days <= 20:
+            period = 1
+        elif self.num_days <= 30:
+            period = 2
+        else:
+            period = self.params.graph.x_ticks_period \
+
         offsets = [0] if self.num_days > 0 else []
         offsets += range(period - 1, self.num_days, period)
         labels = [str(x + 1) for x in offsets]
@@ -63,7 +70,7 @@ class Graph:
 
     def x_axis_days(self, ax1):
         ax1.set_xlabel("Day")
-        tick_offsets, tick_labels = self.get_ticks(self.params.graph.x_ticks_period)
+        tick_offsets, tick_labels = self.get_ticks()
         plt.xticks(tick_offsets, tick_labels, fontsize="x-small", alpha=self.params.graph.tick_labels_alpha)
 
     def add_scale(self, ax1, lower_limit, upper_limit, scale):
