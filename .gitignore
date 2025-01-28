@@ -8,3 +8,5 @@
 data/journal.yaml
 images/
 misc/
+output/graph/
+output/summary/

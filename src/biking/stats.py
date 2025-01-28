@@ -101,7 +101,7 @@ class Statistics:
         first_date, last_date = None, None
         if daily_data:
             first_date = ymd2date(daily_data[0]["ymd"])
-            last_date = ymd2date(daily_data[0]["ymd"])
+            last_date = ymd2date(daily_data[-1]["ymd"])
 
         first_day_of_week = calendar.weekday(first_date.year, first_date.month, first_date.day)
 

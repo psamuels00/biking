@@ -3,16 +3,17 @@ import numpy as np
 
 
 class Graph:
-    def __init__(self, params, stats, output_file, show_only_tracked_days, linspace_params):
-        self.stats = stats
-        self.num_days = stats["num_days"]
-        self.num_biked_days = stats["num_biked_days"]
-        self.output_file = output_file
+    def __init__(self, params, stats, output_file, period, show_only_tracked_days, linspace_params):
         self.handles = []
         self.labels = []
-        self.show_only_tracked_days = show_only_tracked_days
         self.linspace_params = linspace_params
+        self.num_biked_days = stats["num_biked_days"]
+        self.num_days = stats["num_days"]
+        self.output_file = output_file
         self.params = params
+        self.period = period
+        self.show_only_tracked_days = show_only_tracked_days
+        self.stats = stats
 
     def get_ticks(self, period):
         offsets = [0] if self.num_days > 0 else []
@@ -41,7 +42,7 @@ class Graph:
         plt.title(metric, pad=self.params.graph.title_pad)
 
     def legend(self, loc="upper left"):
-        from_date = self.params.initial_date
+        from_date = self.stats["first_date"].strftime("%b %d, %Y")
         to_date = self.stats["last_date"].strftime("%b %d, %Y")
         plt.legend(
             loc=loc,
@@ -54,8 +55,9 @@ class Graph:
 
     def x_axis_values(self):
         values = np.arange(self.num_days)
-        if self.params.report.num_days is not None:
-            values = values[-self.params.report.num_days:]
+        num_days = self.params.report.num_days[self.period]
+        if num_days is not None:
+            values = values[-num_days:]
 
         return values
 
@@ -80,3 +82,4 @@ class Graph:
         self.build(ax1)
         plt.tight_layout()
         plt.savefig(self.output_file, dpi=self.params.graph.dpi, bbox_inches="tight")
+        plt.close(fig)

@@ -21,18 +21,18 @@ def calculate_statistics(params, input_data, period):
     return statistics.stats
 
 
-def generate_graph(params, stats, file_type, type):
-    file = params.graph_file(file_type)
+def generate_graph(params, stats, period, file_type, type):
+    file = params.graph_file(period, file_type)
     show_only_tracked_days = params.graph.show_only_tracked_days
     linspace_params = params.graph.linspace_params
 
-    graph = type(params, stats, file, show_only_tracked_days, linspace_params)
+    graph = type(params, stats, file, period, show_only_tracked_days, linspace_params)
     graph.generate()
 
 
-def generate_graphs(params, stats):
+def generate_graphs(params, stats, period):
     def generate(file_type, type):
-        generate_graph(params, stats, file_type, type)
+        generate_graph(params, stats, period, file_type, type)
 
     generate("ride_rate", RideRateGraph)
     generate("distance", DistanceGraph)
@@ -48,12 +48,12 @@ def main():
     params = Parameters()
     input_data = InputData(params)
 
-    for period in ("all", "last30", "last60", "last90"):
+    for period in ("last30", "last60", "last90", "all"):
         print(params.report.title[period])
         stats = calculate_statistics(params, input_data, period)
 
-        # if stats["num_days"] > 0:
-        #     generate_graphs(params, stats)
+        if stats["num_days"] > 0:
+            generate_graphs(params, stats, period)
 
 
 main()

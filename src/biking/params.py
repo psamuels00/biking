@@ -37,13 +37,12 @@ class Parameters:
             ),
             grid_alpha=0.15,
             linspace_params=(0.3, 0.9),
-            output_path="output/graph/daily/all",
+            output_path="output/graph/daily",
             show_only_tracked_days=True,
             title_pad=10,
             tick_labels_alpha=0.5,
             x_ticks_period=10,
         )
-        self.initial_date = "Oct 11, 2024"
         self.journal_file = "data/journal.yaml"
         self.legend = attributes("Legend",
             dir="output/legend",
@@ -107,5 +106,5 @@ class Parameters:
             output_path = "output/summary/daily",
         )
 
-    def graph_file(self, name):
-        return os.path.join(self.graph.output_path, self.graph.file_names[name])
+    def graph_file(self, period, name):
+        return os.path.join(self.graph.output_path, period, self.graph.file_names[name])
