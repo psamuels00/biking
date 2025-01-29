@@ -21,11 +21,16 @@ class Graph:
         elif self.num_days <= 30:
             period = 2
         else:
-            period = self.params.graph.x_ticks_period \
+            period = self.params.graph.x_ticks_period
 
         offsets = [0] if self.num_days > 0 else []
         offsets += range(period - 1, self.num_days, period)
-        labels = [str(x + 1) for x in offsets]
+
+        num_past_days = self.stats["total_num_days"] - self.num_days
+        labels = [
+            f"{self.num_days - x}\n{num_past_days + 1 + x}"
+            for x in offsets
+        ]
 
         return offsets, labels
 

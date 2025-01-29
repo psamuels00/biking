@@ -57,6 +57,8 @@ class Statistics:
 
         daily_data = self.input_data.get_daily_data()
 
+        total_num_days = len(daily_data)
+
         report_num_days = self.params.report.num_days[period]
         factor_all_days = self.params.report.factor_all_days[period]
         if not factor_all_days and report_num_days is not None:
@@ -117,6 +119,7 @@ class Statistics:
             num_days=num_days,
             total_distance=total_distance,
             total_elevation_gain=total_elevation_gain,
+            total_num_days=total_num_days,
         )
 
         return stats
