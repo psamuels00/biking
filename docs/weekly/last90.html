@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biking Performance Graphs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body id="top" class="flex flex-col items-center min-h-screen bg-gray-200 pb-4">
+
+
+
+
+
+
+
+
+
+<div class="block md:hidden w-full">
+    <header class="w-full text-center py-4 bg-gray-300">
+        <h1 class="text-xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
+    </header>
+
+    <div class="flex gap-4 px-4 pt-2 items-center justify-center text-center leading-tight">
+        <a class="text-blue-500 hover:underline " href="last30.html">Last 30 days</a>
+        <a class="text-blue-500 hover:underline " href="last60.html">Last 60 days</a>
+        <a class="text-blue-500 hover:underline font-bold" href="last90.html">Last 90 days</a>
+        <a class="text-blue-500 hover:underline " href="all.html">All time</a>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 p-4 pt-2 mb-4">
+        
+            
+    <a href="#performance">
+        <img src="../graph/daily/last90/Performance.jpg" alt="Performance graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+        
+            
+    <a href="#speed">
+        <img src="../graph/daily/last90/Speed.jpg" alt="Speed graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+        
+            
+    <a href="#elevation_gain">
+        <img src="../graph/daily/last90/ElevationGain.jpg" alt="ElevationGain graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+        
+            
+    <a href="#distance">
+        <img src="../graph/daily/last90/Distance.jpg" alt="Distance graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+        
+            
+    <a href="#top_speed">
+        <img src="../graph/daily/last90/TopSpeed.jpg" alt="TopSpeed graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+        
+            
+    <a href="#elevation_limits">
+        <img src="../graph/daily/last90/ElevationLimits.jpg" alt="ElevationLimits graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+        
+            
+    <a href="#ride_rate">
+        <img src="../graph/daily/last90/RideRate.jpg" alt="RideRate graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+        
+
+        <div class="flex items-center text-sm text-center italic text-gray-400">
+            Select a thumbnail to jump to the full-size image.  Select that to jump back.
+        </div>
+    </div>
+</div>
+
+<div class="hidden md:block w-full place-items-center">
+    <header class="w-full text-center py-6 bg-gray-300">
+        <h1 class="text-4xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
+    </header>
+
+    <div class="flex gap-4 p-2 mb-4">
+        <a class="text-blue-500 hover:underline " href="last30.html">Last 30 days</a>
+        <a class="text-blue-500 hover:underline " href="last60.html">Last 60 days</a>
+        <a class="text-blue-500 hover:underline font-bold" href="last90.html">Last 90 days</a>
+        <a class="text-blue-500 hover:underline " href="all.html">All time</a>
+    </div>
+
+    <div class="grid grid-cols-3 gap-x-4 w-4/5 max-w-5xl mb-16">
+        <div class="flex flex-col gap-4">
+            
+    <a href="#performance">
+        <img src="../graph/daily/last90/Performance.jpg" alt="Performance graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+            
+    <a href="#distance">
+        <img src="../graph/daily/last90/Distance.jpg" alt="Distance graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+            
+    <a href="#ride_rate">
+        <img src="../graph/daily/last90/RideRate.jpg" alt="RideRate graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+        </div>
+
+        <div class="flex flex-col gap-4">
+            
+    <a href="#speed">
+        <img src="../graph/daily/last90/Speed.jpg" alt="Speed graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+            
+    <a href="#top_speed">
+        <img src="../graph/daily/last90/TopSpeed.jpg" alt="TopSpeed graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+        </div>
+
+        <div class="flex flex-col gap-4">
+            
+    <a href="#elevation_gain">
+        <img src="../graph/daily/last90/ElevationGain.jpg" alt="ElevationGain graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+            
+    <a href="#elevation_limits">
+        <img src="../graph/daily/last90/ElevationLimits.jpg" alt="ElevationLimits graph"
+             class="rounded-lg border-2 border-transparent hover:border-blue-400">
+    </a>
+
+
+            <div class="flex items-center text-sm text-center italic text-gray-400 h-32">
+                Select a thumbnail to jump to the full-size image.  Select that to jump back.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 gap-4 md:w-4/5 max-w-5xl">
+    
+        <div id="performance" class="pt-6">
+
+            <a href="../graph/daily/last90/Performance.jpg">
+                <img src="../graph/daily/last90/Performance.jpg" alt="Performance graph"
+                     class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+            </a>
+
+            <div class="flex gap-4 justify-between">
+                <div class="grid grid-cols-4 grid-rows-2 gap-2 leading-tight">
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last16.html#performance">Last 4 months</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last52.html#performance">Last 1 year</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last104.html#performance">Last 2 years</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/all.html#performance">All time</a>
+                    
+
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../daily/last90.html#performance">Daily</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline font-bold"
+                           href="../weekly/last90.html#performance">Weekly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../monthly/last90.html#performance">Monthly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../quarterly/last90.html#performance">Quarterly</a>
+                    
+                </div>
+
+                <div class="px-2 flex">
+                    <a href="#top" class="ml-4 text-gray-500 hover:text-blue-500 hover:underline">Top</a>
+                </div>
+            </div>
+
+        </div>
+    
+        <div id="speed" class="pt-6">
+
+            <a href="../graph/daily/last90/Speed.jpg">
+                <img src="../graph/daily/last90/Speed.jpg" alt="Speed graph"
+                     class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+            </a>
+
+            <div class="flex gap-4 justify-between">
+                <div class="grid grid-cols-4 grid-rows-2 gap-2 leading-tight">
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last16.html#speed">Last 4 months</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last52.html#speed">Last 1 year</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last104.html#speed">Last 2 years</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/all.html#speed">All time</a>
+                    
+
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../daily/last90.html#speed">Daily</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline font-bold"
+                           href="../weekly/last90.html#speed">Weekly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../monthly/last90.html#speed">Monthly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../quarterly/last90.html#speed">Quarterly</a>
+                    
+                </div>
+
+                <div class="px-2 flex">
+                    <a href="#top" class="ml-4 text-gray-500 hover:text-blue-500 hover:underline">Top</a>
+                </div>
+            </div>
+
+        </div>
+    
+        <div id="elevation_gain" class="pt-6">
+
+            <a href="../graph/daily/last90/ElevationGain.jpg">
+                <img src="../graph/daily/last90/ElevationGain.jpg" alt="ElevationGain graph"
+                     class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+            </a>
+
+            <div class="flex gap-4 justify-between">
+                <div class="grid grid-cols-4 grid-rows-2 gap-2 leading-tight">
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last16.html#elevation_gain">Last 4 months</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last52.html#elevation_gain">Last 1 year</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last104.html#elevation_gain">Last 2 years</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/all.html#elevation_gain">All time</a>
+                    
+
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../daily/last90.html#elevation_gain">Daily</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline font-bold"
+                           href="../weekly/last90.html#elevation_gain">Weekly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../monthly/last90.html#elevation_gain">Monthly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../quarterly/last90.html#elevation_gain">Quarterly</a>
+                    
+                </div>
+
+                <div class="px-2 flex">
+                    <a href="#top" class="ml-4 text-gray-500 hover:text-blue-500 hover:underline">Top</a>
+                </div>
+            </div>
+
+        </div>
+    
+        <div id="distance" class="pt-6">
+
+            <a href="../graph/daily/last90/Distance.jpg">
+                <img src="../graph/daily/last90/Distance.jpg" alt="Distance graph"
+                     class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+            </a>
+
+            <div class="flex gap-4 justify-between">
+                <div class="grid grid-cols-4 grid-rows-2 gap-2 leading-tight">
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last16.html#distance">Last 4 months</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last52.html#distance">Last 1 year</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last104.html#distance">Last 2 years</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/all.html#distance">All time</a>
+                    
+
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../daily/last90.html#distance">Daily</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline font-bold"
+                           href="../weekly/last90.html#distance">Weekly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../monthly/last90.html#distance">Monthly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../quarterly/last90.html#distance">Quarterly</a>
+                    
+                </div>
+
+                <div class="px-2 flex">
+                    <a href="#top" class="ml-4 text-gray-500 hover:text-blue-500 hover:underline">Top</a>
+                </div>
+            </div>
+
+        </div>
+    
+        <div id="top_speed" class="pt-6">
+
+            <a href="../graph/daily/last90/TopSpeed.jpg">
+                <img src="../graph/daily/last90/TopSpeed.jpg" alt="TopSpeed graph"
+                     class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+            </a>
+
+            <div class="flex gap-4 justify-between">
+                <div class="grid grid-cols-4 grid-rows-2 gap-2 leading-tight">
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last16.html#top_speed">Last 4 months</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last52.html#top_speed">Last 1 year</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last104.html#top_speed">Last 2 years</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/all.html#top_speed">All time</a>
+                    
+
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../daily/last90.html#top_speed">Daily</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline font-bold"
+                           href="../weekly/last90.html#top_speed">Weekly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../monthly/last90.html#top_speed">Monthly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../quarterly/last90.html#top_speed">Quarterly</a>
+                    
+                </div>
+
+                <div class="px-2 flex">
+                    <a href="#top" class="ml-4 text-gray-500 hover:text-blue-500 hover:underline">Top</a>
+                </div>
+            </div>
+
+        </div>
+    
+        <div id="elevation_limits" class="pt-6">
+
+            <a href="../graph/daily/last90/ElevationLimits.jpg">
+                <img src="../graph/daily/last90/ElevationLimits.jpg" alt="ElevationLimits graph"
+                     class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+            </a>
+
+            <div class="flex gap-4 justify-between">
+                <div class="grid grid-cols-4 grid-rows-2 gap-2 leading-tight">
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last16.html#elevation_limits">Last 4 months</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last52.html#elevation_limits">Last 1 year</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last104.html#elevation_limits">Last 2 years</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/all.html#elevation_limits">All time</a>
+                    
+
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../daily/last90.html#elevation_limits">Daily</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline font-bold"
+                           href="../weekly/last90.html#elevation_limits">Weekly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../monthly/last90.html#elevation_limits">Monthly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../quarterly/last90.html#elevation_limits">Quarterly</a>
+                    
+                </div>
+
+                <div class="px-2 flex">
+                    <a href="#top" class="ml-4 text-gray-500 hover:text-blue-500 hover:underline">Top</a>
+                </div>
+            </div>
+
+        </div>
+    
+        <div id="ride_rate" class="pt-6">
+
+            <a href="../graph/daily/last90/RideRate.jpg">
+                <img src="../graph/daily/last90/RideRate.jpg" alt="RideRate graph"
+                     class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+            </a>
+
+            <div class="flex gap-4 justify-between">
+                <div class="grid grid-cols-4 grid-rows-2 gap-2 leading-tight">
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last16.html#ride_rate">Last 4 months</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last52.html#ride_rate">Last 1 year</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/last104.html#ride_rate">Last 2 years</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../weekly/all.html#ride_rate">All time</a>
+                    
+
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../daily/last90.html#ride_rate">Daily</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline font-bold"
+                           href="../weekly/last90.html#ride_rate">Weekly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../monthly/last90.html#ride_rate">Monthly</a>
+                    
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline "
+                           href="../quarterly/last90.html#ride_rate">Quarterly</a>
+                    
+                </div>
+
+                <div class="px-2 flex">
+                    <a href="#top" class="ml-4 text-gray-500 hover:text-blue-500 hover:underline">Top</a>
+                </div>
+            </div>
+
+        </div>
+    
+</div>
+</body>
+</html>
