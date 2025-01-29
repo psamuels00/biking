@@ -1,7 +1,7 @@
 import os
 import sys
 
-from box import Box
+from dotmap import DotMap
 
 
 def env_load(name):
@@ -110,7 +110,7 @@ class Parameters():
                 output_path="output/summary/daily",
             ),
         )
-        self._data = Box(data)
+        self._data = DotMap(data)
 
     def __getattr__(self, item):
         return self._data[item]

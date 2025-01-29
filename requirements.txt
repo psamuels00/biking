@@ -1,7 +1,7 @@
 jinja2
 matplotlib
 numpy
-python-box
+dotmap
 pyyaml
 requests
 requests-cache
