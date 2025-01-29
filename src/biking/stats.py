@@ -1,6 +1,8 @@
 import calendar
 import os
 
+from sympy.physics.units import frequency
+
 from .conversions import feet2miles, ymd2date
 
 
@@ -9,9 +11,10 @@ def safe_div(a, b):
 
 
 class Statistics:
-    def __init__(self, params, input_data, period):
+    def __init__(self, params, input_data, frequency, period):
         self.params = params
         self.input_data = input_data
+        self.frequency = frequency
         self.period = period
         self.stats = self.calculate(period)
         self.text = []
@@ -20,9 +23,9 @@ class Statistics:
         self.text.append(line)
 
     def save_results(self):
-        path = self.params.summary.output_path
+        path = os.path.join(self.params.summary.output_path, self.frequency)
         os.makedirs(path, exist_ok=True)
-        file = os.path.join(path, f"{self.period}.html")
+        file = os.path.join(str(path), f"{self.period}.html")
         content = "\n".join(self.text) + "\n"
         with open(file, "w") as fh:
             fh.write(content)

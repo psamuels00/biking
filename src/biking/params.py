@@ -44,8 +44,8 @@ class Parameters():
             ),
             html=dict(
                 template_path="src/pages",
-                template_file="daily.html",
-                output_path="output/doc/daily",
+                template_file="template.html",
+                output_path="output/doc",
             ),
             journal_file="data/journal.yaml",
             legend=dict(
@@ -107,7 +107,7 @@ class Parameters():
                 ),
             ),
             summary=dict(
-                output_path="output/summary/daily",
+                output_path="output/summary",
             ),
         )
         self._data = DotMap(data)

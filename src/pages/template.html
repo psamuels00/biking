@@ -18,6 +18,35 @@
     ("ride_rate", "RideRate"),
 ) %}
 
+{% set frequencies = ("daily", "weekly", "monthly", "quarterly") %}
+
+{% set reports = {
+    "daily": (
+        ("last30", "Last 30", "Last 30 days"),
+        ("last60", "Last 60", "Last 60 days"),
+        ("last90", "Last 90", "Last 90 days"),
+        ("all", "All time", "All time"),
+    ),
+    "weekly": (
+        ("last16", "Last 4 mo", "Last 4 months"),
+        ("last52", "Last 1 yr", "Last 1 year"),
+        ("last104", "Last 2 yr", "Last 2 years"),
+        ("all", "All time", "All time"),
+    ),
+    "monthly": (
+        ("last12", "Last 1 yr", "Last 1 year"),
+        ("last24", "Last 2 yr", "Last 2 years"),
+        ("last36", "Last 3 yr", "Last 3 years"),
+        ("all", "All time", "All time"),
+    ),
+    "quarterly": (
+        ("last8", "Last 2 yr", "Last 2 years"),
+        ("last16", "Last 4 yr", "Last 4 years"),
+        ("last32", "Last 8 yr", "Last 8 years"),
+        ("all", "All time", "All time"),
+    ),
+} %}
+
 {% macro graph_link(id, jpg_name) %}
     <a href="#{{ id }}">
         <img src="../graph/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
@@ -86,22 +115,30 @@
 <div class="grid grid-cols-1 gap-4 md:w-4/5 max-w-5xl">
     {% for id_name, jpg_name in metric_types %}
         <div id="{{ id_name }}" class="pt-6">
-            <a href="#top">
+
+            <a href="../graph/daily/{{ period }}/{{ jpg_name }}.jpg">
                 <img src="../graph/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
                      class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
             </a>
-            <div class="flex justify-end text-center gap-4 leading-tight">
-                <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'last30' else '' }}"
-                   href="last30.html#{{ id_name }}">Last 30</a>
-                <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'last60' else '' }}"
-                   href="last60.html#{{ id_name }}">Last 60</a>
-                <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'last90' else '' }}"
-                   href="last90.html#{{ id_name }}">Last 90</a>
-                <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}"
-                   href="all.html#{{ id_name }}">All Time</a>
-                <a class="ml-4 text-gray-500 hover:text-blue-500 hover:underline"
-                   href="../graph/daily/{{ period }}/{{ jpg_name }}.jpg">Full Image</a>
+
+            <div class="flex gap-4 justify-between">
+                <div class="grid grid-cols-4 grid-rows-2 gap-2 leading-tight">
+                    {% for name, short_label, long_label in reports[frequency] %}
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if name == period else '' }}"
+                           href="../{{ frequency }}/{{ name }}.html#{{ id_name }}">{{ long_label }}</a>
+                    {% endfor %}
+
+                    {% for freq in frequencies %}
+                        <a class="px-2 text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if frequency == freq else '' }}"
+                           href="../{{ freq }}/{{ period }}.html#{{ id_name }}">{{ freq | capitalize }}</a>
+                    {% endfor %}
+                </div>
+
+                <div class="px-2 flex">
+                    <a href="#top" class="ml-4 text-gray-500 hover:text-blue-500 hover:underline">Top</a>
+                </div>
             </div>
+
         </div>
     {% endfor %}
 </div>
