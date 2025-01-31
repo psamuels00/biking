@@ -8,6 +8,8 @@ _None_
 
 ### Low Priority
 - Add Weekly, Monthly, and Yearly rollup graphs.
+- If performance factor is zero, do not include the factor in the legend
+- Change elevation gain rate factor to 0.  Update equations and explanation in README.
 - Maybe save graph legends separately from the graphs??
 - Add date labels somehow instead of day number, for example:
 

@@ -127,10 +127,9 @@ To update the graphs based on new activities in Strava:
 
 To update the graphs and push changes to GitHub:
 
-    src/analyze.py && ./scripts/add_bike_ride.sh && git push
+    src/analyze.py && git push
 
-To also publish updates to GitHub Pages,
-set up GitHub pages to serve content from /docs.  Then do this:
+To also publish updates to GitHub Pages:
 
     ./scripts/publish_updates.sh && git push
 
