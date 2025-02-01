@@ -20,7 +20,7 @@
 
 {% macro graph_link(id, jpg_name) %}
     <a href="#{{ id }}">
-        <img src="../graph/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
+        <img src="../image/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
              class="rounded-lg border-2 border-transparent hover:border-blue-400">
     </a>
 {% endmacro %}
@@ -87,7 +87,7 @@
     {% for id_name, jpg_name in metric_types %}
         <div id="{{ id_name }}" class="pt-6">
             <a href="#top">
-                <img src="../graph/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
+                <img src="../image/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
                      class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
             </a>
             <div class="flex justify-end text-center gap-4 leading-tight">
@@ -100,7 +100,7 @@
                 <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}"
                    href="all.html#{{ id_name }}">All Time</a>
                 <a class="ml-4 text-gray-500 hover:text-blue-500 hover:underline"
-                   href="../graph/daily/{{ period }}/{{ jpg_name }}.jpg">Full Image</a>
+                   href="../image/daily/{{ period }}/{{ jpg_name }}.jpg">Full Image</a>
             </div>
         </div>
     {% endfor %}
