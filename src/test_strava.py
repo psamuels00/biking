@@ -8,7 +8,7 @@ from biking.strava import Strava
 
 def main():
     params = Parameters()
-    strava = Strava(params)
+    strava = Strava(params.strava)
 
     data = strava.get_athlete()
     print("Athlete:")
