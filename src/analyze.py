@@ -6,7 +6,9 @@ from biking.graph import (
     DistanceGraph,
     ElevationGainGraph,
     ElevationLimitsGraph,
+    EnergyGraph,
     PerformanceGraph,
+    PowerGraph,
     RideRateGraph,
     SpeedGraph,
     TopSpeedGraph,
@@ -50,6 +52,8 @@ def generate_graphs(params, stats, period):
     generate("ride_rate", RideRateGraph)
     generate("distance", DistanceGraph)
     if stats["num_data_tracked_days"] > 0:
+        generate("power", PowerGraph)
+        generate("energy", EnergyGraph)
         generate("speed", SpeedGraph)
         generate("top_speed", TopSpeedGraph)
         generate("elev_gain", ElevationGainGraph)

@@ -30,3 +30,6 @@ def ymd2date(ymd):
         dt = date(int(yyyy), int(mm), int(dd))
 
     return dt
+
+def kj2kcal(num):
+    return num * 0.239

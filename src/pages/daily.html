@@ -10,6 +10,8 @@
 
 {% set metric_types = (
     ("performance", "Performance"),
+    ("power", "Power"),
+    ("energy", "Energy"),
     ("speed", "Speed"),
     ("elevation_gain", "ElevationGain"),
     ("distance", "Distance"),
@@ -63,6 +65,8 @@
     <div class="grid grid-cols-3 gap-x-4 w-4/5 max-w-5xl mb-16">
         <div class="flex flex-col gap-4">
             {{ graph_link('performance', 'Performance') }}
+            {{ graph_link('power', 'Power') }}
+            {{ graph_link('energy', 'Energy') }}
             {{ graph_link('distance', 'Distance') }}
             {{ graph_link('ride_rate', 'RideRate') }}
         </div>

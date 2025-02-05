@@ -29,8 +29,10 @@ class Parameters():
                     distance="Distance.jpg",
                     elev_gain="ElevationGain.jpg",
                     elev_limits="ElevationLimits.jpg",
+                    energy="Energy.jpg",
                     ride_rate="RideRate.jpg",
                     performance="Performance.jpg",
+                    power="Power.jpg",
                     speed="Speed.jpg",
                     top_speed="TopSpeed.jpg",
                 ),
@@ -60,6 +62,28 @@ class Parameters():
                 e_factor=3.0,
                 er_factor=1.0,
                 max_pi_scale=10.0,
+            ),
+            power=dict(
+                cyclist_weight_lbs=150,
+                cyclist_accessories_oz=dict(
+                    knapsack_w_inner_tube_and_tools=36,
+                    clothes=32,
+                    helmet=16,
+                    iPhone_Xs=6.24,
+                    gloves=1.76,
+
+                ),
+                bike_weight_lbs=31.11, # Trek Marlin 6 second gen, factory weight
+                bike_accessories_oz=dict(
+                    u_lock=35.27,
+                    tire_liner=19.4,
+                    seat=18.7,
+                    mudguards=17.63,
+                    handlebar_ends=5.4,
+                    front_light=3.5,
+                    power_grips=1.76,
+                    rear_lights=1,
+                ),
             ),
             report=dict(
                 title=dict(
