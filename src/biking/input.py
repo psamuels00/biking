@@ -82,10 +82,10 @@ class InputData:
                 print(json.dumps(record, indent=4))
 
     def summarize(self):
-        print("date        distance  elevation gain  speed")
-        print("----------  --------  --------------  -----")
-        for rec in self.get_daily_data():
+        print("day#  date        distance  elevation gain  speed")
+        print("----  ----------  --------  --------------  -----")
+        for num, rec in enumerate(self.get_daily_data(), 1):
             if rec["distance"]:
-                print(f"{rec["ymd"]}  {rec["distance"]:8.1f}    {rec["total_elevation_gain"]:10.0f}    {rec["average_speed"]:5.1f}")
+                print(f"{num:4}  {rec["ymd"]}  {rec["distance"]:8.1f}    {rec["total_elevation_gain"]:10.0f}    {rec["average_speed"]:5.1f}")
             else:
-                print(rec["ymd"])
+                print(f"{num:4}  {rec["ymd"]}")
