@@ -107,6 +107,7 @@ class Graph:
 
     def generate(self):
         fig, ax1 = plt.subplots()
+        ax1.set_axisbelow(True)
         self.build(ax1)
         plt.tight_layout()
         plt.savefig(self.output_file, dpi=self.params.graph.dpi, bbox_inches="tight")

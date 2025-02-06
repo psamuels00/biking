@@ -1,7 +1,6 @@
 # TODO
 
 ### High Priority
-- Don't draw grid over bars in bar chart
 - Fix x-axis labels, ensure far-right column labeled as day "1"
 - Update explanation of estimated metrics in README
 
