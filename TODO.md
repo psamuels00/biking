@@ -1,7 +1,6 @@
 # TODO
 
 ### High Priority
-- If performance factor is zero, do not include the factor in the legend
 - Don't draw grid over bars in bar chart
 - Fix x-axis labels, ensure far-right column labeled as day "1"
 - Update explanation of estimated metrics in README

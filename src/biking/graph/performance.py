@@ -81,15 +81,17 @@ class PerformanceGraph(Graph):
 
         d_factor_y, s_factor_y, st_factor_y, e_factor_y, er_factor_y = factors_y
 
-        bottom_y = np.array(d_factor_y) + np.array(s_factor_y) + np.array(st_factor_y) + np.array(e_factor_y)
-        bar = ax1.bar(x, er_factor_y, bottom=bottom_y, color="crimson")
-        self.handles.append(bar)
-        self.labels.append(f"Elevation Gain Rate Boost ({er_factor_y[-1]:0.1f})")
+        if self.params.performance.er_factor > 0:
+            bottom_y = np.array(d_factor_y) + np.array(s_factor_y) + np.array(st_factor_y) + np.array(e_factor_y)
+            bar = ax1.bar(x, er_factor_y, bottom=bottom_y, color="crimson")
+            self.handles.append(bar)
+            self.labels.append(f"Elevation Gain Rate Boost ({er_factor_y[-1]:0.1f})")
 
-        bottom_y = np.array(d_factor_y) + np.array(s_factor_y) + np.array(st_factor_y)
-        bar = ax1.bar(x, e_factor_y, bottom=bottom_y, color="orangered")
-        self.handles.append(bar)
-        self.labels.append(f"Elevation Gain Component ({e_factor_y[-1]:0.1f})")
+        if self.params.performance.e_factor > 0:
+            bottom_y = np.array(d_factor_y) + np.array(s_factor_y) + np.array(st_factor_y)
+            bar = ax1.bar(x, e_factor_y, bottom=bottom_y, color="orangered")
+            self.handles.append(bar)
+            self.labels.append(f"Elevation Gain Component ({e_factor_y[-1]:0.1f})")
 
         if self.params.performance.st_factor > 0:
             bottom_y = np.array(d_factor_y) + np.array(s_factor_y)
@@ -97,10 +99,11 @@ class PerformanceGraph(Graph):
             self.handles.append(bar)
             self.labels.append(f"Speed Longevity Boost ({st_factor_y[-1]:0.1f})")
 
-        bottom_y = np.array(d_factor_y)
-        bar = ax1.bar(x, s_factor_y, bottom=bottom_y, color="orange")
-        self.handles.append(bar)
-        self.labels.append(f"Speed Component ({s_factor_y[-1]:0.1f})")
+        if self.params.performance.s_factor > 0:
+            bottom_y = np.array(d_factor_y)
+            bar = ax1.bar(x, s_factor_y, bottom=bottom_y, color="orange")
+            self.handles.append(bar)
+            self.labels.append(f"Speed Component ({s_factor_y[-1]:0.1f})")
 
         if self.params.performance.d_factor > 0:
             bar = ax1.bar(x, d_factor_y, color="gold")
