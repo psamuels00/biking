@@ -15,9 +15,14 @@ class RideRateGraph(Graph):
         ride_rate_y = self.stats["data"]["ride_rate_per_day"]
 
         min_ride_rate = min(ride_rate_y)
-        lower_limit = int(max(0, min_ride_rate // 5 * 5 - 5))
+        if min_ride_rate >= 80:
+            step = 1
+        elif min_ride_rate >= 60:
+            step = 2
+        else:
+            step = 5
         upper_limit = 100
-        step = 1
+        lower_limit = int(max(0, min_ride_rate - step) // step * step)
         scale = range(lower_limit, 101, step)
 
         ax1.set_ylabel("Percentage")
