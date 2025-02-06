@@ -5,8 +5,8 @@
 - Update explanation of estimated metrics in README
 
 ### Medium Priority
-- Add --summary option to call InputData.summarize() and exit
 - Add Weekly, Monthly, and Yearly rollup graphs.
+- Add --summary option to call InputData.summarize() and exit
 
 ### Low Priority
 - Maybe save graph legends separately from the graphs??

@@ -8,7 +8,7 @@ class RideRateGraph(Graph):
         self.x_axis_days(ax1)
         self.y_axis(ax1)
 
-        self.legend("upper right")
+        self.legend("lower right")
 
     def y_axis(self, ax1):
         x = self.x_axis_values()

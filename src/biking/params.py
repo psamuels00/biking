@@ -16,6 +16,10 @@ def env_load(name):
 class Parameters():
     def __init__(self):
         data = dict(
+            calories=dict(
+                min_work_efficiency=0.20,
+                max_work_efficiency=0.25,
+            ),
             elevation_cache_name=".cache_open_elevation",
             formula=dict(
                 output_path="output/formula",
@@ -56,10 +60,6 @@ class Parameters():
                 dir="output/legend",
                 html_file="green_legend.html",
                 img_file="green_legend.jpg",
-            ),
-            calories=dict(
-                min_work_efficiency=0.20,
-                max_work_efficiency=0.25,
             ),
             performance=dict(
                 d_factor=1.0,
