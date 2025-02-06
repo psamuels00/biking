@@ -64,7 +64,7 @@
     </div>
 
     <div class="grid grid-cols-3 gap-x-4 w-4/5 max-w-5xl">
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4 bg-white rounded-lg">
             {{ graph_link('power', 'Power') }}
             {{ graph_link('energy', 'Energy') }}
             {{ graph_link('performance', 'Performance') }}
@@ -72,8 +72,10 @@
         </div>
 
         <div class="flex flex-col gap-4">
-            {{ graph_link('speed', 'Speed') }}
-            {{ graph_link('top_speed', 'TopSpeed') }}
+            <div class="flex flex-col gap-4 bg-white rounded-lg">
+                {{ graph_link('speed', 'Speed') }}
+                {{ graph_link('top_speed', 'TopSpeed') }}
+            </div>
             {{ graph_link('distance', 'Distance') }}
             <div class="text-sm text-center italic text-gray-400 mt-8">
                 Select a thumbnail to jump to the full-size image.  Select that to jump back.
@@ -81,8 +83,10 @@
         </div>
 
         <div class="flex flex-col gap-4">
-            {{ graph_link('elevation_gain', 'ElevationGain') }}
-            {{ graph_link('elevation_limits', 'ElevationLimits') }}
+            <div class="flex flex-col gap-4 bg-white rounded-lg">
+                {{ graph_link('elevation_gain', 'ElevationGain') }}
+                {{ graph_link('elevation_limits', 'ElevationLimits') }}
+            </div>
             {{ graph_link('ride_rate', 'RideRate') }}
         </div>
     </div>
