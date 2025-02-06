@@ -6,7 +6,7 @@ from biking.power import output_power
 
 class PowerGraph(Graph):
     def build(self, ax1):
-        self.title("Power Estimate")
+        self.title("Estimated Power")
 
         self.x_axis_days(ax1)
         self.y_axis(ax1)
@@ -28,27 +28,34 @@ class PowerGraph(Graph):
 
         return cyclist_weight, bike_weight
 
+    def calculate_output_power(self, offset, elev_y, speed_y, dist_y):
+        g = self.params.power.constants.g
+        C_d = self.params.power.constants.C_d
+        A = self.params.power.constants.A
+        cyclist_weight, bike_weight = self.get_weight_params()
+
+        y = [output_power(g, C_d, A, cyclist_weight, bike_weight, elevation, speed, distance)[offset] if speed else 0
+             for elevation, speed, distance in zip(elev_y, speed_y, dist_y)]
+
+        return y
+
     def y_axis(self, ax1):
         x = self.x_axis_values()
         elev_y = self.stats["data"]["elevation_gain_per_day"]
         speed_y = self.stats["data"]["speed_per_day"]
         dist_y = self.stats["data"]["distance_per_day"]
 
-        cyclist_weight, bike_weight = self.get_weight_params()
-
-        y = [output_power(cyclist_weight, bike_weight, elevation_gain, speed, distance)[0] if speed else 0
-             for elevation_gain, speed, distance in zip(elev_y, speed_y, dist_y)]
-        avg_y = [n/2 for n in y]
+        y = self.calculate_output_power(0, elev_y, speed_y, dist_y)
+        avg_y = self.average_vector(y)
 
         nan_y = np.array([n if n > 0 else np.nan for n in y])
         if self.show_only_tracked_days:
             y = nan_y
-        avg_y = np.array([n if n > 0 else np.nan for n in avg_y])
 
         max_value = int(np.nanmax(nan_y))
         lower_limit = 0
         upper_limit = max_value
-        scale = range(lower_limit, upper_limit, 10)
+        scale = range(lower_limit, upper_limit, 5)
 
         ax1.set_ylabel("Watts")
         ax1.grid(axis="y", linestyle="-", alpha=self.params.graph.grid_alpha)
@@ -62,4 +69,4 @@ class PowerGraph(Graph):
         avg_color = self.params.graph.avg_line_color
         line, = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
         self.handles.append(line)
-        self.labels.append(f"Average Power Output ({avg_y[-1]:0.0f} ft)")
+        self.labels.append(f"Average Power Output ({avg_y[-1]:0.0f} W)")

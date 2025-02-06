@@ -1,15 +1,21 @@
 # Biking Performance
 
 Generate simple graphs from data collected using Strava.
-See [the graphs](https://psamuels00.github.io/biking/)
+See [the graphs](https://psamuels00.github.io/biking/), the <a href="#graph_notes">graph notes</a>,
 and [console output](https://psamuels00.github.io/biking/summary/daily/all.html).
 
-The original motivation for this project was the development of a Performance Index to estimate power output for a
-comparison of rides that vary in speed and elevation gain. See also the <a href="#graph_notes">Graph Notes</a>.
+The original motivation for this project was the development of a "performance index" to compare the level of effort
+of rides that vary in distance, speed, and elevation gain.  Weights such as my body, bike, and gear are not factored
+in.  There is no absolute measure, just a comparison with previous rides in order to arrive at a value from 0 to 10.
+
+Then I found some basic physics formulas to estimate power output and total energy expenditure, which is probably as
+good as I can get to charting effort without a power meter.  Nevertheless, I decided to keep the performance index
+because the graph so far looks rather close to the estimated energy graph and I find that interesting since the two
+calculations are so very different.
 
 
-<a name="performance_calc"></a>
-## Performance Calculation
+<a name="performance_index"></a>
+## Performance Index
 
 The performance index (_pi_) is calculated as a function of
 
@@ -86,7 +92,20 @@ available per segment, then the same sort of analysis described above can be per
 resolution on the route by applying separately to each segment.  Ultimately, the challenge will still
 remain as to how the results of each segment should be combined, whether added, multiplied, or otherwise.
 
-Machine learning is another approach.  This would almost certainly be applied to segments as well as routes.
+
+## Power Output
+
+TODO: explain the formula here
+
+
+## Energy Output
+
+TODO: explain the formula here
+
+
+## Total Caloric Output
+
+TODO: explain the formula here
 
 
 ## Manual Data Updates

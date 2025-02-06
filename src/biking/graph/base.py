@@ -1,6 +1,9 @@
+import matplotlib
+matplotlib.use('Agg')  # Use a non-interactive backend, prevent icon popping up in Dock on Mac
 import matplotlib.pyplot as plt
 import numpy as np
 
+matplotlib.use('Agg')
 
 class Graph:
     def __init__(self, params, stats, output_file, period, show_only_tracked_days, linspace_params):
@@ -88,6 +91,19 @@ class Graph:
 
     def build(self, ax1):
         pass
+
+    def average_vector(self, values):
+        avg_values = []
+        sum = 0
+        count = 0
+
+        for value in values:
+            if value > 0:
+                sum += value
+                count += 1
+            avg_values.append(sum/count if count > 0 else np.nan)
+
+        return avg_values
 
     def generate(self):
         fig, ax1 = plt.subplots()

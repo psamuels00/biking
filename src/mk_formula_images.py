@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import matplotlib
+matplotlib.use('Agg')  # Use a non-interactive backend, prevent icon popping up in Dock on Mac
 import matplotlib.pyplot as plt
 import os
 

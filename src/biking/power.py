@@ -1,12 +1,11 @@
 from biking.conversions import kj2kcal
 
 
-# from Perplexity AI
-def output_power(cyclist_weight_lbs, bike_weight_lbs, elevation_gain_ft, speed_mph, total_distance_miles):
-    # Constants
-    g = 9.81  # Acceleration due to gravity (m/s^2)
-    C_d = 0.88  # Drag coefficient for a cyclist
-    A = 0.5  # Frontal area in m^2
+# Algorithm obtained from Perplexity AI
+def output_power(g, C_d, A, cyclist_weight_lbs, bike_weight_lbs, elevation_gain_ft, speed_mph, total_distance_miles):
+    # g is Acceleration due to gravity (m/s^2)
+    # C_d is Drag coefficient for a cyclist
+    # A is Frontal area in m^2
 
     # Unit conversions
     cyclist_weight_kg = cyclist_weight_lbs * 0.453592
@@ -33,7 +32,8 @@ def output_power(cyclist_weight_lbs, bike_weight_lbs, elevation_gain_ft, speed_m
     # Total power output
     P_total = P_climb + P_speed
 
-    # Calculate total energy output in Joules
-    energy_output = P_total * time_seconds / 1000
+    # Calculate total energy output in kJ and calories
+    energy_kilojoules = P_total * time_seconds / 1000
+    energy_calories = kj2kcal(energy_kilojoules)
 
-    return P_total, energy_output, kj2kcal(energy_output)
+    return P_total, energy_kilojoules, energy_calories

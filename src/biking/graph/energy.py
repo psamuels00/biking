@@ -6,7 +6,7 @@ from .power import PowerGraph
 
 class EnergyGraph(PowerGraph):
     def build(self, ax1):
-        self.title("Energy Estimate")
+        self.title("Estimated Energy")
 
         self.x_axis_days(ax1)
         self.y_axis(ax1)
@@ -21,30 +21,28 @@ class EnergyGraph(PowerGraph):
 
         cyclist_weight, bike_weight = self.get_weight_params()
 
-        y = [output_power(cyclist_weight, bike_weight, elevation_gain, speed, distance)[2] if speed else 0
-             for elevation_gain, speed, distance in zip(elev_y, speed_y, dist_y)]
-        avg_y = [n/2 for n in y]
+        y = self.calculate_output_power(1, elev_y, speed_y, dist_y)
+        avg_y = self.average_vector(y)
 
         nan_y = np.array([n if n > 0 else np.nan for n in y])
         if self.show_only_tracked_days:
             y = nan_y
-        avg_y = np.array([n if n > 0 else np.nan for n in avg_y])
 
         max_value = int(np.nanmax(nan_y))
         lower_limit = 0
         upper_limit = max_value
-        scale = range(lower_limit, upper_limit, 10)
+        scale = range(lower_limit, upper_limit, 50)
 
-        ax1.set_ylabel("Calories")
+        ax1.set_ylabel("kilojoule")
         ax1.grid(axis="y", linestyle="-", alpha=self.params.graph.grid_alpha)
         self.add_scale(ax1, lower_limit, upper_limit, scale),
 
         colors = self.get_colors()
         bar = ax1.bar(x, y, color=colors)
         self.handles.append(bar)
-        self.labels.append(f"Calories per Day ({y[-1]:0.0f} W)")
+        self.labels.append(f"Energy per Day ({y[-1]:0.0f} kJ)")
 
         avg_color = self.params.graph.avg_line_color
         line, = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
         self.handles.append(line)
-        self.labels.append(f"Average Calories ({avg_y[-1]:0.0f} ft)")
+        self.labels.append(f"Average Energy ({avg_y[-1]:0.0f} kJ)")

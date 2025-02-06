@@ -9,13 +9,14 @@
 <body id="top" class="flex flex-col items-center min-h-screen bg-gray-200 pb-4">
 
 {% set metric_types = (
-    ("performance", "Performance"),
     ("power", "Power"),
     ("energy", "Energy"),
+    ("calories", "Calories"),
+    ("performance", "Performance"),
     ("speed", "Speed"),
-    ("elevation_gain", "ElevationGain"),
-    ("distance", "Distance"),
     ("top_speed", "TopSpeed"),
+    ("distance", "Distance"),
+    ("elevation_gain", "ElevationGain"),
     ("elevation_limits", "ElevationLimits"),
     ("ride_rate", "RideRate"),
 ) %}
@@ -27,7 +28,7 @@
     </a>
 {% endmacro %}
 
-<div class="block md:hidden w-full">
+<div class="block md:hidden w-full mb-4">
     <header class="w-full text-center py-4 bg-gray-300">
         <h1 class="text-xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
     </header>
@@ -39,18 +40,18 @@
         <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}" href="all.html">All time</a>
     </div>
 
-    <div class="grid grid-cols-2 gap-4 p-4 pt-2 mb-4">
+    <div class="grid grid-cols-2 gap-4 p-4 pt-2">
         {% for anchor_name, jpg_name in metric_types %}
             {{ graph_link(anchor_name, jpg_name) }}
         {% endfor %}
+    </div>
 
-        <div class="flex items-center text-sm text-center italic text-gray-400">
-            Select a thumbnail to jump to the full-size image.  Select that to jump back.
-        </div>
+    <div class="w-full text-sm text-center italic text-gray-400 px-4">
+        Select a thumbnail to jump to the full-size image.  Select that to jump back.
     </div>
 </div>
 
-<div class="hidden md:block w-full place-items-center">
+<div class="hidden md:block w-full place-items-center mb-16">
     <header class="w-full text-center py-6 bg-gray-300">
         <h1 class="text-4xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
     </header>
@@ -62,27 +63,27 @@
         <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}" href="all.html">All time</a>
     </div>
 
-    <div class="grid grid-cols-3 gap-x-4 w-4/5 max-w-5xl mb-16">
+    <div class="grid grid-cols-3 gap-x-4 w-4/5 max-w-5xl">
         <div class="flex flex-col gap-4">
-            {{ graph_link('performance', 'Performance') }}
             {{ graph_link('power', 'Power') }}
             {{ graph_link('energy', 'Energy') }}
-            {{ graph_link('distance', 'Distance') }}
-            {{ graph_link('ride_rate', 'RideRate') }}
+            {{ graph_link('performance', 'Performance') }}
+            {{ graph_link('calories', 'Calories') }}
         </div>
 
         <div class="flex flex-col gap-4">
             {{ graph_link('speed', 'Speed') }}
             {{ graph_link('top_speed', 'TopSpeed') }}
+            {{ graph_link('distance', 'Distance') }}
+            <div class="text-sm text-center italic text-gray-400 mt-8">
+                Select a thumbnail to jump to the full-size image.  Select that to jump back.
+            </div>
         </div>
 
         <div class="flex flex-col gap-4">
             {{ graph_link('elevation_gain', 'ElevationGain') }}
             {{ graph_link('elevation_limits', 'ElevationLimits') }}
-
-            <div class="flex items-center text-sm text-center italic text-gray-400 h-32">
-                Select a thumbnail to jump to the full-size image.  Select that to jump back.
-            </div>
+            {{ graph_link('ride_rate', 'RideRate') }}
         </div>
     </div>
 </div>

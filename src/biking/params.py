@@ -23,9 +23,11 @@ class Parameters():
             ),
             graph=dict(
                 avg_line_color="tab:blue",
+                alt_line_color="tab:purple",
                 bar_color_map_name="Greens",
                 dpi=300,
                 file_names=dict(
+                    calories="Calories.jpg",
                     distance="Distance.jpg",
                     elev_gain="ElevationGain.jpg",
                     elev_limits="ElevationLimits.jpg",
@@ -55,6 +57,10 @@ class Parameters():
                 html_file="green_legend.html",
                 img_file="green_legend.jpg",
             ),
+            calories=dict(
+                min_work_efficiency=0.20,
+                max_work_efficiency=0.25,
+            ),
             performance=dict(
                 d_factor=1.0,
                 s_factor=2.0,
@@ -64,8 +70,13 @@ class Parameters():
                 max_pi_scale=10.0,
             ),
             power=dict(
+                constants=dict(
+                    g=9.81,  # Acceleration due to gravity (m/s^2)
+                    C_d=0.88,  # Drag coefficient for a cyclist
+                    A=0.5,  # Frontal area in m^2
+                ),
                 cyclist_weight_lbs=150,
-                cyclist_accessories_oz=dict(
+                cyclist_accessories_oz=dict(  # the keys are irrelevant, only the values are used, summed
                     knapsack_w_inner_tube_and_tools=36,
                     clothes=32,
                     helmet=16,
@@ -73,8 +84,8 @@ class Parameters():
                     gloves=1.76,
 
                 ),
-                bike_weight_lbs=31.11, # Trek Marlin 6 second gen, factory weight
-                bike_accessories_oz=dict(
+                bike_weight_lbs=31.11,  # Trek Marlin 6 second gen, factory weight
+                bike_accessories_oz=dict(  # the keys are irrelevant, only the values are used, summed
                     u_lock=35.27,
                     tire_liner=19.4,
                     seat=18.7,

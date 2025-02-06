@@ -1,3 +1,4 @@
+from .calories import CaloriesGraph
 from .distance import DistanceGraph
 from .elev_gain import ElevationGainGraph
 from .elev_limits import ElevationLimitsGraph

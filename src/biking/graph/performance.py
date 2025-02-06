@@ -63,23 +63,10 @@ class PerformanceGraph(Graph):
 
         return performance_y, (d_factor_y, s_factor_y, st_factor_y, e_factor_y, er_factor_y)
 
-    def avg_performance_index(self, performance_y):
-        avg_performance_y = []
-        pi_sum = 0
-        pi_count = 0
-
-        for pi in performance_y:
-            if pi > 0:
-                pi_sum += pi
-                pi_count += 1
-            avg_performance_y.append(pi_sum/pi_count if pi_count > 0 else np.nan)
-
-        return avg_performance_y
-
     def y_axis(self, ax1):
         x = self.x_axis_values()
         y, factors_y = self.performance_index()
-        avg_y = self.avg_performance_index(y)
+        avg_y = self.average_vector(y)
         avg_y = np.array(avg_y)
 
         nan_y = np.array(y)
