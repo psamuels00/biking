@@ -2,6 +2,7 @@
 
 import os
 
+from biking.args import get_program_args
 from biking.graph import (
     CaloriesGraph,
     DistanceGraph,
@@ -65,9 +66,14 @@ def generate_graphs(params, stats, period):
 
 def main():
     params = Parameters()
+    args = get_program_args()
     input_data = InputData(params)
+    if args.summarize:
+        input_data.summarize()
+        return
 
-    for period in ("last30", "last60", "last90", "all"):
+    periods = ("last30",) if args.thirty_day else ("last30", "last60", "last90", "all")
+    for period in periods:
         print(params.report.title[period])
         stats = calculate_statistics(params, input_data, period)
 
