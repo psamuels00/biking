@@ -69,7 +69,7 @@ def main():
     args = get_program_args()
     input_data = InputData(params)
     if args.summarize:
-        input_data.summarize()
+        input_data.summarize(args.csv)
         return
 
     periods = ("last30",) if args.thirty_day else ("last30", "last60", "last90", "all")

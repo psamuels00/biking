@@ -81,11 +81,27 @@ class InputData:
             if day_numbers is None or num in day_numbers:
                 print(json.dumps(record, indent=4))
 
-    def summarize(self):
-        print("day#  date        distance  elevation gain  speed")
-        print("----  ----------  --------  --------------  -----")
+    def summarize(self, csv=False):
+        headings = ("day#", "date", "distance", "elevation gain", "speed")
+        if csv:
+            head_format = "{},{},{},{},{}"
+            row_format = "{num},{ymd},{distance},{total_elevation_gain},{average_speed}"
+        else:
+            head_format = "{:4}  {:10}  {:8}  {:14}  {:5}"
+            row_format = "{num:4}  {ymd}  {distance:8.1f}  {total_elevation_gain:14.0f}  {average_speed:5.1f}"
+
+        print(head_format.format(*headings))
+        if not csv:
+            print("----  ----------  --------  --------------  -----")
+
         for num, rec in enumerate(self.get_daily_data(), 1):
-            if rec["distance"]:
-                print(f"{num:4}  {rec["ymd"]}  {rec["distance"]:8.1f}    {rec["total_elevation_gain"]:10.0f}    {rec["average_speed"]:5.1f}")
-            else:
-                print(f"{num:4}  {rec["ymd"]}")
+            distance = round(rec.get("distance"), 1)
+            total_elevation_gain = round(rec.get("total_elevation_gain"), 1)
+            average_speed = round(rec.get("average_speed"), 1)
+            print(row_format.format(
+                num=num,
+                ymd=rec["ymd"],
+                distance=distance,
+                total_elevation_gain=total_elevation_gain,
+                average_speed=average_speed,
+            ))

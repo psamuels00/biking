@@ -9,6 +9,5 @@
 
 ### Low Priority
 - Modify InputData.summarize() to also report power, energy, pi, calories, and ride rate
-- Add option to summarize in CSV format
 - Maybe save graph legends separately from the graphs??
 - Generate green_legend.jpg automatically (maybe using imgkit and wkhtmltoimage)
