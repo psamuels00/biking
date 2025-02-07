@@ -2,7 +2,7 @@
 
 ### High Priority
 - Tweak power and energy estimations.  Strava reports higher numbers.  The bikecalculator.com indicates even higher.
-  Update explanation of estrimated metrics in README.
+  Update explanation of estimated metrics in README.
 
 ### Medium Priority
 - Add Weekly, Monthly, and Yearly rollup graphs.
