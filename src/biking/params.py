@@ -48,7 +48,7 @@ class Parameters():
                 show_only_tracked_days=True,
                 title_pad=10,
                 tick_labels_alpha=0.5,
-                x_ticks_period=5,
+                # x_ticks_period=5,
             ),
             html=dict(
                 template_path="src/pages",

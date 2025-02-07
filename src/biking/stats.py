@@ -38,6 +38,8 @@ class Statistics:
         total_elevation_gain = 0  # feet
 
         data = dict(
+            date=[],
+
             ride_rate_per_day=[],
 
             distance_per_day=[],
@@ -82,6 +84,7 @@ class Statistics:
             num_data_tracked_days += (1 if speed and elevation else 0)
 
             ride_rate = num_biked_days * 100 / num_days
+            data["date"].append(record["date"])
             data["ride_rate_per_day"].append(ride_rate)
             data["distance_per_day"].append(distance)
             data["avg_distance_per_day"].append(safe_div(total_distance, num_biked_days))

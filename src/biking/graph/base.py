@@ -1,3 +1,4 @@
+import calendar
 import matplotlib
 matplotlib.use('Agg')  # Use a non-interactive backend, prevent icon popping up in Dock on Mac
 import matplotlib.pyplot as plt
@@ -18,21 +19,37 @@ class Graph:
         self.show_only_tracked_days = show_only_tracked_days
         self.stats = stats
 
-    def get_ticks(self):
-        if self.num_days <= 20:
-            period = 1
-        elif self.num_days <= 30:
-            period = 2
+    def has_31_days(self, date):
+        year = date.year
+        month = date.month
+        num_days = calendar.monthrange(year, month)[1]
+
+        return num_days == 31
+
+    def tick_label(self, date):
+        num_days = self.stats["num_days"]
+
+        if date.day == 1:
+            label = f"{date.day}\n{date.strftime('%b')}"
+        elif date.day == 30:
+            if num_days == 30:
+                label = "30"
+            elif num_days == 60 and self.has_31_days(date):
+                label = "30"
+            else:
+                label = ""
+        elif date.day % 5 == 0:
+            label = str(date.day)
         else:
-            period = self.params.graph.x_ticks_period
+            label = ""
 
-        offsets = [0] if self.num_days > 0 else []
-        offsets += range(period - 1, self.num_days, period)
+        return label
 
-        num_past_days = self.stats["total_num_days"] - self.num_days
+    def get_ticks(self):
+        offsets = range(self.num_days)
         labels = [
-            f"{self.num_days - x}\n{num_past_days + 1 + x}"
-            for x in offsets
+            self.tick_label(date)
+            for date in self.stats["data"]["date"]
         ]
 
         return offsets, labels
@@ -57,8 +74,8 @@ class Graph:
         plt.title(metric, pad=self.params.graph.title_pad)
 
     def legend(self, loc="upper left"):
-        from_date = self.stats["first_date"].strftime("%b %d, %Y")
-        to_date = self.stats["last_date"].strftime("%b %d, %Y")
+        from_date = self.stats["first_date"].strftime("%b %e, %Y")
+        to_date = self.stats["last_date"].strftime("%b %e, %Y")
         plt.legend(
             loc=loc,
             fontsize="small",

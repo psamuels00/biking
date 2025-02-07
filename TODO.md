@@ -1,7 +1,6 @@
 # TODO
 
 ### High Priority
-- Fix x-axis labels, ensure far-right column labeled as day "1"
 - Update explanation of estimated metrics in README
 
 ### Medium Priority
@@ -10,9 +9,5 @@
 
 ### Low Priority
 - Maybe save graph legends separately from the graphs??
-- Add date labels somehow instead of day number, for example:
-
-      | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
-          1 Dec   5        10        15        20        25        30   1 Jan   5
 - Generate green_legend.jpg automatically (maybe using imgkit and wkhtmltoimage)
 - Add option to summarize input, writing to CSV file

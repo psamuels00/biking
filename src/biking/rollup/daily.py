@@ -1,5 +1,7 @@
 import numpy as np
 
+from datetime import datetime
+
 from biking.geoloc import get_elevation
 from biking.conversions import meters2feet, meters2miles, mps2mph
 from .metric import Metric
@@ -10,6 +12,7 @@ class DailyRollup:
         self.params = params
 
         self.ymd = ymd
+        self.date = datetime.strptime(ymd, "%Y-%m-%d").date()
         self.distance = Metric()
         self.total_elevation_gain = Metric()
         self.average_speed = Metric()
@@ -43,6 +46,7 @@ class DailyRollup:
     def aggregate_values(self):
         return dict(
             ymd=self.ymd,
+            date=self.date,
             distance=self.distance.sum(),
             total_elevation_gain=self.total_elevation_gain.sum(),
             average_speed=self.average_speed.avg(),
