@@ -19,8 +19,6 @@ class EnergyGraph(PowerGraph):
         speed_y = self.stats["data"]["speed_per_day"]
         dist_y = self.stats["data"]["distance_per_day"]
 
-        cyclist_weight, bike_weight = self.get_weight_params()
-
         y = self.calculate_output_power(1, elev_y, speed_y, dist_y)
         avg_y = self.average_vector(y)
 
