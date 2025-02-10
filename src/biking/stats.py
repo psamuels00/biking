@@ -110,8 +110,6 @@ class Statistics:
 
         daily_data = self.input_data.get_daily_data()
 
-        total_num_days = len(daily_data)
-
         report_num_days = self.params.report.num_days[period]
         factor_all_days = self.params.report.factor_all_days[period]
         if not factor_all_days and report_num_days is not None:
@@ -189,7 +187,6 @@ class Statistics:
             num_days=num_days,
             total_distance=total_distance,
             total_elevation_gain=total_elevation_gain,
-            total_num_days=total_num_days,
         )
 
         return stats
@@ -310,3 +307,21 @@ class Statistics:
 
         self.print("</pre>")
         self.save_results()
+
+    def show(self):
+        data = self.stats["data"]
+
+        date_y = data["date"]
+        dist_y = data["distance_per_day"]
+        avg_dist_y = data["avg_distance_per_day"]
+        speed_y = data["speed_per_day"]
+        avg_speed_y = data["avg_speed_per_day"]
+        elev_y = data["elevation_gain_per_day"]
+        avg_elev_y = data["avg_elevation_gain_per_day"]
+
+        zipped = zip(date_y, dist_y, avg_dist_y, speed_y, avg_speed_y, elev_y, avg_elev_y)
+        print("date          distance  avg distance    speed  avg speed    elev  avg elev")
+        print("----------    --------  ------------    -----  ---------    ----  --------")
+        for date, dist, dist_a, speed, speed_a, elev, elev_a in zipped:
+            ymd = date.strftime("%Y-%m-%d")
+            print(f"{ymd}    {dist:8.1f}  {dist_a:12.1f}    {speed:5.1f}  {speed_a:5.1f}    {elev:4.0f}  {elev_a:8.0f}")

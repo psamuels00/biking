@@ -81,7 +81,7 @@ class InputData:
             if day_numbers is None or num in day_numbers:
                 print(json.dumps(record, indent=4))
 
-    def summarize(self, csv=False):
+    def show(self, csv=False):
         headings = ("day#", "date", "distance", "elevation gain", "speed")
         if csv:
             head_format = "{},{},{},{},{}"

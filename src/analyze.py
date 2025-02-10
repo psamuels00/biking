@@ -68,8 +68,12 @@ def main():
     params = Parameters()
     args = get_program_args()
     input_data = InputData(params)
-    if args.summarize:
-        input_data.summarize(args.csv)
+
+    if args.show_input:
+        input_data.show(args.csv)
+        return
+    elif args.show_metrics:
+        Statistics(params, input_data, "all").show()
         return
 
     periods = ("last30",) if args.thirty_day else ("last30", "last60", "last90", "all")
