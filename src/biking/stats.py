@@ -2,6 +2,7 @@ import calendar
 import os
 
 from .conversions import feet2miles, ymd2date
+from biking.power import output_power
 
 
 def safe_div(a, b):
@@ -27,6 +28,42 @@ class Statistics:
         with open(file, "w") as fh:
             fh.write(content)
 
+    def get_weight_params(self):
+        power = self.params.power
+
+        cyclist_accessories_oz = 0
+        for _, weight_oz in power.cyclist_accessories_oz.items():
+            cyclist_accessories_oz += weight_oz
+        cyclist_weight = power.cyclist_weight_lbs + cyclist_accessories_oz / 16
+
+        bike_accessories_oz = 0
+        for _, weight_oz in power.bike_accessories_oz.items():
+            bike_accessories_oz += weight_oz
+        bike_weight = power.bike_weight_lbs + bike_accessories_oz / 16
+
+        return cyclist_weight, bike_weight
+
+    def power_based_metric(self, offset, elevation, speed, distance):
+        g = self.params.power.constants.g
+        C_d = self.params.power.constants.C_d
+        A = self.params.power.constants.A
+        cyclist_weight, bike_weight = self.get_weight_params()
+
+        metric = 0
+        if speed:
+            metric = output_power(g, C_d, A, cyclist_weight, bike_weight, elevation, speed, distance)[offset]
+
+        return metric
+
+    def estimated_power(self, elevation, speed, distance):
+        return self.power_based_metric(0, elevation, speed, distance)
+
+    def estimated_energy(self, elevation, speed, distance):
+        return self.power_based_metric(1, elevation, speed, distance)
+
+    def estimated_calories(self, elevation, speed, distance):
+        return self.power_based_metric(2, elevation, speed, distance)
+
     def calculate(self, period):
         num_days = 0
         num_biked_days = 0  # based on availability of distance info
@@ -36,25 +73,39 @@ class Statistics:
         total_speed = 0  # mph
         total_top_speed = 0  # mph
         total_elevation_gain = 0  # feet
+        total_power = 0  # watts
+        total_energy = 0  # kJ
+        total_calories = 0  # kCal
+
+        elevation_gain_per_day = []
+        speed_per_day = []
+        distance_per_day = []
 
         data = dict(
             date=[],
 
             ride_rate_per_day=[],
 
-            distance_per_day=[],
+            distance_per_day=distance_per_day,
             avg_distance_per_day=[],
 
-            speed_per_day=[],  # ie, average speed
+            speed_per_day=speed_per_day,  # ie, average speed
             avg_speed_per_day=[],  # ie, average of averages
             top_speed_per_day=[],
             avg_top_speed_per_day=[],
 
-            elevation_gain_per_day=[],
+            elevation_gain_per_day=elevation_gain_per_day,
             avg_elevation_gain_per_day=[],
             elevation_high_per_day=[],
             elevation_low_per_day=[],
             elevation_start_per_day=[],
+
+            power_per_day=[],
+            avg_power_per_day=[],
+            energy_per_day=[],
+            avg_energy_per_day=[],
+            calories_per_day=[],
+            avg_calories_per_day=[],
         )
 
         daily_data = self.input_data.get_daily_data()
@@ -83,34 +134,50 @@ class Statistics:
             num_biked_days += (1 if distance else 0)
             num_data_tracked_days += (1 if speed and elevation else 0)
 
-            ride_rate = num_biked_days * 100 / num_days
             data["date"].append(record["date"])
+
+            ride_rate = num_biked_days * 100 / num_days
             data["ride_rate_per_day"].append(ride_rate)
+
             data["distance_per_day"].append(distance)
             data["avg_distance_per_day"].append(safe_div(total_distance, num_biked_days))
+
             data["speed_per_day"].append(speed)
             data["avg_speed_per_day"].append(safe_div(total_speed, num_data_tracked_days))
             data["top_speed_per_day"].append(top_speed)
             data["avg_top_speed_per_day"].append(safe_div(total_top_speed, num_data_tracked_days))
+
             data["elevation_gain_per_day"].append(elevation)
             data["avg_elevation_gain_per_day"].append(safe_div(total_elevation_gain, num_data_tracked_days))
             data["elevation_high_per_day"].append(record["elev_high"])
             data["elevation_low_per_day"].append(record["elev_low"])
             data["elevation_start_per_day"].append(record["elev_start"])
 
+            power = self.estimated_power(elevation, speed, distance)
+            total_power += power
+            data["power_per_day"].append(power)
+            data["avg_power_per_day"].append(safe_div(total_power, num_data_tracked_days))
+
+            energy = self.estimated_energy(elevation, speed, distance)
+            total_energy += energy
+            data["energy_per_day"].append(energy)
+            data["avg_energy_per_day"].append(safe_div(total_energy, num_data_tracked_days))
+
+            calories = self.estimated_calories(elevation, speed, distance)
+            total_calories += calories
+            data["calories_per_day"].append(calories)
+            data["avg_calories_per_day"].append(safe_div(total_calories, num_data_tracked_days))
+
         if factor_all_days and report_num_days is not None:
             for key in data:
-                print(f"    {key} len(data[{key}]) = {len(data[key])}")
                 data[key] = data[key][-report_num_days:]
-                print(f"    {key} len(data[{key}]) = {len(data[key])}")
-                print()
 
         first_date, last_date = None, None
+        first_day_of_week = None
         if daily_data:
             first_date = ymd2date(daily_data[0]["ymd"])
             last_date = ymd2date(daily_data[-1]["ymd"])
-
-        first_day_of_week = calendar.weekday(first_date.year, first_date.month, first_date.day)
+            first_day_of_week = calendar.weekday(first_date.year, first_date.month, first_date.day)
 
         stats = dict(
             data=data,

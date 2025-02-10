@@ -1,10 +1,9 @@
 import numpy as np
 
-from biking.power import output_power
-from .power import PowerGraph
+from .base import Graph
 
 
-class EnergyGraph(PowerGraph):
+class EnergyGraph(Graph):
     def build(self, ax1):
         self.title("Estimated Energy")
 
@@ -15,16 +14,13 @@ class EnergyGraph(PowerGraph):
 
     def y_axis(self, ax1):
         x = self.x_axis_values()
-        elev_y = self.stats["data"]["elevation_gain_per_day"]
-        speed_y = self.stats["data"]["speed_per_day"]
-        dist_y = self.stats["data"]["distance_per_day"]
-
-        y = self.calculate_output_power(1, elev_y, speed_y, dist_y)
-        avg_y = self.average_vector(y)
+        y = self.stats["data"]["energy_per_day"]
+        avg_y = self.stats["data"]["avg_energy_per_day"]
 
         nan_y = np.array([n if n > 0 else np.nan for n in y])
         if self.show_only_tracked_days:
             y = nan_y
+        avg_y = np.array([n if n > 0 else np.nan for n in avg_y])
 
         max_value = int(np.nanmax(nan_y))
         lower_limit = 0

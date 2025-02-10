@@ -1,11 +1,10 @@
 import math
 import numpy as np
 
-from biking.power import output_power
-from .power import PowerGraph
+from .base import Graph
 
 
-class CaloriesGraph(PowerGraph):
+class CaloriesGraph(Graph):
     def build(self, ax1):
         self.title("Estimated Total Caloric Burn")
 
@@ -16,11 +15,8 @@ class CaloriesGraph(PowerGraph):
 
     def y_axis(self, ax1):
         x = self.x_axis_values()
-        elev_y = self.stats["data"]["elevation_gain_per_day"]
-        speed_y = self.stats["data"]["speed_per_day"]
-        dist_y = self.stats["data"]["distance_per_day"]
+        y = self.stats["data"]["calories_per_day"]
 
-        y = self.calculate_output_power(2, elev_y, speed_y, dist_y)
         min_e = self.params.calories.min_work_efficiency
         max_e = self.params.calories.max_work_efficiency
         lower_y = [n/max_e for n in y]
