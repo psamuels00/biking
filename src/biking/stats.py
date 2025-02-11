@@ -14,8 +14,15 @@ class Statistics:
         self.params = params
         self.input_data = input_data
         self.period = period
-        self.stats = self.calculate(period)
         self.text = []
+
+        self.num_data_tracked_days = 0   # based on availability of speed and elevation data from Strava
+
+        self.total_power = 0  # watts
+        self.total_energy = 0  # kJ
+        self.total_calories = 0  # kCal
+
+        self.stats = self.calculate(period)
 
     def print(self, line="<br>"):
         self.text.append(line)
@@ -41,41 +48,44 @@ class Statistics:
             bike_accessories_oz += weight_oz
         bike_weight = power.bike_weight_lbs + bike_accessories_oz / 16
 
-        return cyclist_weight, bike_weight
+        return cyclist_weight + bike_weight
 
-    def power_based_metric(self, offset, elevation, speed, distance):
+    def power_based_metrics(self, elevation, speed, distance):
         g = self.params.power.constants.g
+        C_r = self.params.power.constants.C_r
         C_d = self.params.power.constants.C_d
         A = self.params.power.constants.A
-        cyclist_weight, bike_weight = self.get_weight_params()
+        weight = self.get_weight_params()
 
-        metric = 0
+        power, energy_jk, energy_kcal = 0, 0, 0
         if speed:
-            metric = output_power(g, C_d, A, cyclist_weight, bike_weight, elevation, speed, distance)[offset]
+            power, energy_jk, energy_kcal = output_power(g, C_r, C_d, A, weight, elevation, speed, distance)
 
-        return metric
+        return power, energy_jk, energy_kcal
 
-    def estimated_power(self, elevation, speed, distance):
-        return self.power_based_metric(0, elevation, speed, distance)
+    def add_derived_metrics(self, data, elevation, speed, distance):
+        power, energy_kj, energy_kcal = self.power_based_metrics(elevation, speed, distance)
 
-    def estimated_energy(self, elevation, speed, distance):
-        return self.power_based_metric(1, elevation, speed, distance)
+        self.total_power += power
+        data["power_per_day"].append(power)
+        data["avg_power_per_day"].append(safe_div(self.total_power, self.num_data_tracked_days))
 
-    def estimated_calories(self, elevation, speed, distance):
-        return self.power_based_metric(2, elevation, speed, distance)
+        self.total_energy += energy_kj
+        data["energy_per_day"].append(energy_kj)
+        data["avg_energy_per_day"].append(safe_div(self.total_energy, self.num_data_tracked_days))
+
+        self.total_calories += energy_kcal
+        data["calories_per_day"].append(energy_kcal)
+        data["avg_calories_per_day"].append(safe_div(self.total_calories, self.num_data_tracked_days))
 
     def calculate(self, period):
         num_days = 0
         num_biked_days = 0  # based on availability of distance info
-        num_data_tracked_days = 0  # ...plus speed and elevation data from Strava
 
         total_distance = 0  # miles
         total_speed = 0  # mph
         total_top_speed = 0  # mph
         total_elevation_gain = 0  # feet
-        total_power = 0  # watts
-        total_energy = 0  # kJ
-        total_calories = 0  # kCal
 
         elevation_gain_per_day = []
         speed_per_day = []
@@ -106,6 +116,7 @@ class Statistics:
             avg_energy_per_day=[],
             calories_per_day=[],
             avg_calories_per_day=[],
+            strava_estimated_power_per_day=[],
         )
 
         daily_data = self.input_data.get_daily_data()
@@ -130,7 +141,7 @@ class Statistics:
 
             num_days += 1
             num_biked_days += (1 if distance else 0)
-            num_data_tracked_days += (1 if speed and elevation else 0)
+            self.num_data_tracked_days += (1 if speed and elevation else 0)
 
             data["date"].append(record["date"])
 
@@ -141,30 +152,19 @@ class Statistics:
             data["avg_distance_per_day"].append(safe_div(total_distance, num_biked_days))
 
             data["speed_per_day"].append(speed)
-            data["avg_speed_per_day"].append(safe_div(total_speed, num_data_tracked_days))
+            data["avg_speed_per_day"].append(safe_div(total_speed, self.num_data_tracked_days))
             data["top_speed_per_day"].append(top_speed)
-            data["avg_top_speed_per_day"].append(safe_div(total_top_speed, num_data_tracked_days))
+            data["avg_top_speed_per_day"].append(safe_div(total_top_speed, self.num_data_tracked_days))
 
             data["elevation_gain_per_day"].append(elevation)
-            data["avg_elevation_gain_per_day"].append(safe_div(total_elevation_gain, num_data_tracked_days))
+            data["avg_elevation_gain_per_day"].append(safe_div(total_elevation_gain, self.num_data_tracked_days))
             data["elevation_high_per_day"].append(record["elev_high"])
             data["elevation_low_per_day"].append(record["elev_low"])
             data["elevation_start_per_day"].append(record["elev_start"])
 
-            power = self.estimated_power(elevation, speed, distance)
-            total_power += power
-            data["power_per_day"].append(power)
-            data["avg_power_per_day"].append(safe_div(total_power, num_data_tracked_days))
+            self.add_derived_metrics(data, elevation, speed, distance)
 
-            energy = self.estimated_energy(elevation, speed, distance)
-            total_energy += energy
-            data["energy_per_day"].append(energy)
-            data["avg_energy_per_day"].append(safe_div(total_energy, num_data_tracked_days))
-
-            calories = self.estimated_calories(elevation, speed, distance)
-            total_calories += calories
-            data["calories_per_day"].append(calories)
-            data["avg_calories_per_day"].append(safe_div(total_calories, num_data_tracked_days))
+            data["strava_estimated_power_per_day"].append(record["power"])
 
         if factor_all_days and report_num_days is not None:
             for key in data:
@@ -183,7 +183,7 @@ class Statistics:
             first_day_of_week=first_day_of_week,
             last_date=last_date,
             num_biked_days=num_biked_days,
-            num_data_tracked_days=num_data_tracked_days,
+            num_data_tracked_days=self.num_data_tracked_days,
             num_days=num_days,
             total_distance=total_distance,
             total_elevation_gain=total_elevation_gain,

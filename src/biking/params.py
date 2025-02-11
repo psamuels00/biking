@@ -70,9 +70,10 @@ class Parameters():
             ),
             power=dict(
                 constants=dict(
-                    g=9.81,  # Acceleration due to gravity (m/s^2)
-                    C_d=0.88,  # Drag coefficient for a cyclist
-                    A=0.5,  # Frontal area in m^2
+                    g=9.806,  # Acceleration due to gravity (m/s^2)
+                    C_d=0.88 - 0.03,  # Drag coefficient for a cyclist
+                    C_r=0.005 - 0.001,  # Rolling resistance coefficient for a cyclist
+                    A=0.5 - 0.04,  # Frontal area in m^2
                 ),
                 cyclist_weight_lbs=150,
                 cyclist_accessories_oz=dict(  # the keys are irrelevant, only the values are used, summed

@@ -95,17 +95,63 @@ remain as to how the results of each segment should be combined, whether added, 
 
 ## Power Output
 
-TODO: explain the formula here
+The following formula came from an AI chat.  Seems reasonable to me.
+
+Rolling Resistance Force
+
+    Frr = Cr x W x g
+
+- Cr is the coefficient of rolling resistance (typically around 0.005 for road bikes)
+- W is weight of the rider and bike
+- g is acceleration due to gravity
+
+Air Reistance Force
+
+    Fd = 1/2 x Cd x A x v^2
+
+- Cd is the coefficient of drag (depends on the rider's position, typically around 0.9 for a cyclist)
+- A is the frontal area (typically around 0.5 for a cyclist)
+- v is the speed
+
+Gravitational Force (when climbing)
+
+    Fg = W x g x h/d
+
+- h is elevation gain
+- d is distance travelled
+
+Total Force
+
+    Ftotal = Frr + Fd + Fg
+
+Power Output
+
+    P = Ftotal x v
+
+The values currently being used are as follows:
+
+    g = 9.806
+    C_d = 0.88 - 0.03
+    C_r = 0.005 - 0.001
+    A = 0.5 - 0.04
+
+Strava reports a value through the app (though not through the API).  I've tried to tune the calculation to match
+Strava's estimates using the small adjustments shown above.
 
 
 ## Energy Output
 
-TODO: explain the formula here
+Energy is power over time
+
+    E = P x time
 
 
 ## Total Caloric Output
 
-TODO: explain the formula here
+Calories are also a measure of energy.  Burning the calories of some food intake does not transfer efficiently to
+moving the bike along.  Most of the energy goes off as heat or is used for something else.  About 20-25% of the
+calories burned contribute to powering the bike.  For this reason, I show calories as a range.  The average is
+based on the center point of the range each day.
 
 
 ## Manual Data Updates
@@ -133,6 +179,7 @@ Here's a full list of recognized fields in the Journal.  All are optional:
 - note - any comment; ignored
 - skipped - reason for skipping the day; ignored
 - start_latlng - starting location, will replace any from a Strava activity, used only for starting elevation
+- strava_power_estimate = int, power estimate shown in Strava app, in watts
 - timeline - significance of date in timeline of project; ignored
 - top_speed - int or float, speed in mph
 - total_elevation_gain - int or float, elevation gain in feet

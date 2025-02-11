@@ -20,6 +20,7 @@ class DailyRollup:
         self.elev_high = Metric()
         self.elev_low = Metric()
         self.elev_start = Metric()
+        self.power = Metric()
 
     def add_activity(self, activity, elev_start_ft):
         self.distance.add_measure(meters2miles(activity.get("distance", np.nan)))
@@ -29,6 +30,7 @@ class DailyRollup:
         self.elev_high.add_measure(meters2feet(activity.get("elev_high", np.nan)))
         self.elev_low.add_measure(meters2feet(activity.get("elev_low", np.nan)))
         self.elev_start.add_measure(elev_start_ft)
+        self.power.add_measure(0)
 
     def add_manual_activity(self, record):
         self.distance.add_measure(record.get("distance", np.nan))  # assumed to be miles
@@ -37,6 +39,7 @@ class DailyRollup:
         self.max_speed.add_measure(record.get("max_speed", np.nan))  # assumed to be mph
         self.elev_high.add_measure(record.get("elev_high", np.nan))  # assumed to be feet
         self.elev_low.add_measure(record.get("elev_low", np.nan))  # assumed to be feet
+        self.power.add_measure(record.get("strava_power_estimate", np.nan))  # assumed to be in watts
 
         if record.get("start_latlng"):
             cache_name = self.params.elevation_cache_name
@@ -54,4 +57,5 @@ class DailyRollup:
             elev_high=self.elev_high.max(),
             elev_low=self.elev_low.min(),
             elev_start=self.elev_start.last(),
+            power=self.power.max()
         )
