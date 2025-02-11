@@ -73,7 +73,7 @@ def main():
         input_data.show(args.csv)
         return
     elif args.show_metrics:
-        Statistics(params, input_data, "all").show()
+        Statistics(params, input_data, "all").show(args.csv)
         return
 
     periods = ("last30",) if args.thirty_day else ("last30", "last60", "last90", "all")

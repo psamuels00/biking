@@ -308,7 +308,7 @@ class Statistics:
         self.print("</pre>")
         self.save_results()
 
-    def show(self):
+    def show(self, csv=False):
         data = self.stats["data"]
 
         date_y = data["date"]
@@ -318,10 +318,47 @@ class Statistics:
         avg_speed_y = data["avg_speed_per_day"]
         elev_y = data["elevation_gain_per_day"]
         avg_elev_y = data["avg_elevation_gain_per_day"]
+        power_y = data["power_per_day"]
+        avg_power_y = data["avg_power_per_day"]
+        energy_y = data["energy_per_day"]
+        avg_energy_y = data["avg_energy_per_day"]
+        calories_y = data["calories_per_day"]
+        avg_calories_y = data["avg_calories_per_day"]
+        ride_rate_y = data["ride_rate_per_day"]
 
-        zipped = zip(date_y, dist_y, avg_dist_y, speed_y, avg_speed_y, elev_y, avg_elev_y)
-        print("date          distance  avg distance    speed  avg speed    elev  avg elev")
-        print("----------    --------  ------------    -----  ---------    ----  --------")
-        for date, dist, dist_a, speed, speed_a, elev, elev_a in zipped:
+        headings = ("day#", "date", "distance", "avg dist", "speed", "avg speed", "elev gain", "avg elev", "power", "avg power", "energy kj", "avg energy", "calories", "avg cals", "ride rate")
+        if csv:
+            head_format = "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}"
+            row_format = "{num},{ymd},{distance:.1f},{avg_dist:.1f},{speed:.1f},{avg_speed:.1f},{elev_gain:.0f},{avg_elev:.0f},{power:.0f},{avg_power:.0f},{energy_kj:.0f},{avg_energy:.0f},{calories:.0f},{avg_cals:.0f},{ride_rate:.2f}"
+        else:
+            head_format = "{:4}  {:10}  {:8}  {:8}  {:5}  {:9}  {:9}  {:8}  {:5}  {:9}  {:9}  {:10}  {:8}  {:8}  {:9}"
+            row_format = "{num:4}  {ymd}  {distance:8.1f}  {avg_dist:8.1f}  {speed:5.1f}  {avg_speed:9.1f}  {elev_gain:9.0f}  {avg_elev:8.0f}  {power:5.0f}  {avg_power:9.0f}  {energy_kj:9.0f}  {avg_energy:10.0f}  {calories:8.0f}  {avg_cals:8.0f}  {ride_rate:9.2f}"
+
+        if csv:
+            print(head_format.format(*headings))
+
+        zipped = zip(date_y, dist_y, avg_dist_y, speed_y, avg_speed_y, elev_y, avg_elev_y, power_y, avg_power_y, energy_y, avg_energy_y, calories_y, avg_calories_y, ride_rate_y)
+        for num, (date, dist, a_dist, speed, a_speed, elev, a_elev, power, a_power, energy, a_energy, calories, a_calories, ride_rate) in enumerate(zipped, 1):
+            if not csv and (num - 1) % 10 == 0:
+                if num > 1:
+                    print()
+                print(head_format.format(*headings))
+                print("----  ----------  --------  --------  -----  ---------  ---------  --------  -----  ---------  ---------  ----------  --------  --------  ---------")
             ymd = date.strftime("%Y-%m-%d")
-            print(f"{ymd}    {dist:8.1f}  {dist_a:12.1f}    {speed:5.1f}  {speed_a:5.1f}    {elev:4.0f}  {elev_a:8.0f}")
+            print(row_format.format(
+                num=num,
+                ymd=ymd,
+                distance=dist,
+                avg_dist=a_dist,
+                speed=speed,
+                avg_speed=a_speed,
+                elev_gain=elev,
+                avg_elev=a_elev,
+                power=power,
+                avg_power=a_power,
+                energy_kj=energy,
+                avg_energy=a_energy,
+                calories=calories,
+                avg_cals=a_calories,
+                ride_rate=ride_rate,
+            ))
