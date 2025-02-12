@@ -1,7 +1,9 @@
 from datetime import timedelta
 
 import json
+import sqlite3
 
+from biking.params import Parameters
 from .conversions import ymd2date
 from .elevation import Elevation
 from .journal import Journal
@@ -65,9 +67,44 @@ class InputData:
 
         return daily_data
 
+    def get_cached_activities(self, conn):
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT date, activities FROM activities")
+        rows = cursor.fetchall()
+
+        data = {}
+
+        for date, activities_json in rows:
+            data[date] = activities_json
+
+        cursor.close()
+
+        return data
+
+    def cache_activities(self, activities):
+        file = self.params.strava.db_cache.file
+        conn = sqlite3.connect(file)
+        cursor = conn.cursor()
+
+        cached_activities = self.get_cached_activities(conn)
+
+        for activity in activities:
+            date = activity["start_date_local"]
+            activity_str = json.dumps(activity)
+            if date not in cached_activities:
+                print(f"DB cache: add activity for {date}")
+                cursor.execute("INSERT INTO activities (date, activities) VALUES (?, ?)", (date, activity_str))
+            elif activity_str != cached_activities[date]:
+                print(f"DB cache: update activity for {date}")
+                cursor.execute("UPDATE activities set activities = ? WHERE date = ?", (activity_str, date))
+
+        conn.commit()
+
     def get_daily_data(self):
         strava = Strava(self.params.strava)
         activities = strava.get_activities()
+        self.cache_activities(activities)
         journal = self.journal.load()
         self.set_date_range(activities, journal)
         daily_data = self.consolidate_data_sources(activities, journal)

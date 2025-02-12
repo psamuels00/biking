@@ -131,6 +131,9 @@ class Parameters():
                     client_secret=env_load("strava_client_secret"),
                     app_code=env_load("strava_app_auth_code"),
                 ),
+                db_cache=dict(
+                    file="strava.db",
+                ),
                 http_cache=dict(
                     file=".cache_strava",
                     expire_sec=24*3600,

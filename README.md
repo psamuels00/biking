@@ -265,6 +265,13 @@ Set up GitHub Pages to serve data from the docs/ directory of your project.
 
     cp data/journal.template.yaml data/journal.yaml
 
+#### 6. Create SQLite database
+
+    src/mk_database.py
+
+The database is used to cache activity responses from Strava in case suddenly one day
+historical data is no longer available from Strava.
+
 
 <a name="graph_notes"></a>
 ## Graph Notes
