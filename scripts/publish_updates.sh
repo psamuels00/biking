@@ -2,7 +2,7 @@
 
 publish() {
     cp -r output/index/ docs/
-    cp src/pages/index.html docs/
+    cp src/pages/index/index.html docs/
 
     cp -r output/graph/* docs/image/
 

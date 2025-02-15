@@ -50,7 +50,7 @@ class Parameters:
                 tick_labels_alpha=0.5,
             ),
             html=dict(
-                template_path="src/pages",
+                template_path="src/pages/index",
                 template_file="daily.html",
                 output_path="output/index/daily",
             ),
