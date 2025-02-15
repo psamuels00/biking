@@ -1,10 +1,13 @@
 import calendar
 import matplotlib
-matplotlib.use('Agg')  # Use a non-interactive backend, prevent icon popping up in Dock on Mac
-import matplotlib.pyplot as plt
-import numpy as np
 
-matplotlib.use('Agg')
+matplotlib.use("Agg")  # Use a non-interactive backend, prevent icon popping up in Dock on Mac
+import matplotlib.pyplot as plt  # noqa E402
+import numpy as np  # noqa E402
+
+
+matplotlib.use("Agg")
+
 
 class Graph:
     def __init__(self, params, stats, output_file, period, show_only_tracked_days, linspace_params):
@@ -47,10 +50,7 @@ class Graph:
 
     def get_ticks(self):
         offsets = range(self.num_days)
-        labels = [
-            self.tick_label(date)
-            for date in self.stats["data"]["date"]
-        ]
+        labels = [self.tick_label(date) for date in self.stats["data"]["date"]]
 
         return offsets, labels
 
@@ -118,7 +118,7 @@ class Graph:
             if value > 0:
                 sum += value
                 count += 1
-            avg_values.append(sum/count if count > 0 else np.nan)
+            avg_values.append(sum / count if count > 0 else np.nan)
 
         return avg_values
 

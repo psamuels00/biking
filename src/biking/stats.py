@@ -16,7 +16,7 @@ class Statistics:
         self.period = period
         self.text = []
 
-        self.num_data_tracked_days = 0   # based on availability of speed and elevation data from Strava
+        self.num_data_tracked_days = 0  # based on availability of speed and elevation data from Strava
 
         self.total_power = 0  # watts
         self.total_energy = 0  # kJ
@@ -93,23 +93,18 @@ class Statistics:
 
         data = dict(
             date=[],
-
             ride_rate_per_day=[],
-
             distance_per_day=distance_per_day,
             avg_distance_per_day=[],
-
             speed_per_day=speed_per_day,  # ie, average speed
             avg_speed_per_day=[],  # ie, average of averages
             top_speed_per_day=[],
             avg_top_speed_per_day=[],
-
             elevation_gain_per_day=elevation_gain_per_day,
             avg_elevation_gain_per_day=[],
             elevation_high_per_day=[],
             elevation_low_per_day=[],
             elevation_start_per_day=[],
-
             power_per_day=[],
             avg_power_per_day=[],
             energy_per_day=[],
@@ -140,8 +135,8 @@ class Statistics:
             total_elevation_gain += elevation
 
             num_days += 1
-            num_biked_days += (1 if distance else 0)
-            self.num_data_tracked_days += (1 if speed and elevation else 0)
+            num_biked_days += 1 if distance else 0
+            self.num_data_tracked_days += 1 if speed and elevation else 0
 
             data["date"].append(record["date"])
 
@@ -214,14 +209,19 @@ class Statistics:
         self.print()
         self.print("days  total  biked  tracked  skipped  ride rate")
         self.print("      -----  -----  -------  -------  ---------")
-        self.print(f"{num_days:11}  {num_biked_days:5}  {num_data_tracked_days:5}  {num_skipped_days:7}  {ride_rate:8.2f}%")
+        self.print(
+            f"{num_days:11}  {num_biked_days:5}  {num_data_tracked_days:5}  {num_skipped_days:7}  {ride_rate:8.2f}%"
+        )
 
     def report_distance_data(self):
         stats = self.stats
         data = stats["data"]
 
-        min_val = lambda field: min(x for x in data[field] if x > 0)
-        max_val = lambda field: max(data[field])
+        def min_val(field):
+            return min(x for x in data[field] if x > 0)
+
+        def max_val(field):
+            return max(data[field])
 
         min_distance = min_val("distance_per_day")
         max_distance = max_val("distance_per_day")
@@ -241,9 +241,14 @@ class Statistics:
         data = stats["data"]
         num_data_tracked_days = stats["num_data_tracked_days"]
 
-        min_val = lambda field: min(x for x in data[field] if x > 0)
-        max_val = lambda field: max(data[field])
-        sum_vals = lambda field: sum(data[field])
+        def min_val(field):
+            return min(x for x in data[field] if x > 0)
+
+        def max_val(field):
+            return max(data[field])
+
+        def sum_vals(field):
+            return sum(data[field])
 
         # speed
         min_speed = min_val("speed_per_day")
@@ -285,11 +290,15 @@ class Statistics:
         self.print()
         self.print("elevation gain (ft)  min   max   avg   total    total miles")
         self.print("                     ----  ----  ----  -------  -----------")
-        self.print(f"{min_elev_gain:25}  {max_elev_gain:4}  {avg_elev_gain:4}  {total_elev_gain:7}  {total_elev_gain_miles:11.1f}")
+        self.print(
+            f"{min_elev_gain:25}  {max_elev_gain:4}  {avg_elev_gain:4}  {total_elev_gain:7}  {total_elev_gain_miles:11.1f}"  # noqa E501
+        )
         self.print()
         self.print("elevation range (ft)  low:  min   max   avg   high:  min   max   avg")
         self.print("                            ----  ----  ----         ----  ----  ----")
-        self.print(f"{min_elev_low:31}  {max_elev_low:4}  {avg_elev_low:4}  {min_elev_high:12}  {max_elev_high:4}  {avg_elev_high:4}")
+        self.print(
+            f"{min_elev_low:31}  {max_elev_low:4}  {avg_elev_low:4}  {min_elev_high:12}  {max_elev_high:4}  {avg_elev_high:4}"  # noqa E501
+        )
 
     def report(self):
         num_days = self.stats["num_days"]
@@ -326,26 +335,79 @@ class Statistics:
         avg_calories_y = data["avg_calories_per_day"]
         ride_rate_y = data["ride_rate_per_day"]
 
-        headings = ("day#", "date", "distance", "avg dist", "speed", "avg speed", "elev gain", "avg elev", "power", "avg power", "energy kj", "avg energy", "calories", "avg cals", "ride rate")
+        headings = (
+            "day#",
+            "date",
+            "distance",
+            "avg dist",
+            "speed",
+            "avg speed",
+            "elev gain",
+            "avg elev",
+            "power",
+            "avg power",
+            "energy kj",
+            "avg energy",
+            "calories",
+            "avg cals",
+            "ride rate",
+        )
         if csv:
             head_format = "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}"
-            row_format = "{num},{ymd},{distance:.1f},{avg_dist:.1f},{speed:.1f},{avg_speed:.1f},{elev_gain:.0f},{avg_elev:.0f},{power:.0f},{avg_power:.0f},{energy_kj:.0f},{avg_energy:.0f},{calories:.0f},{avg_cals:.0f},{ride_rate:.2f}"
+            row_format = (
+                "{num},{ymd},{distance:.1f},{avg_dist:.1f},{speed:.1f},{avg_speed:.1f},{elev_gain:.0f},{avg_elev:.0f},"
+                "{power:.0f},{avg_power:.0f},{energy_kj:.0f},{avg_energy:.0f},{calories:.0f},{avg_cals:.0f},"
+                "{ride_rate:.2f}"
+            )
+
         else:
             head_format = "{:4}  {:10}  {:8}  {:8}  {:5}  {:9}  {:9}  {:8}  {:5}  {:9}  {:9}  {:10}  {:8}  {:8}  {:9}"
-            row_format = "{num:4}  {ymd}  {distance:8.1f}  {avg_dist:8.1f}  {speed:5.1f}  {avg_speed:9.1f}  {elev_gain:9.0f}  {avg_elev:8.0f}  {power:5.0f}  {avg_power:9.0f}  {energy_kj:9.0f}  {avg_energy:10.0f}  {calories:8.0f}  {avg_cals:8.0f}  {ride_rate:9.2f}"
+            row_format = "{num:4}  {ymd}  {distance:8.1f}  {avg_dist:8.1f}  {speed:5.1f}  {avg_speed:9.1f}  {elev_gain:9.0f}  {avg_elev:8.0f}  {power:5.0f}  {avg_power:9.0f}  {energy_kj:9.0f}  {avg_energy:10.0f}  {calories:8.0f}  {avg_cals:8.0f}  {ride_rate:9.2f}"  # noqa E501
 
         if csv:
             print(head_format.format(*headings))
 
-        zipped = zip(date_y, dist_y, avg_dist_y, speed_y, avg_speed_y, elev_y, avg_elev_y, power_y, avg_power_y, energy_y, avg_energy_y, calories_y, avg_calories_y, ride_rate_y)
-        for num, (date, dist, a_dist, speed, a_speed, elev, a_elev, power, a_power, energy, a_energy, calories, a_calories, ride_rate) in enumerate(zipped, 1):
+        zipped = zip(
+            date_y,
+            dist_y,
+            avg_dist_y,
+            speed_y,
+            avg_speed_y,
+            elev_y,
+            avg_elev_y,
+            power_y,
+            avg_power_y,
+            energy_y,
+            avg_energy_y,
+            calories_y,
+            avg_calories_y,
+            ride_rate_y,
+        )
+        for num, (
+            date,
+            dist,
+            a_dist,
+            speed,
+            a_speed,
+            elev,
+            a_elev,
+            power,
+            a_power,
+            energy,
+            a_energy,
+            calories,
+            a_calories,
+            ride_rate,
+        ) in enumerate(zipped, 1):
             if not csv and (num - 1) % 10 == 0:
                 if num > 1:
                     print()
                 print(head_format.format(*headings))
-                print("----  ----------  --------  --------  -----  ---------  ---------  --------  -----  ---------  ---------  ----------  --------  --------  ---------")
+                print(
+                    "----  ----------  --------  --------  -----  ---------  ---------  --------  -----  ---------  ---------  ----------  --------  --------  ---------"  # noqa E501
+                )
             ymd = date.strftime("%Y-%m-%d")
-            print(row_format.format(
+            msg = row_format.format(
                 num=num,
                 ymd=ymd,
                 distance=dist,
@@ -361,4 +423,5 @@ class Statistics:
                 calories=calories,
                 avg_cals=a_calories,
                 ride_rate=ride_rate,
-            ))
+            )
+            print(msg)

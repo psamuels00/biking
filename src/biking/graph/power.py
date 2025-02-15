@@ -47,11 +47,11 @@ class PowerGraph(Graph):
         self.handles.append(bar)
         self.labels.append(f"Power Output per Day ({y[-1]:0.0f} W)")
 
-        line, = ax1.plot(x, strava_y, color="red", linestyle="None", marker="o", markersize=2)
+        (line,) = ax1.plot(x, strava_y, color="red", linestyle="None", marker="o", markersize=2)
         self.handles.append(line)
         self.labels.append(f"Strava Estimated Power Output ({strava_y[-1]:0.0f} W)")
 
         avg_color = self.params.graph.avg_line_color
-        line, = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
+        (line,) = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
         self.handles.append(line)
         self.labels.append(f"Average Power Output ({avg_y[-1]:0.0f} W)")

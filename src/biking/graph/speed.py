@@ -48,6 +48,6 @@ class SpeedGraph(Graph):
         self.labels.append(f"{self.label()} per Day ({y[-1]:0.1f} mph)")
 
         avg_color = self.params.graph.avg_line_color
-        line, = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
+        (line,) = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
         self.handles.append(line)
         self.labels.append(f"Average {self.label()} ({avg_y[-1]:0.1f} mph)")

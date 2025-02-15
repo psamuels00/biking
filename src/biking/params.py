@@ -13,7 +13,7 @@ def env_load(name):
     return value
 
 
-class Parameters():
+class Parameters:
     def __init__(self):
         data = dict(
             calories=dict(
@@ -82,7 +82,6 @@ class Parameters():
                     helmet=16,
                     iPhone_Xs=6.24,
                     gloves=1.76,
-
                 ),
                 bike_weight_lbs=31.11,  # Trek Marlin 6 second gen, factory weight
                 bike_accessories_oz=dict(  # the keys are irrelevant, only the values are used, summed
@@ -103,7 +102,6 @@ class Parameters():
                     last90="Last 90 Days",
                     all="All Time",
                 ),
-
                 # N to limit days reported on, or None for no limit
                 num_days=dict(
                     last30=30,
@@ -111,7 +109,6 @@ class Parameters():
                     last90=90,
                     all=None,
                 ),
-
                 # if False and report_days is N, only factor report days into averages
                 factor_all_days=dict(
                     last30=False,
@@ -133,10 +130,11 @@ class Parameters():
                 ),
                 db_cache=dict(
                     file="strava.db",
+                    num_activities_lookback_for_change=3,
                 ),
                 http_cache=dict(
                     file=".cache_strava",
-                    expire_sec=24*3600,
+                    expire_sec=24 * 3600,
                 ),
                 url=dict(
                     token="https://www.strava.com/oauth/token",

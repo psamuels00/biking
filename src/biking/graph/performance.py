@@ -51,7 +51,9 @@ class PerformanceGraph(Graph):
         ]
 
         max_pi = max(performance_y)
-        norm_to_scale = lambda values, factor=1: [n * factor / max_pi * max_pi_scale for n in values]
+
+        def norm_to_scale(values, factor=1):
+            return [n * factor / max_pi * max_pi_scale for n in values]
 
         # normalize performance index and components thereof to the PI scale
         performance_y = norm_to_scale(performance_y)
@@ -111,6 +113,6 @@ class PerformanceGraph(Graph):
             self.labels.append(f"Distance Component ({d_factor_y[-1]:0.1f})")
 
         avg_color = self.params.graph.avg_line_color
-        line, = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
+        (line,) = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
         self.handles.append(line)
         self.labels.append(f"Average Performance Index ({avg_y[-1]:0.1f})")

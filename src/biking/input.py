@@ -1,9 +1,8 @@
 from datetime import timedelta
 
 import json
-import sqlite3
 
-from biking.params import Parameters
+from .db import Db
 from .conversions import ymd2date
 from .elevation import Elevation
 from .journal import Journal
@@ -14,11 +13,44 @@ from .strava import Strava
 class InputData:
     def __init__(self, params):
         self.params = params
-        self.date_range = None
         self.journal = Journal(params)
         self.elevation = Elevation(params)
+        self.db = Db(params)
 
-    def set_date_range(self, activities, journal):
+    def get_cached_activities(self):
+        rows = self.db.select_activities()
+        data = {}
+
+        for date, activities in rows:
+            data[date] = activities
+
+        return data
+
+    def cache_activities(self, new_activities, activities_map):
+        for activity in new_activities:
+            date = activity["start_date_local"]
+            if date in activities_map:
+                self.db.update_activity(date, activity)
+            else:
+                self.db.insert_activity(date, activity)
+
+    def load_activities(self):
+        activities_map = self.get_cached_activities()
+
+        strava = Strava(self.params.strava)
+        new_activities = strava.get_new_activities(activities_map)
+        self.cache_activities(new_activities, activities_map)
+
+        # combine new activities with cached ones
+        for activity in new_activities:
+            date = activity["start_date_local"]
+            activities_map[date] = activity
+
+        activities = [activities_map[date] for date in sorted(activities_map.keys())]
+
+        return activities
+
+    def calculate_date_range(self, activities, journal):
         t0 = None
         t1 = None
 
@@ -36,13 +68,13 @@ class InputData:
             if journal_dates[-1] > t1:
                 t1 = journal_dates[-1]
 
-        self.date_range = (ymd2date(t0), ymd2date(t1))
+        return ymd2date(t0), ymd2date(t1)
 
-    def init_daily_data(self):
+    def init_daily_data(self, from_date, to_date):
         daily_data = {}
 
-        cur_date = self.date_range[0]
-        while cur_date <= self.date_range[1]:
+        cur_date = from_date
+        while cur_date <= to_date:
             ymd = cur_date.strftime("%Y-%m-%d")
             daily_data[ymd] = DailyRollup(self.params, ymd)
             cur_date += timedelta(days=1)
@@ -50,7 +82,8 @@ class InputData:
         return daily_data
 
     def consolidate_data_sources(self, activities, journal):
-        daily_data = self.init_daily_data()
+        from_date, to_date = self.calculate_date_range(activities, journal)
+        daily_data = self.init_daily_data(from_date, to_date)
 
         for activity in activities:
             ymd = activity["start_date_local"][:10]
@@ -60,53 +93,14 @@ class InputData:
         for ymd, record in journal.items():
             daily_data[ymd].add_manual_activity(record)
 
-        daily_data = [
-            rollup.aggregate_values()
-            for rollup in sorted(daily_data.values(), key=lambda a: a.ymd)
-        ]
+        rollups = sorted(daily_data.values(), key=lambda a: a.ymd)
+        daily_data = [rollup.aggregate_values() for rollup in rollups]
 
         return daily_data
 
-    def get_cached_activities(self, conn):
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT date, activities FROM activities")
-        rows = cursor.fetchall()
-
-        data = {}
-
-        for date, activities_json in rows:
-            data[date] = activities_json
-
-        cursor.close()
-
-        return data
-
-    def cache_activities(self, activities):
-        file = self.params.strava.db_cache.file
-        conn = sqlite3.connect(file)
-        cursor = conn.cursor()
-
-        cached_activities = self.get_cached_activities(conn)
-
-        for activity in activities:
-            date = activity["start_date_local"]
-            activity_str = json.dumps(activity)
-            if date not in cached_activities:
-                print(f"DB cache: add activity for {date}")
-                cursor.execute("INSERT INTO activities (date, activities) VALUES (?, ?)", (date, activity_str))
-            elif activity_str != cached_activities[date]:
-                print(f"DB cache: update activity for {date}")
-                cursor.execute("UPDATE activities set activities = ? WHERE date = ?", (activity_str, date))
-
-        conn.commit()
-
     def get_daily_data(self):
-        strava = Strava(self.params.strava)
-        activities = strava.get_activities()
-        self.cache_activities(activities)
+        activities = self.load_activities()
         journal = self.journal.load()
-        self.set_date_range(activities, journal)
         daily_data = self.consolidate_data_sources(activities, journal)
         # self.debug(daily_data)
 
@@ -135,10 +129,11 @@ class InputData:
             distance = round(rec.get("distance"), 1)
             total_elevation_gain = round(rec.get("total_elevation_gain"), 1)
             average_speed = round(rec.get("average_speed"), 1)
-            print(row_format.format(
+            msg = row_format.format(
                 num=num,
                 ymd=rec["ymd"],
                 distance=distance,
                 total_elevation_gain=total_elevation_gain,
                 average_speed=average_speed,
-            ))
+            )
+            print(msg)

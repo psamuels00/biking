@@ -57,5 +57,5 @@ class DailyRollup:
             elev_high=self.elev_high.max(),
             elev_low=self.elev_low.min(),
             elev_start=self.elev_start.last(),
-            power=self.power.max()
+            power=self.power.max(),
         )

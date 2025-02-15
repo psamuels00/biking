@@ -18,7 +18,7 @@ def output_power(g, C_r, C_d, A, weight_lbs, elevation_gain_ft, speed_mph, dista
 
     # force
     F_rr = C_r * weight * g  # force due to rolling resistance
-    F_d = (1 / 2) * C_d * A * speed ** 2  # force due to air resistance
+    F_d = (1 / 2) * C_d * A * speed**2  # force due to air resistance
     F_g = weight * g * (elevation_gain / distance)  # force due to gravity, while climbing
     force = F_rr + F_d + F_g
 

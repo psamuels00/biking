@@ -9,9 +9,7 @@ def no_automatic_date_constructor(loader, node):
     return loader.construct_scalar(node)
 
 
-NoDatesSafeLoader.add_constructor(
-    "tag:yaml.org,2002:timestamp", no_automatic_date_constructor
-)
+NoDatesSafeLoader.add_constructor("tag:yaml.org,2002:timestamp", no_automatic_date_constructor)
 
 
 class Journal:
@@ -26,10 +24,9 @@ class Journal:
     def remove_notes(self, data):
         # remove "note", "skipped", and "timeline" and entries containing only those fields
         return {
-            k: {
-                k2: v2 for k2, v2 in v.items() if k2 not in ("note", "skipped", "timeline")
-            }
-            for k, v in data.items() if len(v) > 1 or "note" not in v
+            k: {k2: v2 for k2, v2 in v.items() if k2 not in ("note", "skipped", "timeline")}
+            for k, v in data.items()
+            if len(v) > 1 or "note" not in v
         }
 
     def load(self):

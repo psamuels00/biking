@@ -40,6 +40,6 @@ class ElevationLimitsGraph(Graph):
         self.handles.append(vlines)
         self.labels.append(f"Elevation Range ({y_low[-1]:0.0f} - {y_high[-1]:0.0f} ft)")
 
-        line, = ax1.plot(x, y_start, color="red", linestyle="None", marker="o", markersize=2)
+        (line,) = ax1.plot(x, y_start, color="red", linestyle="None", marker="o", markersize=2)
         self.handles.append(line)
         self.labels.append(f"Elevation Start ({y_start[-1]:.0f} ft)")

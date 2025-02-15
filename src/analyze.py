@@ -47,6 +47,7 @@ def generate_html(params, period):
     data = dict(period=period)
     render(template_path, template_file, data, output_path, output_file)
 
+
 def generate_graphs(params, stats, period):
     def generate(file_type, type):
         generate_graph(params, stats, period, file_type, type)

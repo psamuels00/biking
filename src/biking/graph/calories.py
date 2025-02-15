@@ -19,9 +19,9 @@ class CaloriesGraph(Graph):
 
         min_e = self.params.calories.min_work_efficiency
         max_e = self.params.calories.max_work_efficiency
-        lower_y = [n/max_e for n in y]
-        upper_y = [n/min_e for n in y]
-        mean_y = [n/((min_e + max_e)/2) for n in y]
+        lower_y = [n / max_e for n in y]
+        upper_y = [n / min_e for n in y]
+        mean_y = [n / ((min_e + max_e) / 2) for n in y]
         avg_y = self.average_vector(mean_y)
 
         nan_y = np.array([n if n > 0 else np.nan for n in y])
@@ -47,6 +47,6 @@ class CaloriesGraph(Graph):
         self.labels.append(f"Calories per Day ({lower_y[-1]:0.0f}-{upper_y[-1]:0.0f} kCal)")
 
         avg_color = self.params.graph.avg_line_color
-        line, = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
+        (line,) = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
         self.handles.append(line)
         self.labels.append(f"Average Calories ({avg_y[-1]:0.0f} kCal)")

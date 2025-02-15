@@ -1,1 +1,1 @@
-from .strava import Strava
+from .strava import Strava  # noqa: F401

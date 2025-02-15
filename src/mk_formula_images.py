@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
 import matplotlib
-matplotlib.use('Agg')  # Use a non-interactive backend, prevent icon popping up in Dock on Mac
-import matplotlib.pyplot as plt
-import os
 
-from biking.params import Parameters
+matplotlib.use("Agg")  # Use a non-interactive backend, prevent icon popping up in Dock on Mac
+import matplotlib.pyplot as plt  # noqa: E402
+import os  # noqa: E402
+
+from biking.params import Parameters  # noqa: E402
 
 
 def tex_files(dir):

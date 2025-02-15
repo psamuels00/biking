@@ -31,5 +31,6 @@ def ymd2date(ymd):
 
     return dt
 
+
 def kj2kcal(num):
     return num * 0.239

@@ -14,3 +14,6 @@ class Strava:
 
     def get_activities(self):
         return self.request.get_activities()
+
+    def get_new_activities(self, cached_activities):
+        return self.request.get_new_activities(cached_activities)

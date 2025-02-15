@@ -1,9 +1,7 @@
 # TODO
 
 ### High Priority
-- Save all the data pulled from Strava in a database or file, not only in HTTP requests cache, in case Strava
-  suddenly makes older data inaccessible.  Also, be smarter about paging through the activities; paging is
-  probably not necessary if I'm caching values.
+_None_
 
 ### Medium Priority
 - Implement Input.details() as CSV or HTML

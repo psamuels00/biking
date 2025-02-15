@@ -36,5 +36,3 @@ class Authentication:
 
     def refresh_tokens(self):
         self.exchange_tokens(refresh=True)
-
-

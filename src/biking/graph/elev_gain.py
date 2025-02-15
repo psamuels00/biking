@@ -37,6 +37,6 @@ class ElevationGainGraph(Graph):
         self.labels.append(f"Elevation Gain per Day ({y[-1]:0.0f} ft)")
 
         avg_color = self.params.graph.avg_line_color
-        line, = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
+        (line,) = ax1.plot(x, avg_y, color=avg_color, marker="o", markersize=3)
         self.handles.append(line)
         self.labels.append(f"Average Elevation Gain ({avg_y[-1]:0.0f} ft)")
