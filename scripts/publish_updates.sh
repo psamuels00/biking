@@ -1,7 +1,7 @@
 #!/bin/sh
 
 publish() {
-    cp -r output/doc/ docs/
+    cp -r output/index/ docs/
     cp src/pages/index.html docs/
 
     cp -r output/graph/* docs/image/

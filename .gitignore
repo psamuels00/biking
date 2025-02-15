@@ -8,7 +8,7 @@
 data/journal.yaml
 images/
 misc/
-output/doc/
+output/index/
 output/graph/
 output/summary/
 strava.db

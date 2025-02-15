@@ -52,7 +52,7 @@ class Parameters:
             html=dict(
                 template_path="src/pages",
                 template_file="daily.html",
-                output_path="output/doc/daily",
+                output_path="output/index/daily",
             ),
             journal_file="data/journal.yaml",
             legend=dict(
