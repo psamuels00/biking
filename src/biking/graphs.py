@@ -42,4 +42,3 @@ class Graphs:
             self.generate("elev_gain", ElevationGainGraph)
             self.generate("elev_limits", ElevationLimitsGraph)
             self.generate("performance", PerformanceGraph)
-

@@ -1,5 +1,3 @@
-import numpy as np
-
 from dotmap import DotMap
 
 from biking.conversions import period2days
