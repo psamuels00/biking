@@ -81,8 +81,24 @@ class MetricsHtml(Html):
         return self.statistics.metrics_data(num)
 
     def format_row(self, row):
-        (date, distance, avg_distance, speed, avg_speed, top_speed, avg_top_speed, elevation, avg_elevation,
-         power, avg_power, energy, avg_energy, calories, avg_calories, ride_rate) = row
+        (
+            date,
+            distance,
+            avg_distance,
+            speed,
+            avg_speed,
+            top_speed,
+            avg_top_speed,
+            elevation,
+            avg_elevation,
+            power,
+            avg_power,
+            energy,
+            avg_energy,
+            calories,
+            avg_calories,
+            ride_rate,
+        ) = row
 
         return dict(
             date=date,

@@ -116,8 +116,16 @@ class InputData:
 
     def details(self, csv=False):
         headings = (
-            "day#", "date", "distance", "speed", "top speed",
-            "elev gain", "elev high", "elev low", "elev start", "power",
+            "day#",
+            "date",
+            "distance",
+            "speed",
+            "top speed",
+            "elev gain",
+            "elev high",
+            "elev low",
+            "elev start",
+            "power",
         )
 
         if csv:
@@ -128,10 +136,7 @@ class InputData:
             )
             print(head_format.format(*headings))
         else:
-            head_format = (
-                "{:4}  {:10}  {:8}  {:5}  {:9}  "
-                "{:9}  {:9}  {:8}  {:10}  {:5}"
-            )
+            head_format = "{:4}  {:10}  {:8}  {:5}  {:9}  {:9}  {:9}  {:8}  {:10}  {:5}"
             row_format = (
                 "{num:4}  {ymd}  {distance:8.1f}  {average_speed:5.1f}  {top_speed:9.1f}  "
                 "{total_elevation_gain:9.0f}  {elev_high:9.0f}  {elev_low:8.0f}  {start:>10}  {power:5.0f}"
@@ -146,8 +151,7 @@ class InputData:
                     print()
                 print(head_format.format(*headings))
                 print(
-                    "----  ----------  --------  -----  ---------  "
-                    "---------  ---------  --------  ----------  -----"
+                    "----  ----------  --------  -----  ---------  ---------  ---------  --------  ----------  -----"
                 )
             start = "{:.0f}".format(rec["elev_start"]) if rec["elev_start"] is not None else "0j"
             msg = row_format.format(num=num, start=start, **rec)

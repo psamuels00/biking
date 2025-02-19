@@ -350,10 +350,22 @@ class Statistics:
 
     def details(self, csv=False):
         headings = (
-            "day#", "date", "distance", "avg dist",
-            "speed", "avg speed", "top speed", "avg top speed",
-            "elev gain", "avg elev", "power", "avg power",
-            "energy kj", "avg energy", "calories", "avg cals",
+            "day#",
+            "date",
+            "distance",
+            "avg dist",
+            "speed",
+            "avg speed",
+            "top speed",
+            "avg top speed",
+            "elev gain",
+            "avg elev",
+            "power",
+            "avg power",
+            "energy kj",
+            "avg energy",
+            "calories",
+            "avg cals",
             "ride rate",
         )
 
@@ -388,8 +400,24 @@ class Statistics:
 
         row: Tuple
         for num, row in enumerate(rows, 1):
-            (date, dist, a_dist, speed, a_speed, top_speed, a_top_speed, elev, a_elev,
-             power, a_power, energy, a_energy, calories, a_calories, ride_rate) = row
+            (
+                date,
+                dist,
+                a_dist,
+                speed,
+                a_speed,
+                top_speed,
+                a_top_speed,
+                elev,
+                a_elev,
+                power,
+                a_power,
+                energy,
+                a_energy,
+                calories,
+                a_calories,
+                ride_rate,
+            ) = row
 
             if not csv and (num - 1) % 10 == 0:
                 if num > 1:
