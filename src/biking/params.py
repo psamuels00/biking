@@ -50,9 +50,25 @@ class Parameters:
                 tick_labels_alpha=0.5,
             ),
             html=dict(
-                template_path="src/pages/index",
-                template_file="daily.html",
-                output_path="output/index/daily",
+                index=dict(
+                    template_path="src/pages/index",
+                    template_file="daily.html",
+                    output_path="output/index/daily",
+                ),
+                inputs=dict(
+                    details=dict(
+                        template_path="src/pages/inputs",
+                        template_file="details.html",
+                        output_path="output/inputs/details",
+                    ),
+                ),
+                metrics=dict(
+                    details=dict(
+                        template_path="src/pages/metrics",
+                        template_file="details.html",
+                        output_path="output/metrics/details/daily",
+                    ),
+                ),
             ),
             journal_file="data/journal.yaml",
             legend=dict(

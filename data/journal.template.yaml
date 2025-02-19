@@ -17,4 +17,5 @@
 #    timeline - significance of date in timeline of project; ignored
 #    top_speed - int or float, speed in mph
 #    total_elevation_gain - int or float, elevation gain in feet
+#    strava_power_estimate - int or float, Strava's power estimate in watts
 #

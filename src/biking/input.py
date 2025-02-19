@@ -3,7 +3,7 @@ from datetime import timedelta
 import json
 
 from .db import Db
-from .conversions import ymd2date
+from .conversions import period2days, ymd2date
 from .elevation import Elevation
 from .journal import Journal
 from .rollup.daily import DailyRollup
@@ -11,11 +11,13 @@ from .strava import Strava
 
 
 class InputData:
-    def __init__(self, params):
+    def __init__(self, params, period):
         self.params = params
         self.journal = Journal(params)
         self.elevation = Elevation(params)
         self.db = Db(params)
+        self.daily_data = None
+        self.period = period
 
     def get_cached_activities(self):
         rows = self.db.select_activities()
@@ -98,13 +100,13 @@ class InputData:
 
         return daily_data
 
-    def get_daily_data(self):
-        activities = self.load_activities()
-        journal = self.journal.load()
-        daily_data = self.consolidate_data_sources(activities, journal)
-        # self.debug(daily_data)
+    def get_daily_data(self, num):
+        if not self.daily_data:
+            activities = self.load_activities()
+            journal = self.journal.load()
+            self.daily_data = self.consolidate_data_sources(activities, journal)
 
-        return daily_data
+        return self.daily_data[-num:]
 
     def debug(self, daily_data, day_numbers=None):
         for num, record in enumerate(daily_data, 1):
@@ -112,28 +114,41 @@ class InputData:
             if day_numbers is None or num in day_numbers:
                 print(json.dumps(record, indent=4))
 
-    def show(self, csv=False):
-        headings = ("day#", "date", "distance", "elevation gain", "speed")
+    def details(self, csv=False):
+        headings = (
+            "day#", "date", "distance", "speed", "top speed",
+            "elev gain", "elev high", "elev low", "elev start", "power",
+        )
+
         if csv:
-            head_format = "{},{},{},{},{}"
-            row_format = "{num},{ymd},{distance},{total_elevation_gain},{average_speed}"
-        else:
-            head_format = "{:4}  {:10}  {:8}  {:14}  {:5}"
-            row_format = "{num:4}  {ymd}  {distance:8.1f}  {total_elevation_gain:14.0f}  {average_speed:5.1f}"
-
-        print(head_format.format(*headings))
-        if not csv:
-            print("----  ----------  --------  --------------  -----")
-
-        for num, rec in enumerate(self.get_daily_data(), 1):
-            distance = round(rec.get("distance"), 1)
-            total_elevation_gain = round(rec.get("total_elevation_gain"), 1)
-            average_speed = round(rec.get("average_speed"), 1)
-            msg = row_format.format(
-                num=num,
-                ymd=rec["ymd"],
-                distance=distance,
-                total_elevation_gain=total_elevation_gain,
-                average_speed=average_speed,
+            head_format = ",".join(["{}"] * len(headings))
+            row_format = (
+                "{num},{ymd},{distance},{average_speed},{top_speed},"
+                "{total_elevation_gain},{elev_high},{elev_low},{start},{power}"
             )
+            print(head_format.format(*headings))
+        else:
+            head_format = (
+                "{:4}  {:10}  {:8}  {:5}  {:9}  "
+                "{:9}  {:9}  {:8}  {:10}  {:5}"
+            )
+            row_format = (
+                "{num:4}  {ymd}  {distance:8.1f}  {average_speed:5.1f}  {top_speed:9.1f}  "
+                "{total_elevation_gain:9.0f}  {elev_high:9.0f}  {elev_low:8.0f}  {start:>10}  {power:5.0f}"
+            )
+
+        num = period2days(self.period)
+        records = self.get_daily_data(num)
+
+        for num, rec in enumerate(records, 1):
+            if not csv and (num - 1) % 10 == 0:
+                if num > 1:
+                    print()
+                print(head_format.format(*headings))
+                print(
+                    "----  ----------  --------  -----  ---------  "
+                    "---------  ---------  --------  ----------  -----"
+                )
+            start = "{:.0f}".format(rec["elev_start"]) if rec["elev_start"] is not None else "0j"
+            msg = row_format.format(num=num, start=start, **rec)
             print(msg)

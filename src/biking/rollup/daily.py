@@ -16,7 +16,7 @@ class DailyRollup:
         self.distance = Metric()
         self.total_elevation_gain = Metric()
         self.average_speed = Metric()
-        self.max_speed = Metric()
+        self.top_speed = Metric()
         self.elev_high = Metric()
         self.elev_low = Metric()
         self.elev_start = Metric()
@@ -26,7 +26,7 @@ class DailyRollup:
         self.distance.add_measure(meters2miles(activity.get("distance", np.nan)))
         self.total_elevation_gain.add_measure(meters2feet(activity.get("total_elevation_gain", np.nan)))
         self.average_speed.add_measure(mps2mph(activity.get("average_speed", np.nan)))
-        self.max_speed.add_measure(mps2mph(activity.get("max_speed", np.nan)))
+        self.top_speed.add_measure(mps2mph(activity.get("max_speed", np.nan)))
         self.elev_high.add_measure(meters2feet(activity.get("elev_high", np.nan)))
         self.elev_low.add_measure(meters2feet(activity.get("elev_low", np.nan)))
         self.elev_start.add_measure(elev_start_ft)
@@ -36,7 +36,7 @@ class DailyRollup:
         self.distance.add_measure(record.get("distance", np.nan))  # assumed to be miles
         self.total_elevation_gain.add_measure(record.get("total_elevation_gain", np.nan))  # assumed to be feet
         self.average_speed.add_measure(record.get("average_speed", np.nan))  # assumed to be mph
-        self.max_speed.add_measure(record.get("max_speed", np.nan))  # assumed to be mph
+        self.top_speed.add_measure(record.get("max_speed", np.nan))  # assumed to be mph
         self.elev_high.add_measure(record.get("elev_high", np.nan))  # assumed to be feet
         self.elev_low.add_measure(record.get("elev_low", np.nan))  # assumed to be feet
         self.power.add_measure(record.get("strava_power_estimate", np.nan))  # assumed to be in watts
@@ -53,7 +53,7 @@ class DailyRollup:
             distance=self.distance.sum(),
             total_elevation_gain=self.total_elevation_gain.sum(),
             average_speed=self.average_speed.avg(),
-            max_speed=self.max_speed.max(),
+            top_speed=self.top_speed.max(),
             elev_high=self.elev_high.max(),
             elev_low=self.elev_low.min(),
             elev_start=self.elev_start.last(),

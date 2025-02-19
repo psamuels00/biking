@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biking Performance Metrics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body id="top" class="flex flex-col items-center min-h-screen Xbg-gray-200 pb-4">
+
+    <header class="w-full text-center py-4 mb-4 bg-gray-100">
+        <h1 class="text-2xl text-gray-800">Biking Performance Metrics</h1>
+    </header>
+
+    <div class="flex gap-4 p-2 mb-4">
+        <a class="text-blue-500 hover:underline" href="../../../daily/{{ period }}.html">Index</a>
+        <span class="text-gray-400 mx-2">|</span>
+        <a class="text-blue-500 hover:underline" href="../../../inputs/details/{{ period }}.html">Inputs</a>
+        <span class="text-gray-400 mx-2">|</span>
+
+        <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last30' else '' }}" href="last30.html">Last 30 days</a>
+        <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last60' else '' }}" href="last60.html">Last 60 days</a>
+        <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last90' else '' }}" href="last90.html">Last 90 days</a>
+        <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}" href="all.html">All time</a>
+    </div>
+
+    <div class="flex justify-center items-center mx-4">
+        <table class="table-auto border-collapse bg-gray-100 text-gray-800">
+            <thead>
+                <tr class="bg-gray-300/75">
+                    {% set classes = "border border-white font-normal px-2 py-1 text-center whitespace-normal" %}
+                    <th class="{{ classes }}">#</th>
+                    <th class="{{ classes }}">Date</th>
+                    <th class="{{ classes }}">Distance (mi)</th>
+                    <th class="{{ classes }}">Avg Distance</th>
+                    <th class="{{ classes }}">Speed (mph)</th>
+                    <th class="{{ classes }}">Avg Speed</th>
+                    <th class="{{ classes }}">Top Speed (mph)</th>
+                    <th class="{{ classes }}">Avg Top Speed</th>
+                    <th class="{{ classes }}">Elevation gain (ft)</th>
+                    <th class="{{ classes }}">Avg Elev gain</th>
+                    <th class="{{ classes }}">Power (W)</th>
+                    <th class="{{ classes }}">Avg Power</th>
+                    <th class="{{ classes }}">Energy (kJ)</th>
+                    <th class="{{ classes }}">Avg Energy</th>
+                    <th class="{{ classes }}">Calories (kCal)</th>
+                    <th class="{{ classes }}">Avg Calories</th>
+                    <th class="{{ classes }}">Ride Rate (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr class="hover:bg-blue-100">
+                        {% set classes = "border border-white px-2 py-1 text-right whitespace-nowrap" %}
+                        <td class="{{ classes }}">{{ loop.index }}</td>
+                        <td class="{{ classes }}">{{ row["date"] }}</td>
+                        <td class="{{ classes }}">{{ row["distance"] }}</td>
+                        <td class="{{ classes }}">{{ row["avg_distance"] }}</td>
+                        <td class="{{ classes }}">{{ row["speed"] }}</td>
+                        <td class="{{ classes }}">{{ row["avg_speed"] }}</td>
+                        <td class="{{ classes }}">{{ row["top_speed"] }}</td>
+                        <td class="{{ classes }}">{{ row["avg_top_speed"] }}</td>
+                        <td class="{{ classes }}">{{ row["elevation"] }}</td>
+                        <td class="{{ classes }}">{{ row["avg_elevation"] }}</td>
+                        <td class="{{ classes }}">{{ row["power"] }}</td>
+                        <td class="{{ classes }}">{{ row["avg_power"] }}</td>
+                        <td class="{{ classes }}">{{ row["energy"] }}</td>
+                        <td class="{{ classes }}">{{ row["avg_energy"] }}</td>
+                        <td class="{{ classes }}">{{ row["calories"] }}</td>
+                        <td class="{{ classes }}">{{ row["avg_calories"] }}</td>
+                        <td class="{{ classes }}">{{ row["ride_rate"] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

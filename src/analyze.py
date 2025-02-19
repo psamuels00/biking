@@ -1,90 +1,43 @@
 #!/usr/bin/env python
 
-import os
-
 from biking.args import get_program_args
-from biking.graph import (
-    CaloriesGraph,
-    DistanceGraph,
-    ElevationGainGraph,
-    ElevationLimitsGraph,
-    EnergyGraph,
-    PerformanceGraph,
-    PowerGraph,
-    RideRateGraph,
-    SpeedGraph,
-    TopSpeedGraph,
-)
+from biking.graphs import Graphs
+from biking.html import IndexHtml, InputsHtml, MetricsHtml
 from biking.input import InputData
 from biking.params import Parameters
 from biking.stats import Statistics
-from biking.template import render
 
 
-def calculate_statistics(params, input_data, period):
-    statistics = Statistics(params, input_data, period)
-    statistics.report()
+def generate_everything(params, args):
+    periods = (args.period,) if args.period else ("last30", "last60", "last90", "all")
 
-    return statistics.stats
+    for period in periods:
+        print(params.report.title[period])
 
+        input_data = InputData(params, period)
+        statistics = Statistics(params, period, input_data)
+        statistics.summary()
 
-def generate_graph(params, stats, period, file_type, type):
-    file = params.graph_file(period, file_type)
-    show_only_tracked_days = params.graph.show_only_tracked_days
-    linspace_params = params.graph.linspace_params
-
-    path = os.path.join(params.graph.output_path, period)
-    os.makedirs(path, exist_ok=True)
-    graph = type(params, stats, file, period, show_only_tracked_days, linspace_params)
-    graph.generate()
-
-
-def generate_html(params, period):
-    template_path = params.html.template_path
-    template_file = params.html.template_file
-    output_path = params.html.output_path
-    output_file = f"{period}.html"
-    data = dict(period=period)
-    render(template_path, template_file, data, output_path, output_file)
-
-
-def generate_graphs(params, stats, period):
-    def generate(file_type, type):
-        generate_graph(params, stats, period, file_type, type)
-
-    generate("ride_rate", RideRateGraph)
-    generate("distance", DistanceGraph)
-    if stats["num_data_tracked_days"] > 0:
-        generate("power", PowerGraph)
-        generate("energy", EnergyGraph)
-        generate("calories", CaloriesGraph)
-        generate("speed", SpeedGraph)
-        generate("top_speed", TopSpeedGraph)
-        generate("elev_gain", ElevationGainGraph)
-        generate("elev_limits", ElevationLimitsGraph)
-        generate("performance", PerformanceGraph)
+        num_days = statistics.stats["num_days"]
+        if num_days > 0:
+            IndexHtml(params, period).generate_page()
+            InputsHtml(params, period, input_data).generate_page()
+            MetricsHtml(params, period, statistics).generate_page()
+            Graphs(params, period, statistics.stats).generate_all()
 
 
 def main():
     params = Parameters()
     args = get_program_args()
-    input_data = InputData(params)
+    period = args.period or "all"
 
     if args.show_input:
-        input_data.show(args.csv)
-        return
+        InputData(params, period).details(args.csv)
     elif args.show_metrics:
-        Statistics(params, input_data, "all").show(args.csv)
-        return
-
-    periods = ("last30",) if args.thirty_day else ("last30", "last60", "last90", "all")
-    for period in periods:
-        print(params.report.title[period])
-        stats = calculate_statistics(params, input_data, period)
-
-        if stats["num_days"] > 0:
-            generate_html(params, period)
-            generate_graphs(params, stats, period)
+        input_data = InputData(params, period)
+        Statistics(params, period, input_data).details(args.csv)
+    else:
+        generate_everything(params, args)
 
 
 main()

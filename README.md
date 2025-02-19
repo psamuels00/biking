@@ -183,6 +183,7 @@ Here's a full list of recognized fields in the Journal.  All are optional:
 - timeline - significance of date in timeline of project; ignored
 - top_speed - int or float, speed in mph
 - total_elevation_gain - int or float, elevation gain in feet
+- strava_power_estimate - int or float, Strava's power estimate in watts
 
 
 ## Scripts
@@ -272,6 +273,14 @@ Set up GitHub Pages to serve data from the docs/ directory of your project.
 The database is used to cache activity responses from Strava in case suddenly one day
 historical data is no longer available from Strava.
 
+
+<a name="useful_commands"></a>
+## Useful Commands
+
+    tryagain () {
+        src/analyze.py && cp -r output/index/* docs/ && cp -r output/graph/* docs/image/ && \
+        cp -r output/inputs/ docs/inputs/ && cp -r output/metrics/ docs/metrics/
+    }
 
 <a name="graph_notes"></a>
 ## Graph Notes
