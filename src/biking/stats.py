@@ -2,9 +2,8 @@ import calendar
 import numpy as np
 import os
 
-from typing import Tuple
-
 from .conversions import feet2miles, period2days, ymd2date
+from .format import format_metrics_record
 from biking.power import output_power
 
 
@@ -211,9 +210,32 @@ class Statistics:
             data["avg_calories_per_day"][-num:],
             data["ride_rate_per_day"][-num:],
         )
-        metrics = np.array(metrics)
 
-        return metrics.T
+        columns = (
+            "date",
+            "distance",
+            "avg_distance",
+            "speed",
+            "avg_speed",
+            "top_speed",
+            "avg_top_speed",
+            "elevation",
+            "avg_elevation",
+            "power",
+            "avg_power",
+            "energy",
+            "avg_energy",
+            "calories",
+            "avg_calories",
+            "ride_rate",
+        )
+
+        rows = [
+            dict(zip(columns, row))
+            for row in np.array(metrics).T
+        ]
+
+        return rows
 
     def summarize_basic_data(self):
         stats = self.stats
@@ -372,12 +394,14 @@ class Statistics:
         if csv:
             head_format = ",".join(["{}"] * len(headings))
             row_format = (
-                "{num},{ymd},{distance:.1f},{avg_dist:.1f},"
-                "{speed:.1f},{avg_speed:.1f},{top_speed:.1f},{avg_top_speed:.1f},"
-                "{elev_gain:.0f},{avg_elev:.0f},{power:.0f},{avg_power:.0f},"
-                "{energy_kj:.0f},{avg_energy:.0f},{calories:.0f},{avg_cals:.0f},"
-                "{ride_rate:.2f}"
+                "{num},{ymd},{distance},{avg_distance},"
+                "{speed},{avg_speed},{top_speed},{avg_top_speed},"
+                "{elevation},{avg_elevation},{power},{avg_power},"
+                "{energy},{avg_energy},{calories},{avg_calories},"
+                "{ride_rate}"
             )
+            empty = ""
+            limit_precision = False
             print(head_format.format(*headings))
         else:
             head_format = (
@@ -388,37 +412,19 @@ class Statistics:
                 "{:9}"
             )
             row_format = (
-                "{num:4}  {ymd}  {distance:8.1f}  {avg_dist:8.1f}  "
-                "{speed:5.1f}  {avg_speed:9.1f}  {top_speed:9.1f}  {avg_top_speed:13.1f}  "
-                "{elev_gain:9.0f}  {avg_elev:8.0f}  {power:5.0f}  {avg_power:9.0f}  "
-                "{energy_kj:9.0f}  {avg_energy:10.0f}  {calories:8.0f}  {avg_cals:8.0f}  "
-                "{ride_rate:9.2f}"
+                "{num:>4}  {ymd}  {distance:>8}  {avg_distance:>8}  "
+                "{speed:>5}  {avg_speed:>9}  {top_speed:>9}  {avg_top_speed:>13}  "
+                "{elevation:>9}  {avg_elevation:>8}  {power:>5}  {avg_power:>9}  "
+                "{energy:>9}  {avg_energy:>10}  {calories:>8}  {avg_calories:>8}  "
+                "{ride_rate:>9}"
             )
+            empty = "."
+            limit_precision = True
 
         num = period2days(self.period)
         rows = self.metrics_data(num)
 
-        row: Tuple
-        for num, row in enumerate(rows, 1):
-            (
-                date,
-                dist,
-                a_dist,
-                speed,
-                a_speed,
-                top_speed,
-                a_top_speed,
-                elev,
-                a_elev,
-                power,
-                a_power,
-                energy,
-                a_energy,
-                calories,
-                a_calories,
-                ride_rate,
-            ) = row
-
+        for num, rec in enumerate(rows, 1):
             if not csv and (num - 1) % 10 == 0:
                 if num > 1:
                     print()
@@ -430,24 +436,7 @@ class Statistics:
                     "---------  ----------  --------  --------  "
                     "---------"
                 )
-            ymd = date.strftime("%Y-%m-%d")
-            msg = row_format.format(
-                num=num,
-                ymd=ymd,
-                distance=dist,
-                avg_dist=a_dist,
-                speed=speed,
-                avg_speed=a_speed,
-                top_speed=top_speed,
-                avg_top_speed=a_top_speed,
-                elev_gain=elev,
-                avg_elev=a_elev,
-                power=power,
-                avg_power=a_power,
-                energy_kj=energy,
-                avg_energy=a_energy,
-                calories=calories,
-                avg_cals=a_calories,
-                ride_rate=ride_rate,
-            )
+            ymd = rec["date"].strftime("%Y-%m-%d")
+            rec = format_metrics_record(rec, empty, limit_precision)
+            msg = row_format.format(num=num, ymd=ymd, **rec)
             print(msg)

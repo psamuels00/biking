@@ -4,7 +4,6 @@
 _None_
 
 ### Medium Priority
-- Show "" instead of 0 or 0.0 when there is no value using -i or -m
 - Move docs/daily, docs/weekly,... to docs/index
 - Make the Inputs and Metrics table headers sticky
 - Ensure all the pages look okay on small screen

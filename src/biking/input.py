@@ -5,6 +5,7 @@ import json
 from .db import Db
 from .conversions import period2days, ymd2date
 from .elevation import Elevation
+from .format import format_input_record
 from .journal import Journal
 from .rollup.daily import DailyRollup
 from .strava import Strava
@@ -132,15 +133,19 @@ class InputData:
             head_format = ",".join(["{}"] * len(headings))
             row_format = (
                 "{num},{ymd},{distance},{average_speed},{top_speed},"
-                "{total_elevation_gain},{elev_high},{elev_low},{start},{power}"
+                "{total_elevation_gain},{elev_high},{elev_low},{elev_start},{power}"
             )
+            empty = ""
+            limit_precision = False
             print(head_format.format(*headings))
         else:
             head_format = "{:4}  {:10}  {:8}  {:5}  {:9}  {:9}  {:9}  {:8}  {:10}  {:5}"
             row_format = (
-                "{num:4}  {ymd}  {distance:8.1f}  {average_speed:5.1f}  {top_speed:9.1f}  "
-                "{total_elevation_gain:9.0f}  {elev_high:9.0f}  {elev_low:8.0f}  {start:>10}  {power:5.0f}"
+                "{num:>4}  {ymd}  {distance:>8}  {average_speed:>5}  {top_speed:>9}  "
+                "{total_elevation_gain:>9}  {elev_high:>9}  {elev_low:>8}  {elev_start:>10}  {power:>5}"
             )
+            empty = "."
+            limit_precision = True
 
         num = period2days(self.period)
         records = self.get_daily_data(num)
@@ -153,6 +158,6 @@ class InputData:
                 print(
                     "----  ----------  --------  -----  ---------  ---------  ---------  --------  ----------  -----"
                 )
-            start = "{:.0f}".format(rec["elev_start"]) if rec["elev_start"] is not None else "0j"
-            msg = row_format.format(num=num, start=start, **rec)
+            rec = format_input_record(rec, empty, limit_precision)
+            msg = row_format.format(num=num, **rec)
             print(msg)
