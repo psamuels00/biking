@@ -4,7 +4,6 @@
 _None_
 
 ### Medium Priority
-- Make the Inputs and Metrics table headers sticky
 - Refactor the page templates, at least factor out the <head>
 - Ensure all the pages look okay on small screen
 - Ensure Last 30 Days means the last 30 calendar days, not 29 days prior to the most recent day of activivity
