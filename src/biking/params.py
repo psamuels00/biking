@@ -44,7 +44,7 @@ class Parameters:
                 ),
                 grid_alpha=0.15,
                 linspace_params=(0.3, 0.9),
-                output_path="output/graph/daily",
+                output_path="output/image/daily",
                 show_only_tracked_days=True,
                 title_pad=10,
                 tick_labels_alpha=0.5,
