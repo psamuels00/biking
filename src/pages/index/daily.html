@@ -23,7 +23,7 @@
 
 {% macro graph_link(id, jpg_name) %}
     <a href="#{{ id }}">
-        <img src="../image/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
+        <img src="../../image/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
              class="rounded-lg border-2 border-transparent hover:border-blue-400">
     </a>
 {% endmacro %}
@@ -34,9 +34,9 @@
     </header>
 
     <div class="flex gap-4 px-4 pt-2 items-center justify-center text-center leading-tight">
-        <a class="text-blue-500 hover:underline" href="../inputs/details/{{ period }}.html">Inputs</a>
+        <a class="text-blue-500 hover:underline" href="../../inputs/details/{{ period }}.html">Inputs</a>
         <span class="text-gray-400 mx-2">|</span>
-        <a class="text-blue-500 hover:underline" href="../metrics/details/daily/{{ period }}.html">Metrics</a>
+        <a class="text-blue-500 hover:underline" href="../../metrics/details/daily/{{ period }}.html">Metrics</a>
         <span class="text-gray-400 mx-2">|</span>
 
         <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last30' else '' }}" href="last30.html">Last 30 days</a>
@@ -62,9 +62,9 @@
     </header>
 
     <div class="flex gap-4 p-2 mb-4">
-        <a class="text-blue-500 hover:underline" href="../inputs/details/{{ period }}.html">Inputs</a>
+        <a class="text-blue-500 hover:underline" href="../../inputs/details/{{ period }}.html">Inputs</a>
         <span class="text-gray-400 mx-2">|</span>
-        <a class="text-blue-500 hover:underline" href="../metrics/details/daily/{{ period }}.html">Metrics</a>
+        <a class="text-blue-500 hover:underline" href="../../metrics/details/daily/{{ period }}.html">Metrics</a>
         <span class="text-gray-400 mx-2">|</span>
 
         <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last30' else '' }}" href="last30.html">Last 30 days</a>
@@ -106,7 +106,7 @@
     {% for id_name, jpg_name in metric_types %}
         <div id="{{ id_name }}" class="pt-6">
             <a href="#top">
-                <img src="../image/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
+                <img src="../../image/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
                      class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
             </a>
             <div class="flex justify-end text-center gap-4 leading-tight">
@@ -119,7 +119,7 @@
                 <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}"
                    href="all.html#{{ id_name }}">All Time</a>
                 <a class="ml-4 text-gray-500 hover:text-blue-500 hover:underline"
-                   href="../image/daily/{{ period }}/{{ jpg_name }}.jpg">Full Image</a>
+                   href="../../image/daily/{{ period }}/{{ jpg_name }}.jpg">Full Image</a>
             </div>
         </div>
     {% endfor %}

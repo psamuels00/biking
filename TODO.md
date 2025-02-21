@@ -4,7 +4,6 @@
 _None_
 
 ### Medium Priority
-- Move docs/daily, docs/weekly,... to docs/index
 - Make the Inputs and Metrics table headers sticky
 - Refactor the page templates, at least factor out the <head>
 - Ensure all the pages look okay on small screen
