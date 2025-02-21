@@ -4,7 +4,6 @@
 _None_
 
 ### Medium Priority
-- Refactor the page templates, at least factor out the <head>
 - Ensure all the pages look okay on small screen
 - Ensure Last 30 Days means the last 30 calendar days, not 29 days prior to the most recent day of activivity
 - Ensure everything works in case, for some period, there is no activity at all.
@@ -15,3 +14,4 @@ _None_
 - Sort Inputs and Metrics tables by selected column, ascending/descending
 - Generate green_legend.jpg automatically somehow
 - Maybe save graph legends separately from the graphs??
+
