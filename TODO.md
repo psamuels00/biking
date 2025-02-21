@@ -6,8 +6,10 @@ _None_
 ### Medium Priority
 - Move docs/daily, docs/weekly,... to docs/index
 - Make the Inputs and Metrics table headers sticky
-- Ensure all the pages look okay on small screen
 - Refactor the page templates, at least factor out the <head>
+- Ensure all the pages look okay on small screen
+- Ensure Last 30 Days means the last 30 calendar days, not 29 days prior to the most recent day of activivity
+- Ensure everything works in case, for some period, there is no activity at all.
 - Update generation of summary pages: render src/pages/metrics/summary/daily.html -> output/metrics/summary/daily.html
 - Add Weekly, Monthly, and Yearly rollup graphs.
 
