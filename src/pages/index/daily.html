@@ -1,128 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biking Performance Graphs</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body id="top" class="flex flex-col items-center min-h-screen bg-gray-200 pb-4">
+{% extends "layout.html" %}
 
-{% set metric_types = (
-    ("power", "Power"),
-    ("energy", "Energy"),
-    ("performance", "Performance"),
-    ("calories", "Calories"),
-    ("speed", "Speed"),
-    ("top_speed", "TopSpeed"),
-    ("distance", "Distance"),
-    ("elevation_gain", "ElevationGain"),
-    ("elevation_limits", "ElevationLimits"),
-    ("ride_rate", "RideRate"),
-) %}
+{% block title %}Biking Performance Graphs{% endblock %}
 
-{% macro graph_link(id, jpg_name) %}
-    <a href="#{{ id }}">
-        <img src="../../image/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
-             class="rounded-lg border-2 border-transparent hover:border-blue-400">
-    </a>
-{% endmacro %}
+{% block content %}
+<div class="flex flex-col items-center min-h-screen bg-gray-200 pb-4">
+    {% set metric_types = (
+        ("power", "Power"),
+        ("energy", "Energy"),
+        ("performance", "Performance"),
+        ("calories", "Calories"),
+        ("speed", "Speed"),
+        ("top_speed", "TopSpeed"),
+        ("distance", "Distance"),
+        ("elevation_gain", "ElevationGain"),
+        ("elevation_limits", "ElevationLimits"),
+        ("ride_rate", "RideRate"),
+    ) %}
 
-<div class="block md:hidden w-full mb-4">
-    <header class="w-full text-center py-4 bg-gray-300">
-        <h1 class="text-xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
-    </header>
+    {% macro graph_link(id, jpg_name) %}
+        <a href="#{{ id }}">
+            <img src="../../image/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
+                 class="rounded-lg border-2 border-transparent hover:border-blue-400">
+        </a>
+    {% endmacro %}
 
-    <div class="flex gap-4 px-4 pt-2 items-center justify-center text-center leading-tight">
-        <a class="text-blue-500 hover:underline" href="../../inputs/details/{{ period }}.html">Inputs</a>
-        <span class="text-gray-400 mx-2">|</span>
-        <a class="text-blue-500 hover:underline" href="../../metrics/details/daily/{{ period }}.html">Metrics</a>
-        <span class="text-gray-400 mx-2">|</span>
+    <div class="block md:hidden w-full mb-4">
+        <header class="w-full text-center py-4 bg-gray-300">
+            <h1 class="text-xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
+        </header>
 
-        <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last30' else '' }}" href="last30.html">Last 30 days</a>
-        <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last60' else '' }}" href="last60.html">Last 60 days</a>
-        <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last90' else '' }}" href="last90.html">Last 90 days</a>
-        <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}" href="all.html">All time</a>
+        <div class="flex gap-4 px-4 pt-2 items-center justify-center text-center leading-tight">
+            <a class="text-blue-500 hover:underline" href="../../inputs/details/{{ period }}.html">Inputs</a>
+            <span class="text-gray-400 mx-2">|</span>
+            <a class="text-blue-500 hover:underline" href="../../metrics/details/daily/{{ period }}.html">Metrics</a>
+            <span class="text-gray-400 mx-2">|</span>
+
+            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last30' else '' }}" href="last30.html">Last 30 days</a>
+            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last60' else '' }}" href="last60.html">Last 60 days</a>
+            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last90' else '' }}" href="last90.html">Last 90 days</a>
+            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}" href="all.html">All time</a>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 p-4 pt-2">
+            {% for anchor_name, jpg_name in metric_types %}
+                {{ graph_link(anchor_name, jpg_name) }}
+            {% endfor %}
+        </div>
+
+        <div class="w-full text-sm text-center italic text-gray-400 px-4">
+            Select a thumbnail to jump to the full-size image.  Select that to jump back.
+        </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-4 p-4 pt-2">
-        {% for anchor_name, jpg_name in metric_types %}
-            {{ graph_link(anchor_name, jpg_name) }}
+    <div class="hidden md:block w-full place-items-center mb-16">
+        <header class="w-full text-center py-6 bg-gray-300">
+            <h1 class="text-4xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
+        </header>
+
+        <div class="flex gap-4 p-2 mb-4">
+            <a class="text-blue-500 hover:underline" href="../../inputs/details/{{ period }}.html">Inputs</a>
+            <span class="text-gray-400 mx-2">|</span>
+            <a class="text-blue-500 hover:underline" href="../../metrics/details/daily/{{ period }}.html">Metrics</a>
+            <span class="text-gray-400 mx-2">|</span>
+
+            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last30' else '' }}" href="last30.html">Last 30 days</a>
+            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last60' else '' }}" href="last60.html">Last 60 days</a>
+            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last90' else '' }}" href="last90.html">Last 90 days</a>
+            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}" href="all.html">All time</a>
+        </div>
+
+        <div class="grid grid-cols-3 gap-x-4 w-4/5 max-w-5xl">
+            <div class="flex flex-col gap-4 hover:bg-white rounded-lg">
+                {{ graph_link('power', 'Power') }}
+                {{ graph_link('energy', 'Energy') }}
+                {{ graph_link('performance', 'Performance') }}
+                {{ graph_link('calories', 'Calories') }}
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-4 hover:bg-white rounded-lg">
+                    {{ graph_link('speed', 'Speed') }}
+                    {{ graph_link('top_speed', 'TopSpeed') }}
+                </div>
+                {{ graph_link('distance', 'Distance') }}
+                <div class="text-sm text-center italic text-gray-400 mt-8">
+                    Select a thumbnail to jump to the full-size image.  Select that to jump back.
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-4 hover:bg-white rounded-lg">
+                    {{ graph_link('elevation_gain', 'ElevationGain') }}
+                    {{ graph_link('elevation_limits', 'ElevationLimits') }}
+                </div>
+                {{ graph_link('ride_rate', 'RideRate') }}
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:w-4/5 max-w-5xl">
+        {% for id_name, jpg_name in metric_types %}
+            <div id="{{ id_name }}" class="pt-6">
+                <a href="#top">
+                    <img src="../../image/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
+                         class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
+                </a>
+                <div class="flex justify-end text-center gap-4 leading-tight">
+                    <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'last30' else '' }}"
+                       href="last30.html#{{ id_name }}">Last 30</a>
+                    <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'last60' else '' }}"
+                       href="last60.html#{{ id_name }}">Last 60</a>
+                    <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'last90' else '' }}"
+                       href="last90.html#{{ id_name }}">Last 90</a>
+                    <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}"
+                       href="all.html#{{ id_name }}">All Time</a>
+                    <a class="ml-4 text-gray-500 hover:text-blue-500 hover:underline"
+                       href="../../image/daily/{{ period }}/{{ jpg_name }}.jpg">Full Image</a>
+                </div>
+            </div>
         {% endfor %}
     </div>
-
-    <div class="w-full text-sm text-center italic text-gray-400 px-4">
-        Select a thumbnail to jump to the full-size image.  Select that to jump back.
-    </div>
 </div>
-
-<div class="hidden md:block w-full place-items-center mb-16">
-    <header class="w-full text-center py-6 bg-gray-300">
-        <h1 class="text-4xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
-    </header>
-
-    <div class="flex gap-4 p-2 mb-4">
-        <a class="text-blue-500 hover:underline" href="../../inputs/details/{{ period }}.html">Inputs</a>
-        <span class="text-gray-400 mx-2">|</span>
-        <a class="text-blue-500 hover:underline" href="../../metrics/details/daily/{{ period }}.html">Metrics</a>
-        <span class="text-gray-400 mx-2">|</span>
-
-        <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last30' else '' }}" href="last30.html">Last 30 days</a>
-        <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last60' else '' }}" href="last60.html">Last 60 days</a>
-        <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last90' else '' }}" href="last90.html">Last 90 days</a>
-        <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}" href="all.html">All time</a>
-    </div>
-
-    <div class="grid grid-cols-3 gap-x-4 w-4/5 max-w-5xl">
-        <div class="flex flex-col gap-4 hover:bg-white rounded-lg">
-            {{ graph_link('power', 'Power') }}
-            {{ graph_link('energy', 'Energy') }}
-            {{ graph_link('performance', 'Performance') }}
-            {{ graph_link('calories', 'Calories') }}
-        </div>
-
-        <div class="flex flex-col gap-4">
-            <div class="flex flex-col gap-4 hover:bg-white rounded-lg">
-                {{ graph_link('speed', 'Speed') }}
-                {{ graph_link('top_speed', 'TopSpeed') }}
-            </div>
-            {{ graph_link('distance', 'Distance') }}
-            <div class="text-sm text-center italic text-gray-400 mt-8">
-                Select a thumbnail to jump to the full-size image.  Select that to jump back.
-            </div>
-        </div>
-
-        <div class="flex flex-col gap-4">
-            <div class="flex flex-col gap-4 hover:bg-white rounded-lg">
-                {{ graph_link('elevation_gain', 'ElevationGain') }}
-                {{ graph_link('elevation_limits', 'ElevationLimits') }}
-            </div>
-            {{ graph_link('ride_rate', 'RideRate') }}
-        </div>
-    </div>
-</div>
-
-<div class="grid grid-cols-1 gap-4 md:w-4/5 max-w-5xl">
-    {% for id_name, jpg_name in metric_types %}
-        <div id="{{ id_name }}" class="pt-6">
-            <a href="#top">
-                <img src="../../image/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
-                     class="rounded-lg w-full border-2 border-transparent hover:border-blue-400">
-            </a>
-            <div class="flex justify-end text-center gap-4 leading-tight">
-                <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'last30' else '' }}"
-                   href="last30.html#{{ id_name }}">Last 30</a>
-                <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'last60' else '' }}"
-                   href="last60.html#{{ id_name }}">Last 60</a>
-                <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'last90' else '' }}"
-                   href="last90.html#{{ id_name }}">Last 90</a>
-                <a class="text-gray-500 hover:text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}"
-                   href="all.html#{{ id_name }}">All Time</a>
-                <a class="ml-4 text-gray-500 hover:text-blue-500 hover:underline"
-                   href="../../image/daily/{{ period }}/{{ jpg_name }}.jpg">Full Image</a>
-            </div>
-        </div>
-    {% endfor %}
-</div>
-</body>
-</html>
+{% endblock %}

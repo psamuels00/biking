@@ -20,6 +20,7 @@ class Html:
         return {}  # override
 
     def render(self, rows):
+        template_root = self.params.html.template_root
         page_params = self.page_params()
         template_path = page_params.template_path
         template_file = page_params.template_file
@@ -27,7 +28,7 @@ class Html:
         output_file = f"{self.period}.html"
 
         data = dict(period=self.period, rows=rows)
-        render(template_path, template_file, data, output_path, output_file)
+        render(template_root, template_path, template_file, data, output_path, output_file)
 
     def generate_page(self):
         num = period2days(self.period)

@@ -8,9 +8,10 @@ def write_file(file, content):
         fh.write(content)
 
 
-def render(path, file, data, output_path, output_file):
-    env = Environment(loader=FileSystemLoader(path))
-    template = env.get_template(file)
+def render(template_root, path, file, data, output_path, output_file):
+    env = Environment(loader=FileSystemLoader(template_root))
+    template_path = str(os.path.join(path, file))
+    template = env.get_template(template_path)
     content = template.render(data)
 
     os.makedirs(output_path, exist_ok=True)
