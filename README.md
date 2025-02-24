@@ -278,7 +278,7 @@ historical data is no longer available from Strava.
 ## Useful Commands
 
     tryagain () {
-        src/analyze.py "$@" && rsync -av --exclude=formula/ --exclude=legend/ output/ docs/
+        src/analyze.py "$@" && rsync -qav --exclude=formula/ --exclude=legend/ output/ docs/
     }
 
 <a name="graph_notes"></a>
