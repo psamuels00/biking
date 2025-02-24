@@ -18,13 +18,26 @@ class ElevationLimitsGraph(Graph):
         y_high = self.stats["data"]["elevation_high_per_day"]
         y_start = self.stats["data"]["elevation_start_per_day"]
 
+        nan_y_low = self.zero2nan(y_low)
+        nan_y_high = self.zero2nan(y_high)
+        nan_y_start = self.zero2nan(y_start)
+
         if self.show_only_tracked_days:
-            y_low = np.array([n if n > 0 else np.nan for n in y_low])
-            y_high = np.array([n if n > 0 else np.nan for n in y_high])
-            y_start = np.array([np.nan if n is None else n for n in y_start])
-            max_value = int(np.nanmax(np.concatenate((y_high, y_start))))
+            y_low = nan_y_low
+            y_high = nan_y_high
+            y_start = nan_y_start
+            max_value = int(np.nanmax(np.concatenate((nan_y_high, nan_y_start))))
         else:
             max_value = int(max(*y_high, *(x for x in y_start if x is not None)))
+
+        last_low_value = nan_y_low[np.isfinite(nan_y_low)][-1]
+        last_high_value = nan_y_high[np.isfinite(nan_y_high)][-1]
+        last_start_value = nan_y_start[np.isfinite(nan_y_start)][-1]
+
+        # ensure the graph aligns with others since there is no average plot to provide non-nan data
+        if self.show_only_tracked_days and np.isnan(y_low[-1]):
+            y_low[-1] = 0
+            y_high[-1] = 0
 
         lower_limit = 0
         upper_limit = max_value
@@ -38,8 +51,8 @@ class ElevationLimitsGraph(Graph):
         linewidth = 8 if self.num_days <= 30 else 4
         vlines = ax1.vlines(x, ymin=y_low, ymax=y_high, colors=colors, linewidth=linewidth)
         self.handles.append(vlines)
-        self.labels.append(f"Elevation Range ({y_low[-1]:0.0f} - {y_high[-1]:0.0f} ft)")
+        self.labels.append(f"Elevation Range ({last_low_value:0.0f} - {last_high_value:0.0f} ft)")
 
         (line,) = ax1.plot(x, y_start, color="red", linestyle="None", marker="o", markersize=2)
         self.handles.append(line)
-        self.labels.append(f"Elevation Start ({y_start[-1]:.0f} ft)")
+        self.labels.append(f"Elevation Start ({last_start_value:.0f} ft)")

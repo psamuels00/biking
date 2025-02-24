@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import date, timedelta
 
 import json
 
@@ -71,7 +71,10 @@ class InputData:
             if journal_dates[-1] > t1:
                 t1 = journal_dates[-1]
 
-        return ymd2date(t0), ymd2date(t1)
+        from_date = ymd2date(t0)
+        to_date = date.today() if self.params.report.from_today else ymd2date(t1)
+
+        return from_date, to_date
 
     def init_daily_data(self, from_date, to_date):
         daily_data = {}
@@ -84,17 +87,23 @@ class InputData:
 
         return daily_data
 
+    def include_activity(self, ymd):
+        return True
+        # return "2024-10-11" <= ymd <= "2025-02-10"  # for testing only
+
     def consolidate_data_sources(self, activities, journal):
         from_date, to_date = self.calculate_date_range(activities, journal)
         daily_data = self.init_daily_data(from_date, to_date)
 
         for activity in activities:
             ymd = activity["start_date_local"][:10]
-            elev_start_ft = self.elevation.calculate_activity_start(activity)
-            daily_data[ymd].add_activity(activity, elev_start_ft)
+            if self.include_activity(ymd):
+                elev_start_ft = self.elevation.calculate_activity_start(activity)
+                daily_data[ymd].add_activity(activity, elev_start_ft)
 
         for ymd, record in journal.items():
-            daily_data[ymd].add_manual_activity(record)
+            if self.include_activity(ymd):
+                daily_data[ymd].add_manual_activity(record)
 
         rollups = sorted(daily_data.values(), key=lambda a: a.ymd)
         daily_data = [rollup.aggregate_values() for rollup in rollups]

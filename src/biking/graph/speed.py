@@ -27,10 +27,10 @@ class SpeedGraph(Graph):
         y = self.stats["data"][speed_attr]
         avg_y = self.stats["data"][avg_speed_attr]
 
-        nan_y = np.array([n if n > 0 else np.nan for n in y])
+        nan_y = self.zero2nan(y)
         if self.show_only_tracked_days:
             y = nan_y
-        avg_y = np.array([n if n > 0 else np.nan for n in avg_y])
+        avg_y = self.zero2nan(avg_y)
 
         min_value = np.nanmin(nan_y)
         max_value = np.nanmax(nan_y)

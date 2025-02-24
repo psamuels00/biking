@@ -17,10 +17,10 @@ class ElevationGainGraph(Graph):
         y = self.stats["data"]["elevation_gain_per_day"]
         avg_y = self.stats["data"]["avg_elevation_gain_per_day"]
 
-        nan_y = np.array([n if n > 0 else np.nan for n in y])
+        nan_y = self.zero2nan(y)
         if self.show_only_tracked_days:
             y = nan_y
-        avg_y = np.array([n if n > 0 else np.nan for n in avg_y])
+        avg_y = self.zero2nan(avg_y)
 
         max_value = int(np.nanmax(nan_y))
         lower_limit = 0

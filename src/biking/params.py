@@ -113,6 +113,7 @@ class Parameters:
                 ),
             ),
             report=dict(
+                from_today=False,  # from last activity, if False
                 title=dict(
                     last30="Last 30 Days",
                     last60="Last 60 Days",

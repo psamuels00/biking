@@ -1,26 +1,27 @@
 import calendar
 import matplotlib
+import numpy as np
 
 matplotlib.use("Agg")  # Use a non-interactive backend, prevent icon popping up in Dock on Mac
 import matplotlib.pyplot as plt  # noqa E402
 import numpy as np  # noqa E402
 
 
-matplotlib.use("Agg")
-
-
 class Graph:
-    def __init__(self, params, stats, output_file, period, show_only_tracked_days, linspace_params):
+    def __init__(self, params, stats, output_file, period):
         self.handles = []
         self.labels = []
-        self.linspace_params = linspace_params
+        self.linspace_params = params.graph.linspace_params
         self.num_biked_days = stats["num_biked_days"]
         self.num_days = stats["num_days"]
         self.output_file = output_file
         self.params = params
         self.period = period
-        self.show_only_tracked_days = show_only_tracked_days
+        self.show_only_tracked_days = params.graph.show_only_tracked_days
         self.stats = stats
+
+    def zero2nan(self, data):
+        return np.array([n if n is not None and n > 0 else np.nan for n in data])
 
     def has_31_days(self, date):
         year = date.year

@@ -22,12 +22,10 @@ class Graphs:
 
     def generate(self, file_type, type):
         file = self.params.graph_file(self.period, file_type)
-        show_only_tracked_days = self.params.graph.show_only_tracked_days
-        linspace_params = self.params.graph.linspace_params
 
         path = os.path.join(self.params.graph.output_path, self.period)
         os.makedirs(path, exist_ok=True)
-        graph = type(self.params, self.stats, file, self.period, show_only_tracked_days, linspace_params)
+        graph = type(self.params, self.stats, file, self.period)
         graph.generate()
 
     def generate_all(self):
