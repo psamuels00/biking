@@ -3,7 +3,7 @@
 {% block title %}Biking Performance Graphs{% endblock %}
 
 {% block content %}
-<div class="flex flex-col items-center min-h-screen bg-gray-200 pb-4">
+<div class="flex flex-col items-center min-h-screen bg-gray-200 pb-4" x-data="{ hover: undefined }">
     {% set metric_types = (
         ("power", "Power"),
         ("energy", "Energy"),
@@ -17,10 +17,14 @@
         ("ride_rate", "RideRate"),
     ) %}
 
-    {% macro graph_link(id, jpg_name) %}
-        <a href="#{{ id }}">
+    {% macro graph_link(group, id, jpg_name) %}
+        <a href="#{{ id }}" x-data="{ localGroup: '{{ group }}' }">
             <img src="../../image/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
-                 class="rounded-lg border-2 border-transparent hover:border-blue-400">
+                 class="rounded-lg border-2 border-transparent hover:border-blue-400"
+                 @mouseenter="hover = localGroup"
+                 @mouseleave="hover = undefined"
+                 x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
+            >
         </a>
     {% endmacro %}
 
@@ -43,7 +47,7 @@
 
         <div class="grid grid-cols-2 gap-4 p-4 pt-2">
             {% for anchor_name, jpg_name in metric_types %}
-                {{ graph_link(anchor_name, jpg_name) }}
+                {{ graph_link('placebo', anchor_name, jpg_name) }}
             {% endfor %}
         </div>
 
@@ -71,18 +75,18 @@
 
         <div class="grid grid-cols-3 gap-x-4 w-4/5 max-w-5xl">
             <div class="flex flex-col gap-4 rounded-lg">
-                {{ graph_link('power', 'Power') }}
-                {{ graph_link('energy', 'Energy') }}
-                {{ graph_link('performance', 'Performance') }}
-                {{ graph_link('calories', 'Calories') }}
+                {{ graph_link('grp_power', 'power', 'Power') }}
+                {{ graph_link('grp_power', 'energy', 'Energy') }}
+                {{ graph_link('grp_power', 'performance', 'Performance') }}
+                {{ graph_link('grp_power', 'calories', 'Calories') }}
             </div>
 
             <div class="flex flex-col gap-4">
                 <div class="flex flex-col gap-4 rounded-lg">
-                    {{ graph_link('speed', 'Speed') }}
-                    {{ graph_link('top_speed', 'TopSpeed') }}
+                    {{ graph_link('grp_speed', 'speed', 'Speed') }}
+                    {{ graph_link('grp_speed', 'top_speed', 'TopSpeed') }}
                 </div>
-                {{ graph_link('distance', 'Distance') }}
+                {{ graph_link('', 'distance', 'Distance') }}
                 <div class="text-sm text-center italic text-gray-400 mt-8">
                     Select a thumbnail to jump to the full-size image.  Select that to jump back.
                 </div>
@@ -90,10 +94,10 @@
 
             <div class="flex flex-col gap-4">
                 <div class="flex flex-col gap-4 rounded-lg">
-                    {{ graph_link('elevation_gain', 'ElevationGain') }}
-                    {{ graph_link('elevation_limits', 'ElevationLimits') }}
+                    {{ graph_link('grp_elevation', 'elevation_gain', 'ElevationGain') }}
+                    {{ graph_link('grp_elevation', 'elevation_limits', 'ElevationLimits') }}
                 </div>
-                {{ graph_link('ride_rate', 'RideRate') }}
+                {{ graph_link('', 'ride_rate', 'RideRate') }}
             </div>
         </div>
     </div>
