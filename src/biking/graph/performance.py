@@ -9,7 +9,10 @@ def normalize_to_range(values, new_low=0):
     maximum = np.nanmax(values)
     minimum = np.nanmin(values)
 
-    return [(n - minimum) / (maximum - minimum) if n > minimum else new_low for n in values]
+    if maximum > minimum:
+        values = [(n - minimum) / (maximum - minimum) if n > minimum else new_low for n in values]
+
+    return values
 
 
 class PerformanceGraph(Graph):
