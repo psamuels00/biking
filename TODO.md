@@ -4,7 +4,7 @@
 _None_
 
 ### Medium Priority
-- Try border around images instead of white background when hover over thumbnail image on index page
+- Use Alpine JS to gray out unrelated thumbnails when hover over a grouped thumbnail image.
 - Ensure all the pages look okay on small screen
 - Update generation of summary pages: render src/pages/metrics/summary/daily.html -> output/metrics/summary/daily.html
 - Add Weekly, Monthly, and Yearly rollup graphs.
