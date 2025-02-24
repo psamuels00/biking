@@ -6,12 +6,7 @@ from .base import Graph
 
 class SpeedGraph(Graph):
     def build(self, ax1):
-        self.title(self.label())
-
-        self.x_axis_days(ax1)
-        self.y_axis(ax1)
-
-        self.legend()
+        self.standard_build(ax1, self.label(), "Miles/Hour")
 
     def label(self):
         return "Speed"

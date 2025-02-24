@@ -3,12 +3,7 @@ from .base import Graph
 
 class RideRateGraph(Graph):
     def build(self, ax1):
-        self.title("Ride Rate")
-
-        self.x_axis_days(ax1)
-        self.y_axis(ax1)
-
-        self.legend("lower right")
+        self.standard_build(ax1, "Ride Rate", "Percentage")
 
     def y_axis(self, ax1):
         x = self.x_axis_values()

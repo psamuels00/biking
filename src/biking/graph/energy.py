@@ -5,12 +5,7 @@ from .base import Graph
 
 class EnergyGraph(Graph):
     def build(self, ax1):
-        self.title("Estimated Energy")
-
-        self.x_axis_days(ax1)
-        self.y_axis(ax1)
-
-        self.legend()
+        self.standard_build(ax1, "Estimated Energy", "kilojoule")
 
     def y_axis(self, ax1):
         x = self.x_axis_values()

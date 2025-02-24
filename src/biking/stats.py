@@ -269,17 +269,19 @@ class Statistics:
         data = stats["data"]
 
         def min_val(field):
-            return min(x for x in data[field] if x > 0)
+            x = np.array([a if a else np.nan for a in data[field]])
+            return 0 if np.all(np.isnan(x)) else np.nanmin(x)
 
         def max_val(field):
-            return max(data[field])
+            x = np.array([a if a else np.nan for a in data[field]])
+            return 0 if np.all(np.isnan(x)) else np.nanmax(x)
 
         min_distance = min_val("distance_per_day")
         max_distance = max_val("distance_per_day")
 
         total_distance = stats["total_distance"]
         num_biked_days = stats["num_biked_days"]
-        avg_distance = total_distance / num_biked_days
+        avg_distance = safe_div(total_distance, num_biked_days)
 
         self.print()
         self.print()

@@ -17,12 +17,7 @@ def normalize_to_range(values, new_low=0):
 
 class PerformanceGraph(Graph):
     def build(self, ax1):
-        self.title("Performance Index")
-
-        self.x_axis_days(ax1)
-        self.y_axis(ax1)
-
-        self.legend()
+        self.standard_build(ax1, "Performance Index", "Performance Index Unit")
 
     def performance_index(self):
         # get metrics as "y" values

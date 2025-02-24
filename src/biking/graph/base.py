@@ -74,9 +74,14 @@ class Graph:
     def title(self, metric):
         plt.title(metric, pad=self.params.graph.title_pad)
 
-    def legend(self, loc="upper left"):
+    def date_range(self):
         from_date = self.stats["first_date"].strftime("%b %e, %Y")
         to_date = self.stats["last_date"].strftime("%b %e, %Y")
+
+        return from_date, to_date
+
+    def legend(self, loc="upper left"):
+        from_date, to_date = self.date_range()
         plt.legend(
             loc=loc,
             fontsize="small",
@@ -84,6 +89,20 @@ class Graph:
             title_fontsize="small",
             handles=self.handles,
             labels=self.labels,
+        )
+
+    def no_data_message(self, ax1):
+        from_date, to_date = self.date_range()
+        message = f"There is no data to plot between\n{from_date} and {to_date}."
+        ax1.text(
+            0.5,  # X position (relative to axes, where 0 is left and 1 is right)
+            0.5,  # Y position (relative to axes, where 0 is bottom and 1 is top)
+            message,
+            horizontalalignment="center",
+            verticalalignment="center",
+            fontsize=12,
+            transform=ax1.transAxes,
+            wrap=True,
         )
 
     def x_axis_values(self):
@@ -100,14 +119,16 @@ class Graph:
         plt.xticks(tick_offsets, tick_labels, fontsize="x-small", alpha=self.params.graph.tick_labels_alpha)
 
     def add_scale(self, ax1, lower_limit, upper_limit, scale):
-        ax1.set_ylim(lower_limit, upper_limit)
+        if lower_limit != upper_limit:
+            ax1.set_ylim(lower_limit, upper_limit)
         ax1.set_yticks(scale, labels=scale, fontsize="x-small", alpha=self.params.graph.tick_labels_alpha)
 
         ax2 = ax1.twinx()
-        ax2.set_ylim(lower_limit, upper_limit)
+        if lower_limit != upper_limit:
+            ax2.set_ylim(lower_limit, upper_limit)
         ax2.set_yticks(scale, labels=scale, fontsize="x-small", alpha=self.params.graph.tick_labels_alpha)
 
-    def build(self, ax1):
+    def y_axis(self, ax1):
         pass
 
     def average_vector(self, values):
@@ -122,6 +143,21 @@ class Graph:
             avg_values.append(sum / count if count > 0 else np.nan)
 
         return avg_values
+
+    def standard_build(self, ax1, title, ylabel):
+        self.title(title)
+
+        self.x_axis_days(ax1)
+        if self.num_biked_days > 0:
+            self.y_axis(ax1)
+            self.legend()
+        else:
+            ax1.set_ylabel(ylabel)
+            ax1.set_yticks([])
+            self.no_data_message(ax1)
+
+    def build(self, ax1):
+        pass
 
     def generate(self):
         fig, ax1 = plt.subplots()

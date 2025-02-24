@@ -31,7 +31,7 @@ class Graphs:
     def generate_all(self):
         self.generate("ride_rate", RideRateGraph)
         self.generate("distance", DistanceGraph)
-        if self.stats["num_data_tracked_days"] > 0:
+        if self.stats["num_biked_days"] > 0 or self.params.graph.generate_for_no_data:
             self.generate("power", PowerGraph)
             self.generate("energy", EnergyGraph)
             self.generate("calories", CaloriesGraph)

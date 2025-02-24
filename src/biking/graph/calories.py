@@ -6,12 +6,7 @@ from .base import Graph
 
 class CaloriesGraph(Graph):
     def build(self, ax1):
-        self.title("Estimated Total Caloric Burn")
-
-        self.x_axis_days(ax1)
-        self.y_axis(ax1)
-
-        self.legend()
+        self.standard_build(ax1, "Estimated Total Caloric Burn", "Calories")
 
     def y_axis(self, ax1):
         x = self.x_axis_values()

@@ -42,6 +42,7 @@ class Parameters:
                     speed="Speed.jpg",
                     top_speed="TopSpeed.jpg",
                 ),
+                generate_for_no_data=True,
                 grid_alpha=0.15,
                 linspace_params=(0.3, 0.9),
                 output_path="output/image/daily",

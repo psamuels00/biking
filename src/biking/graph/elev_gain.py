@@ -5,12 +5,7 @@ from .base import Graph
 
 class ElevationGainGraph(Graph):
     def build(self, ax1):
-        self.title("Elevation Gain")
-
-        self.x_axis_days(ax1)
-        self.y_axis(ax1)
-
-        self.legend()
+        self.standard_build(ax1, "Elevation Gain", "Feet")
 
     def y_axis(self, ax1):
         x = self.x_axis_values()

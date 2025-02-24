@@ -4,7 +4,6 @@
 _None_
 
 ### Medium Priority
-- Ensure everything works in case, for some period, there is no activity at all.
 - Try border around images instead of white background when hover over thumbnail image on index page
 - Ensure all the pages look okay on small screen
 - Update generation of summary pages: render src/pages/metrics/summary/daily.html -> output/metrics/summary/daily.html

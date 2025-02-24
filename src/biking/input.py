@@ -88,8 +88,8 @@ class InputData:
         return daily_data
 
     def include_activity(self, ymd):
+        # return "2024-10-11" <= ymd <= "2025-01-24"  # for testing only
         return True
-        # return "2024-10-11" <= ymd <= "2025-02-10"  # for testing only
 
     def consolidate_data_sources(self, activities, journal):
         from_date, to_date = self.calculate_date_range(activities, journal)
