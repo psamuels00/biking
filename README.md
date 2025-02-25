@@ -65,7 +65,7 @@ The following intuition is _partially_ reflected in the current calculation:
 
 #### Problems
 The biggest inadequacy of the formula is its failure to model the relationship between elevation gain and speed
-whereby the former always works agains the latter.  Intuitively, this means "credit" or a score boost for high
+whereby the former always works against the latter.  Intuitively, this means "credit" or a score boost for high
 elevation gain is easily offset by a low score for speed.  The effect is mitigated by extending a
 high-elevation-gain ride with some distance having low elevation gain in order to increase overall speed.
 
