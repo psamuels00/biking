@@ -179,11 +179,10 @@ Here's a full list of recognized fields in the Journal.  All are optional:
 - note - any comment; ignored
 - skipped - reason for skipping the day; ignored
 - start_latlng - starting location, will replace any from a Strava activity, used only for starting elevation
-- strava_power_estimate = int, power estimate shown in Strava app, in watts
+- strava_power_estimate - int, power estimate shown in Strava app, in watts
 - timeline - significance of date in timeline of project; ignored
 - top_speed - int or float, speed in mph
 - total_elevation_gain - int or float, elevation gain in feet
-- strava_power_estimate - int or float, Strava's power estimate in watts
 
 
 ## Scripts
