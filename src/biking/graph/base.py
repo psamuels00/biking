@@ -80,7 +80,7 @@ class Graph:
 
         return from_date, to_date
 
-    def legend(self, loc="upper left"):
+    def legend(self, loc):
         from_date, to_date = self.date_range()
         plt.legend(
             loc=loc,
@@ -144,13 +144,13 @@ class Graph:
 
         return avg_values
 
-    def standard_build(self, ax1, title, ylabel):
+    def standard_build(self, ax1, title, ylabel, loc="upper left"):
         self.title(title)
 
         self.x_axis_days(ax1)
         if self.num_biked_days > 0:
             self.y_axis(ax1)
-            self.legend()
+            self.legend(loc)
         else:
             ax1.set_ylabel(ylabel)
             ax1.set_yticks([])
