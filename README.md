@@ -71,7 +71,7 @@ high-elevation-gain ride with some distance having low elevation gain in order t
 
 To add one more wrinkle, it is worth noting this mitigation interferes slightly with the purpose for factoring
 in the rate of elevation gain.  Ideally, we would know the portion of the ride containing elevation gain and
-the speed at various position along the route.  But for now all we know is the total elevation gain for a ride,
+the speed at various positions along the route.  But for now all we know is the total elevation gain for a ride,
 the distance, and the average speed.  The rate of elevation gain is more of a lower-limit than the actual rate.
 As more distance is added to the route with little elevation gain, the elevation gain rate appears to go
 down.
