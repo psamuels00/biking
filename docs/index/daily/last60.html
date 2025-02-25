@@ -37,8 +37,6 @@
         <a href="#power" x-data="{ localGroup: 'placebo' }">
             <img src="../../image/daily/last60/Power.jpg" alt="Power graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -48,8 +46,6 @@
         <a href="#energy" x-data="{ localGroup: 'placebo' }">
             <img src="../../image/daily/last60/Energy.jpg" alt="Energy graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -59,8 +55,6 @@
         <a href="#performance" x-data="{ localGroup: 'placebo' }">
             <img src="../../image/daily/last60/Performance.jpg" alt="Performance graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -70,8 +64,6 @@
         <a href="#calories" x-data="{ localGroup: 'placebo' }">
             <img src="../../image/daily/last60/Calories.jpg" alt="Calories graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -81,8 +73,6 @@
         <a href="#speed" x-data="{ localGroup: 'placebo' }">
             <img src="../../image/daily/last60/Speed.jpg" alt="Speed graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -92,8 +82,6 @@
         <a href="#top_speed" x-data="{ localGroup: 'placebo' }">
             <img src="../../image/daily/last60/TopSpeed.jpg" alt="TopSpeed graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -103,8 +91,6 @@
         <a href="#distance" x-data="{ localGroup: 'placebo' }">
             <img src="../../image/daily/last60/Distance.jpg" alt="Distance graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -114,8 +100,6 @@
         <a href="#elevation_gain" x-data="{ localGroup: 'placebo' }">
             <img src="../../image/daily/last60/ElevationGain.jpg" alt="ElevationGain graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -125,8 +109,6 @@
         <a href="#elevation_limits" x-data="{ localGroup: 'placebo' }">
             <img src="../../image/daily/last60/ElevationLimits.jpg" alt="ElevationLimits graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -136,8 +118,6 @@
         <a href="#ride_rate" x-data="{ localGroup: 'placebo' }">
             <img src="../../image/daily/last60/RideRate.jpg" alt="RideRate graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -168,13 +148,14 @@
         </div>
 
         <div class="grid grid-cols-3 gap-x-4 w-4/5 max-w-5xl">
-            <div class="flex flex-col gap-4 rounded-lg">
+            <div class="flex flex-col gap-4 rounded-lg"
+                 @mouseenter="hover = 'grp_power'"
+                 @mouseleave="hover = undefined"
+            >
                 
         <a href="#power" x-data="{ localGroup: 'grp_power' }">
             <img src="../../image/daily/last60/Power.jpg" alt="Power graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -183,8 +164,6 @@
         <a href="#energy" x-data="{ localGroup: 'grp_power' }">
             <img src="../../image/daily/last60/Energy.jpg" alt="Energy graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -193,8 +172,6 @@
         <a href="#performance" x-data="{ localGroup: 'grp_power' }">
             <img src="../../image/daily/last60/Performance.jpg" alt="Performance graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -203,8 +180,6 @@
         <a href="#calories" x-data="{ localGroup: 'grp_power' }">
             <img src="../../image/daily/last60/Calories.jpg" alt="Calories graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -212,13 +187,14 @@
             </div>
 
             <div class="flex flex-col gap-4">
-                <div class="flex flex-col gap-4 rounded-lg">
+                <div class="flex flex-col gap-4 rounded-lg"
+                     @mouseenter="hover = 'grp_speed'"
+                     @mouseleave="hover = undefined"
+                >
                     
         <a href="#speed" x-data="{ localGroup: 'grp_speed' }">
             <img src="../../image/daily/last60/Speed.jpg" alt="Speed graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -227,8 +203,6 @@
         <a href="#top_speed" x-data="{ localGroup: 'grp_speed' }">
             <img src="../../image/daily/last60/TopSpeed.jpg" alt="TopSpeed graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -238,8 +212,6 @@
         <a href="#distance" x-data="{ localGroup: '' }">
             <img src="../../image/daily/last60/Distance.jpg" alt="Distance graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -250,13 +222,14 @@
             </div>
 
             <div class="flex flex-col gap-4">
-                <div class="flex flex-col gap-4 rounded-lg">
+                <div class="flex flex-col gap-4 rounded-lg"
+                     @mouseenter="hover = 'grp_elevation'"
+                     @mouseleave="hover = undefined"
+                >
                     
         <a href="#elevation_gain" x-data="{ localGroup: 'grp_elevation' }">
             <img src="../../image/daily/last60/ElevationGain.jpg" alt="ElevationGain graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -265,8 +238,6 @@
         <a href="#elevation_limits" x-data="{ localGroup: 'grp_elevation' }">
             <img src="../../image/daily/last60/ElevationLimits.jpg" alt="ElevationLimits graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -276,8 +247,6 @@
         <a href="#ride_rate" x-data="{ localGroup: '' }">
             <img src="../../image/daily/last60/RideRate.jpg" alt="RideRate graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>

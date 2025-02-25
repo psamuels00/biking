@@ -21,8 +21,6 @@
         <a href="#{{ id }}" x-data="{ localGroup: '{{ group }}' }">
             <img src="../../image/daily/{{ period }}/{{ jpg_name }}.jpg" alt="{{ jpg_name }} graph"
                  class="rounded-lg border-2 border-transparent hover:border-blue-400"
-                 @mouseenter="hover = localGroup"
-                 @mouseleave="hover = undefined"
                  x-bind:class="(!hover || hover == localGroup) ? '' : 'brightness-[.80]'"
             >
         </a>
@@ -74,7 +72,10 @@
         </div>
 
         <div class="grid grid-cols-3 gap-x-4 w-4/5 max-w-5xl">
-            <div class="flex flex-col gap-4 rounded-lg">
+            <div class="flex flex-col gap-4 rounded-lg"
+                 @mouseenter="hover = 'grp_power'"
+                 @mouseleave="hover = undefined"
+            >
                 {{ graph_link('grp_power', 'power', 'Power') }}
                 {{ graph_link('grp_power', 'energy', 'Energy') }}
                 {{ graph_link('grp_power', 'performance', 'Performance') }}
@@ -82,7 +83,10 @@
             </div>
 
             <div class="flex flex-col gap-4">
-                <div class="flex flex-col gap-4 rounded-lg">
+                <div class="flex flex-col gap-4 rounded-lg"
+                     @mouseenter="hover = 'grp_speed'"
+                     @mouseleave="hover = undefined"
+                >
                     {{ graph_link('grp_speed', 'speed', 'Speed') }}
                     {{ graph_link('grp_speed', 'top_speed', 'TopSpeed') }}
                 </div>
@@ -93,7 +97,10 @@
             </div>
 
             <div class="flex flex-col gap-4">
-                <div class="flex flex-col gap-4 rounded-lg">
+                <div class="flex flex-col gap-4 rounded-lg"
+                     @mouseenter="hover = 'grp_elevation'"
+                     @mouseleave="hover = undefined"
+                >
                     {{ graph_link('grp_elevation', 'elevation_gain', 'ElevationGain') }}
                     {{ graph_link('grp_elevation', 'elevation_limits', 'ElevationLimits') }}
                 </div>
