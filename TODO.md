@@ -4,7 +4,6 @@
 _None_
 
 ### Medium Priority
-- Change "Energy" to "Work"
 - Add graph of Time, add time metrics to summary output
 - Update generation of summary pages: render src/pages/metrics/summary/daily.html -> output/metrics/summary/daily.html
 - Add Weekly, Monthly, and Yearly rollup graphs.

@@ -21,7 +21,7 @@ class Statistics:
         self.num_data_tracked_days = 0  # based on availability of speed and elevation data from Strava
 
         self.total_power = 0  # watts
-        self.total_energy = 0  # kJ
+        self.total_work = 0  # kJ
         self.total_calories = 0  # kCal
 
         self.stats = self.calculate()
@@ -59,22 +59,22 @@ class Statistics:
         A = self.params.power.constants.A
         weight = self.get_weight_params()
 
-        power, energy_jk, energy_kcal = 0, 0, 0
+        power, work_kj, energy_kcal = 0, 0, 0
         if speed:
-            power, energy_jk, energy_kcal = output_power(g, C_r, C_d, A, weight, elevation, speed, distance)
+            power, work_kj, energy_kcal = output_power(g, C_r, C_d, A, weight, elevation, speed, distance)
 
-        return power, energy_jk, energy_kcal
+        return power, work_kj, energy_kcal
 
     def add_derived_metrics(self, data, elevation, speed, distance):
-        power, energy_kj, energy_kcal = self.power_based_metrics(elevation, speed, distance)
+        power, work_kj, energy_kcal = self.power_based_metrics(elevation, speed, distance)
 
         self.total_power += power
         data["power_per_day"].append(power)
         data["avg_power_per_day"].append(safe_div(self.total_power, self.num_data_tracked_days))
 
-        self.total_energy += energy_kj
-        data["energy_per_day"].append(energy_kj)
-        data["avg_energy_per_day"].append(safe_div(self.total_energy, self.num_data_tracked_days))
+        self.total_work += work_kj
+        data["work_per_day"].append(work_kj)
+        data["avg_work_per_day"].append(safe_div(self.total_work, self.num_data_tracked_days))
 
         self.total_calories += energy_kcal
         data["calories_per_day"].append(energy_kcal)
@@ -109,8 +109,8 @@ class Statistics:
             elevation_start_per_day=[],
             power_per_day=[],
             avg_power_per_day=[],
-            energy_per_day=[],
-            avg_energy_per_day=[],
+            work_per_day=[],
+            avg_work_per_day=[],
             calories_per_day=[],
             avg_calories_per_day=[],
             strava_estimated_power_per_day=[],
@@ -204,8 +204,8 @@ class Statistics:
             data["avg_elevation_gain_per_day"][-num:],
             data["power_per_day"][-num:],
             data["avg_power_per_day"][-num:],
-            data["energy_per_day"][-num:],
-            data["avg_energy_per_day"][-num:],
+            data["work_per_day"][-num:],
+            data["avg_work_per_day"][-num:],
             data["calories_per_day"][-num:],
             data["avg_calories_per_day"][-num:],
             data["ride_rate_per_day"][-num:],
@@ -223,8 +223,8 @@ class Statistics:
             "avg_elevation",
             "power",
             "avg_power",
-            "energy",
-            "avg_energy",
+            "work",
+            "avg_work",
             "calories",
             "avg_calories",
             "ride_rate",
@@ -386,8 +386,8 @@ class Statistics:
             "avg elev",
             "power",
             "avg power",
-            "energy kj",
-            "avg energy",
+            "work kj",
+            "avg work",
             "calories",
             "avg cals",
             "ride rate",
@@ -399,7 +399,7 @@ class Statistics:
                 "{num},{ymd},{distance},{avg_distance},"
                 "{speed},{avg_speed},{top_speed},{avg_top_speed},"
                 "{elevation},{avg_elevation},{power},{avg_power},"
-                "{energy},{avg_energy},{calories},{avg_calories},"
+                "{work},{avg_work},{calories},{avg_calories},"
                 "{ride_rate}"
             )
             empty = ""
@@ -417,7 +417,7 @@ class Statistics:
                 "{num:>4}  {ymd}  {distance:>8}  {avg_distance:>8}  "
                 "{speed:>5}  {avg_speed:>9}  {top_speed:>9}  {avg_top_speed:>13}  "
                 "{elevation:>9}  {avg_elevation:>8}  {power:>5}  {avg_power:>9}  "
-                "{energy:>9}  {avg_energy:>10}  {calories:>8}  {avg_calories:>8}  "
+                "{work:>9}  {avg_work:>10}  {calories:>8}  {avg_calories:>8}  "
                 "{ride_rate:>9}"
             )
             empty = "."

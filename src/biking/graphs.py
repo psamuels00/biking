@@ -5,12 +5,12 @@ from biking.graph import (
     DistanceGraph,
     ElevationGainGraph,
     ElevationLimitsGraph,
-    EnergyGraph,
     PerformanceGraph,
     PowerGraph,
     RideRateGraph,
     SpeedGraph,
     TopSpeedGraph,
+    WorkGraph,
 )
 
 
@@ -33,7 +33,7 @@ class Graphs:
         self.generate("distance", DistanceGraph)
         if self.stats["num_biked_days"] > 0 or self.params.graph.generate_for_no_data:
             self.generate("power", PowerGraph)
-            self.generate("energy", EnergyGraph)
+            self.generate("work", WorkGraph)
             self.generate("calories", CaloriesGraph)
             self.generate("speed", SpeedGraph)
             self.generate("top_speed", TopSpeedGraph)

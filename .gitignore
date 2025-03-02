@@ -3,6 +3,7 @@
 .access_tokens
 .cache_open_elevation.sqlite
 .cache_strava.sqlite
+.findsrc.*
 .idea/
 .python-version
 data/journal.yaml

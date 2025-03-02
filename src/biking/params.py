@@ -35,7 +35,7 @@ class Parameters:
                     distance="Distance.jpg",
                     elev_gain="ElevationGain.jpg",
                     elev_limits="ElevationLimits.jpg",
-                    energy="Energy.jpg",
+                    work="Work.jpg",
                     ride_rate="RideRate.jpg",
                     performance="Performance.jpg",
                     power="Power.jpg",

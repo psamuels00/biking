@@ -6,7 +6,7 @@
 <div class="flex flex-col items-center min-h-screen bg-gray-200 pb-4" x-data="{ hover: undefined }">
     {% set metric_types = (
         ("power", "Power"),
-        ("energy", "Energy"),
+        ("work", "Work"),
         ("performance", "Performance"),
         ("calories", "Calories"),
         ("speed", "Speed"),
@@ -51,7 +51,7 @@
                  @mouseleave="hover = undefined"
             >
                 {{ graph_link('grp_power', 'power', 'Power') }}
-                {{ graph_link('grp_power', 'energy', 'Energy') }}
+                {{ graph_link('grp_power', 'work', 'Work') }}
                 {{ graph_link('grp_power', 'performance', 'Performance') }}
                 {{ graph_link('grp_power', 'calories', 'Calories') }}
             </div>

@@ -8,10 +8,10 @@ The original motivation for this project was the development of a "performance i
 of rides that vary in distance, speed, and elevation gain.  Weights such as my body, bike, and gear are not factored
 in.  There is no absolute measure, just a comparison with previous rides in order to arrive at a value from 0 to 10.
 
-Then I found some basic physics formulas to estimate power output and total energy expenditure, which is probably as
-good as I can get to charting effort without a power meter.  Nevertheless, I decided to keep the performance index
-because the graph so far looks rather close to the estimated energy graph and I find that interesting since the two
-calculations are so very different.
+Then I found some basic physics formulas to estimate power output, work, and total energy expenditure, which is probably
+as good as I can get to charting effort without a power meter.  Nevertheless, I decided to keep the performance index
+because the graph so far looks rather close to the graph of estimated work performed, and I find that interesting since
+the two calculations are so very different.
 
 
 <a name="performance_index"></a>
@@ -139,16 +139,16 @@ Strava reports a value through the app (though not through the API).  I've tried
 Strava's estimates using the small adjustments shown above.
 
 
-## Energy Output
+## Work Performed
 
-Energy is power over time
+Work is Force times distance, or Power times time:
 
-    E = P x time
+    W = P x time
 
 
 ## Total Caloric Output
 
-Calories are also a measure of energy.  Burning the calories of some food intake does not transfer efficiently to
+Calories are a measure of energy.  Burning the calories of some food intake does not transfer efficiently to
 moving the bike along.  Most of the energy goes off as heat or is used for something else.  About 20-25% of the
 calories burned contribute to powering the bike.  For this reason, I show calories as a range.  The average is
 based on the center point of the range each day.

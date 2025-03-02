@@ -22,9 +22,9 @@ def output_power(g, C_r, C_d, A, weight_lbs, elevation_gain_ft, speed_mph, dista
     F_g = weight * g * (elevation_gain / distance)  # force due to gravity, while climbing
     force = F_rr + F_d + F_g
 
-    # power and energy
+    # power and work
     power = force * speed
-    energy_kj = power * time / 1000
-    energy_kcal = kj2kcal(energy_kj)
+    work_kj = power * time / 1000
+    energy_kcal = kj2kcal(work_kj)
 
-    return power, energy_kj, energy_kcal
+    return power, work_kj, energy_kcal

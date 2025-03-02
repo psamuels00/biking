@@ -2,9 +2,9 @@ from .calories import CaloriesGraph  # noqa: F401
 from .distance import DistanceGraph  # noqa: F401
 from .elev_gain import ElevationGainGraph  # noqa: F401
 from .elev_limits import ElevationLimitsGraph  # noqa: F401
-from .energy import EnergyGraph  # noqa: F401
 from .performance import PerformanceGraph  # noqa: F401
 from .power import PowerGraph  # noqa: F401
 from .ride_rate import RideRateGraph  # noqa: F401
 from .speed import SpeedGraph  # noqa: F401
 from .top_speed import TopSpeedGraph  # noqa: F401
+from .work import WorkGraph  # noqa: F401
