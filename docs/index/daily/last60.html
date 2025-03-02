@@ -9,29 +9,74 @@
 </head>
 <body id="top">
     
+
+    
 <div class="flex flex-col items-center min-h-screen bg-gray-200 pb-4" x-data="{ hover: undefined }">
     
 
     
 
-    <div class="block md:hidden w-full mb-4">
-        <header class="w-full text-center py-4 bg-gray-300">
-            <h1 class="text-xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
-        </header>
+    <header class="w-full text-center py-4 bg-gray-300">
+        <h1 class="text-xl font-bold text-gray-700">Biking Performance - Daily</h1>
+    </header>
 
-        <div class="flex gap-4 px-4 pt-2 items-center justify-center text-center leading-tight">
-            <a class="text-blue-500 hover:underline" href="../../inputs/details/last60.html">Inputs</a>
-            <span class="text-gray-400 mx-2">|</span>
-            <a class="text-blue-500 hover:underline" href="../../metrics/details/daily/last60.html">Metrics</a>
-            <span class="text-gray-400 mx-2">|</span>
+    
+    <div class="block sm:hidden w-full">
+        
+    
+    
+    <div class="flex gap-4 px-4 my-4 items-center justify-center text-center leading-tight">
+        <div class="flex flex-col gap-0 pr-4 border-r-2 border-gray-400 border-dashed">
+            
+    
+        <a class="flex items-center justify-center text-blue-500 hover:underline" href="../../inputs/details/last60.html">Inputs</a>
+    
 
-            <a class="text-blue-500 hover:underline " href="last30.html">Last 30 days</a>
-            <a class="text-blue-500 hover:underline font-bold" href="last60.html">Last 60 days</a>
-            <a class="text-blue-500 hover:underline " href="last90.html">Last 90 days</a>
-            <a class="text-blue-500 hover:underline " href="all.html">All time</a>
+            
+    
+        <a class="flex items-center justify-center text-blue-500 hover:underline" href="../../metrics/details/daily/last60.html">Metrics</a>
+    
+
         </div>
+        <div class="flex gap-4">
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last30.html">30 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline font-bold" href="last60.html">60 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last90.html">90 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="all.html">All time</a>
+        </div>
+    </div>
 
-        <div class="grid grid-cols-2 gap-4 p-4 pt-2">
+    </div>
+    <div class="hidden sm:block w-full">
+        
+    
+    
+    <div class="flex gap-4 px-4 my-4 items-center justify-center text-center leading-tight">
+        <div class="flex flex-row gap-4 pr-4 border-r-2 border-gray-400 border-dashed">
+            
+    
+        <a class="flex items-center justify-center text-blue-500 hover:underline" href="../../inputs/details/last60.html">Inputs</a>
+    
+
+            
+    
+        <a class="flex items-center justify-center text-blue-500 hover:underline" href="../../metrics/details/daily/last60.html">Metrics</a>
+    
+
+        </div>
+        <div class="flex gap-4">
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last30.html">Last 30 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline font-bold" href="last60.html">Last 60 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last90.html">Last 90 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="all.html">All time</a>
+        </div>
+    </div>
+
+    </div>
+
+
+    <div class="block md:hidden w-full mb-4">
+        <div class="grid grid-cols-2 gap-4 px-4 pb-4">
             
                 
         <a href="#power" x-data="{ localGroup: 'placebo' }">
@@ -131,22 +176,6 @@
     </div>
 
     <div class="hidden md:block w-full place-items-center mb-16">
-        <header class="w-full text-center py-6 bg-gray-300">
-            <h1 class="text-4xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
-        </header>
-
-        <div class="flex gap-4 p-2 mb-4">
-            <a class="text-blue-500 hover:underline" href="../../inputs/details/last60.html">Inputs</a>
-            <span class="text-gray-400 mx-2">|</span>
-            <a class="text-blue-500 hover:underline" href="../../metrics/details/daily/last60.html">Metrics</a>
-            <span class="text-gray-400 mx-2">|</span>
-
-            <a class="text-blue-500 hover:underline " href="last30.html">Last 30 days</a>
-            <a class="text-blue-500 hover:underline font-bold" href="last60.html">Last 60 days</a>
-            <a class="text-blue-500 hover:underline " href="last90.html">Last 90 days</a>
-            <a class="text-blue-500 hover:underline " href="all.html">All time</a>
-        </div>
-
         <div class="grid grid-cols-3 gap-x-4 w-4/5 max-w-5xl">
             <div class="flex flex-col gap-4 rounded-lg"
                  @mouseenter="hover = 'grp_power'"

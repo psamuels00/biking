@@ -26,24 +26,14 @@
         </a>
     {% endmacro %}
 
+    <header class="w-full text-center py-4 bg-gray-300">
+        <h1 class="text-xl font-bold text-gray-700">Biking Performance - Daily</h1>
+    </header>
+
+    {{ macros.top_menu(period, '../..', 'Inputs', 'Metrics') }}
+
     <div class="block md:hidden w-full mb-4">
-        <header class="w-full text-center py-4 bg-gray-300">
-            <h1 class="text-xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
-        </header>
-
-        <div class="flex gap-4 px-4 pt-2 items-center justify-center text-center leading-tight">
-            <a class="text-blue-500 hover:underline" href="../../inputs/details/{{ period }}.html">Inputs</a>
-            <span class="text-gray-400 mx-2">|</span>
-            <a class="text-blue-500 hover:underline" href="../../metrics/details/daily/{{ period }}.html">Metrics</a>
-            <span class="text-gray-400 mx-2">|</span>
-
-            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last30' else '' }}" href="last30.html">Last 30 days</a>
-            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last60' else '' }}" href="last60.html">Last 60 days</a>
-            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last90' else '' }}" href="last90.html">Last 90 days</a>
-            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}" href="all.html">All time</a>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4 p-4 pt-2">
+        <div class="grid grid-cols-2 gap-4 px-4 pb-4">
             {% for anchor_name, jpg_name in metric_types %}
                 {{ graph_link('placebo', anchor_name, jpg_name) }}
             {% endfor %}
@@ -55,22 +45,6 @@
     </div>
 
     <div class="hidden md:block w-full place-items-center mb-16">
-        <header class="w-full text-center py-6 bg-gray-300">
-            <h1 class="text-4xl font-bold text-gray-700">Bike Ride - Daily Performance</h1>
-        </header>
-
-        <div class="flex gap-4 p-2 mb-4">
-            <a class="text-blue-500 hover:underline" href="../../inputs/details/{{ period }}.html">Inputs</a>
-            <span class="text-gray-400 mx-2">|</span>
-            <a class="text-blue-500 hover:underline" href="../../metrics/details/daily/{{ period }}.html">Metrics</a>
-            <span class="text-gray-400 mx-2">|</span>
-
-            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last30' else '' }}" href="last30.html">Last 30 days</a>
-            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last60' else '' }}" href="last60.html">Last 60 days</a>
-            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'last90' else '' }}" href="last90.html">Last 90 days</a>
-            <a class="text-blue-500 hover:underline {{ 'font-bold' if period == 'all' else '' }}" href="all.html">All time</a>
-        </div>
-
         <div class="grid grid-cols-3 gap-x-4 w-4/5 max-w-5xl">
             <div class="flex flex-col gap-4 rounded-lg"
                  @mouseenter="hover = 'grp_power'"

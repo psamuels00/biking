@@ -9,28 +9,73 @@
 </head>
 <body id="top">
     
-<div class="flex flex-col items-center min-h-screen pb-4">
 
-    <header class="w-full text-center py-4 mb-4 bg-gray-100">
-        <h1 class="text-2xl text-gray-800">Biking Performance Metrics</h1>
+    
+<div class="flex flex-col items-start min-h-screen pb-4">
+
+    <header class="w-full text-center py-4 bg-gray-300">
+        <h1 class="text-xl font-bold text-gray-700">Biking - Daily Metrics</h1>
     </header>
 
-    <div class="flex gap-4 p-2 mb-4">
-        <a class="text-blue-500 hover:underline" href="../../../index/daily/all.html">Index</a>
-        <span class="text-gray-400 mx-2">|</span>
-        <a class="text-blue-500 hover:underline" href="../../../inputs/details/all.html">Inputs</a>
-        <span class="text-gray-400 mx-2">|</span>
+    
+    <div class="block sm:hidden w-full">
+        
+    
+    
+    <div class="flex gap-4 px-4 my-4 items-center justify-center text-center leading-tight">
+        <div class="flex flex-col gap-0 pr-4 border-r-2 border-gray-400 border-dashed">
+            
+    
+        <a class="flex items-center justify-center text-blue-500 hover:underline" href="../../../index/daily/all.html">Index</a>
+    
 
-        <a class="text-blue-500 hover:underline " href="last30.html">Last 30 days</a>
-        <a class="text-blue-500 hover:underline " href="last60.html">Last 60 days</a>
-        <a class="text-blue-500 hover:underline " href="last90.html">Last 90 days</a>
-        <a class="text-blue-500 hover:underline font-bold" href="all.html">All time</a>
+            
+    
+        <a class="flex items-center justify-center text-blue-500 hover:underline" href="../../../inputs/details/all.html">Inputs</a>
+    
+
+        </div>
+        <div class="flex gap-4">
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last30.html">30 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last60.html">60 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last90.html">90 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline font-bold" href="all.html">All time</a>
+        </div>
     </div>
 
+    </div>
+    <div class="hidden sm:block w-full">
+        
+    
+    
+    <div class="flex gap-4 px-4 my-4 items-center justify-center text-center leading-tight">
+        <div class="flex flex-row gap-4 pr-4 border-r-2 border-gray-400 border-dashed">
+            
+    
+        <a class="flex items-center justify-center text-blue-500 hover:underline" href="../../../index/daily/all.html">Index</a>
+    
+
+            
+    
+        <a class="flex items-center justify-center text-blue-500 hover:underline" href="../../../inputs/details/all.html">Inputs</a>
+    
+
+        </div>
+        <div class="flex gap-4">
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last30.html">Last 30 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last60.html">Last 60 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last90.html">Last 90 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline font-bold" href="all.html">All time</a>
+        </div>
+    </div>
+
+    </div>
+
+
     <div class="flex justify-center items-center mx-4">
-        <table class="table-auto border-collapse bg-gray-100 text-gray-800">
+        <table class="Xtable-auto border-collapse bg-gray-100 text-gray-800">
             <thead>
-                <tr class="sticky top-0 bg-gray-300">
+                <tr class="sticky top-0 z-10 bg-gray-300">
                     
                     <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal">#</th>
                     <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal">Date</th>

@@ -1,0 +1,35 @@
+{% macro menu_link(period, base_path, label, a_style) %}
+    {% if label == 'Index' %}
+        <a class="{{ a_style }}" href="{{ base_path }}/index/daily/{{ period }}.html">{{ label }}</a>
+    {% elif label == 'Inputs' %}
+        <a class="{{ a_style }}" href="{{ base_path }}/inputs/details/{{ period }}.html">{{ label }}</a>
+    {% elif label == 'Metrics' %}
+        <a class="{{ a_style }}" href="{{ base_path }}/metrics/details/daily/{{ period }}.html">{{ label }}</a>
+    {% endif %}
+{% endmacro %}
+
+{% macro _top_menu(period, base_path, c_direction, c_gap_left, c_gap_right, link1, link2, last30, last60, last90, alltime) %}
+    {% set menu_separator = 'pr-4 border-r-2 border-gray-400 border-dashed' %}
+    {% set a_style = 'flex items-center justify-center text-blue-500 hover:underline' %}
+    <div class="flex gap-4 px-4 my-4 items-center justify-center text-center leading-tight">
+        <div class="flex {{ c_direction }} {{ c_gap_left }} {{ menu_separator }}">
+            {{ menu_link(period, base_path, link1, a_style) }}
+            {{ menu_link(period, base_path, link2, a_style) }}
+        </div>
+        <div class="flex {{ c_gap_right }}">
+            <a class="{{ a_style }} {{ 'font-bold' if period == 'last30' else '' }}" href="last30.html">{{ last30 }}</a>
+            <a class="{{ a_style }} {{ 'font-bold' if period == 'last60' else '' }}" href="last60.html">{{ last60 }}</a>
+            <a class="{{ a_style }} {{ 'font-bold' if period == 'last90' else '' }}" href="last90.html">{{ last90 }}</a>
+            <a class="{{ a_style }} {{ 'font-bold' if period == 'all' else '' }}" href="all.html">{{ alltime }}</a>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro top_menu(period, base_path, link1, link2) %}
+    <div class="block sm:hidden w-full">
+        {{ _top_menu(period, base_path, 'flex-col', 'gap-0', 'gap-4', link1, link2, '30 days', '60 days', '90 days', 'All time') }}
+    </div>
+    <div class="hidden sm:block w-full">
+        {{ _top_menu(period, base_path, 'flex-row', 'gap-4', 'gap-4', link1, link2, 'Last 30 days', 'Last 60 days', 'Last 90 days', 'All time') }}
+    </div>
+{% endmacro %}
