@@ -5,7 +5,7 @@ from .base import Graph
 
 class WorkGraph(Graph):
     def build(self, ax1):
-        self.standard_build(ax1, "Estimated Work Performed", "kilojoule")
+        self.standard_build(ax1, "Estimated Work", "kilojoule")
 
     def y_axis(self, ax1):
         x = self.x_axis_values()
