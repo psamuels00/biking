@@ -1,5 +1,5 @@
 {% macro menu_link(period, base_path, label, a_style) %}
-    {% if label == 'Index' %}
+    {% if label == 'Graphs' %}
         <a class="{{ a_style }}" href="{{ base_path }}/index/daily/{{ period }}.html">{{ label }}</a>
     {% elif label == 'Inputs' %}
         <a class="{{ a_style }}" href="{{ base_path }}/inputs/details/{{ period }}.html">{{ label }}</a>

@@ -5,7 +5,6 @@ _None_
 
 ### Medium Priority
 - Change the order of graphs on the Index page
-- Change label "Index" to "Graphs"
 - Update generation of summary pages: render src/pages/metrics/summary/daily.html -> output/metrics/summary/daily.html
 - Add Weekly, Monthly, and Yearly rollup graphs.
 
