@@ -19,6 +19,14 @@ def meters2miles(num):
     return float(num) / 1609.34
 
 
+def minutes2days(num):
+    return float(num) / 60 / 24
+
+
+def minutes2hours(num):
+    return float(num) / 60
+
+
 def mps2mph(num):
     return float(num) * 2.23694
 
@@ -34,6 +42,10 @@ def period2days(period):
         days = 90
 
     return days
+
+
+def seconds2minutes(num):
+    return float(num) / 60
 
 
 def ymd2date(ymd):

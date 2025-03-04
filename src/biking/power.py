@@ -23,8 +23,8 @@ def output_power(g, C_r, C_d, A, weight_lbs, elevation_gain_ft, speed_mph, dista
     force = F_rr + F_d + F_g
 
     # power and work
-    power = force * speed
-    work_kj = power * time / 1000
+    power_w = force * speed
+    work_kj = power_w * time / 1000
     energy_kcal = kj2kcal(work_kj)
 
-    return power, work_kj, energy_kcal
+    return power_w, work_kj, energy_kcal

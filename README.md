@@ -176,6 +176,7 @@ Here's a full list of recognized fields in the Journal.  All are optional:
 - distance - int or float
 - elev_high = int or float, elevation high point in feet
 - elev_low = int or float, elevation low point in feet
+- moving_time = int or float, time in minutes
 - note - any comment; ignored
 - skipped - reason for skipping the day; ignored
 - start_latlng - starting location, will replace any from a Strava activity, used only for starting elevation

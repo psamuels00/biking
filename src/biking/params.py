@@ -40,6 +40,7 @@ class Parameters:
                     performance="Performance.jpg",
                     power="Power.jpg",
                     speed="Speed.jpg",
+                    time="Time.jpg",
                     top_speed="TopSpeed.jpg",
                 ),
                 generate_for_no_data=True,

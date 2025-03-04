@@ -21,11 +21,11 @@ class PowerGraph(Graph):
 
         is_strava_available = np.any(~np.isnan(strava_y))
 
-        max_value = int(np.nanmax(nan_y))
         min_value = int(np.nanmin(nan_y))
+        max_value = int(np.nanmax(nan_y))
         if is_strava_available:
-            max_value = max(max_value, int(np.nanmax(strava_y)))
             min_value = min(min_value, int(np.nanmin(strava_y)))
+            max_value = max(max_value, int(np.nanmax(strava_y)))
 
         lower_limit = min_value // 5 * 5 - 10
         upper_limit = max_value

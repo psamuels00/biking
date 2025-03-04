@@ -2,7 +2,7 @@ import calendar
 import numpy as np
 import os
 
-from .conversions import feet2miles, period2days, ymd2date
+from .conversions import feet2miles, minutes2days, minutes2hours, period2days, ymd2date
 from .format import format_metrics_record
 from biking.power import output_power
 
@@ -59,17 +59,17 @@ class Statistics:
         A = self.params.power.constants.A
         weight = self.get_weight_params()
 
-        power, work_kj, energy_kcal = 0, 0, 0
+        power_w, work_kj, energy_kcal = 0, 0, 0
         if speed:
-            power, work_kj, energy_kcal = output_power(g, C_r, C_d, A, weight, elevation, speed, distance)
+            power_w, work_kj, energy_kcal = output_power(g, C_r, C_d, A, weight, elevation, speed, distance)
 
-        return power, work_kj, energy_kcal
+        return power_w, work_kj, energy_kcal
 
     def add_derived_metrics(self, data, elevation, speed, distance):
-        power, work_kj, energy_kcal = self.power_based_metrics(elevation, speed, distance)
+        power_w, work_kj, energy_kcal = self.power_based_metrics(elevation, speed, distance)
 
-        self.total_power += power
-        data["power_per_day"].append(power)
+        self.total_power += power_w
+        data["power_per_day"].append(power_w)
         data["avg_power_per_day"].append(safe_div(self.total_power, self.num_data_tracked_days))
 
         self.total_work += work_kj
@@ -85,6 +85,7 @@ class Statistics:
         num_biked_days = 0  # based on availability of distance info
 
         total_distance = 0  # miles
+        total_time = 0  # seconds
         total_speed = 0  # mph
         total_top_speed = 0  # mph
         total_elevation_gain = 0  # feet
@@ -92,12 +93,15 @@ class Statistics:
         elevation_gain_per_day = []
         speed_per_day = []
         distance_per_day = []
+        time_per_day = []
 
         data = dict(
             date=[],
             ride_rate_per_day=[],
             distance_per_day=distance_per_day,
             avg_distance_per_day=[],
+            time_per_day=time_per_day,
+            avg_time_per_day=[],
             speed_per_day=speed_per_day,  # ie, average speed
             avg_speed_per_day=[],  # ie, average of averages
             top_speed_per_day=[],
@@ -128,6 +132,9 @@ class Statistics:
             distance = record["distance"]
             total_distance += distance
 
+            time = record["moving_time"]
+            total_time += time
+
             speed = record["average_speed"]
             total_speed += speed
 
@@ -148,6 +155,9 @@ class Statistics:
 
             data["distance_per_day"].append(distance)
             data["avg_distance_per_day"].append(safe_div(total_distance, num_biked_days))
+
+            data["time_per_day"].append(time)
+            data["avg_time_per_day"].append(safe_div(total_time, self.num_data_tracked_days))
 
             data["speed_per_day"].append(speed)
             data["avg_speed_per_day"].append(safe_div(total_speed, self.num_data_tracked_days))
@@ -184,6 +194,7 @@ class Statistics:
             num_data_tracked_days=self.num_data_tracked_days,
             num_days=num_days,
             total_distance=total_distance,
+            total_time=total_time,
             total_elevation_gain=total_elevation_gain,
         )
 
@@ -196,6 +207,8 @@ class Statistics:
             data["date"][-num:],
             data["distance_per_day"][-num:],
             data["avg_distance_per_day"][-num:],
+            data["time_per_day"][-num:],
+            data["avg_time_per_day"][-num:],
             data["speed_per_day"][-num:],
             data["avg_speed_per_day"][-num:],
             data["top_speed_per_day"][-num:],
@@ -215,6 +228,8 @@ class Statistics:
             "date",
             "distance",
             "avg_distance",
+            "time",
+            "avg_time",
             "speed",
             "avg_speed",
             "top_speed",
@@ -288,6 +303,35 @@ class Statistics:
         self.print("distance (miles)  min   max   avg   total")
         self.print("                  ----  ----  ----  -------")
         self.print(f"{min_distance:22.1f}  {max_distance:4.1f}  {avg_distance:4.1f}  {total_distance:7.1f}")
+
+    def summarize_time_data(self):
+        stats = self.stats
+        data = stats["data"]
+
+        def min_val(field):
+            x = np.array([a if a else np.nan for a in data[field]])
+            return 0 if np.all(np.isnan(x)) else np.nanmin(x)
+
+        def max_val(field):
+            x = np.array([a if a else np.nan for a in data[field]])
+            return 0 if np.all(np.isnan(x)) else np.nanmax(x)
+
+        min_time = int(min_val("time_per_day"))
+        max_time = int(max_val("time_per_day"))
+
+        total_time = int(stats["total_time"])
+        total_days = minutes2days(stats["total_time"])
+        total_hours = minutes2hours(stats["total_time"])
+        num_biked_days = stats["num_biked_days"]
+        avg_time = int(safe_div(stats["total_time"], num_biked_days))
+
+        self.print()
+        self.print()
+        self.print("time (minutes)  min   max   avg   total    total hours  total days")
+        self.print("                ----  ----  ----  -------  -----------  ----------")
+        self.print(
+            f"{min_time:20}  {max_time:4}  {avg_time:4}  {total_time:7}  {total_hours:11.1f}  {total_days:10.1f}"
+        )
 
     def summarize_tracked_data(self):
         stats = self.stats
@@ -364,6 +408,7 @@ class Statistics:
         if num_days > 0:
             self.summarize_basic_data()
             self.summarize_distance_data()
+            self.summarize_time_data()
             if num_data_tracked_days > 0:
                 self.summarize_tracked_data()
         else:
@@ -378,6 +423,8 @@ class Statistics:
             "date",
             "distance",
             "avg dist",
+            "time",
+            "avg time",
             "speed",
             "avg speed",
             "top speed",
@@ -397,6 +444,7 @@ class Statistics:
             head_format = ",".join(["{}"] * len(headings))
             row_format = (
                 "{num},{ymd},{distance},{avg_distance},"
+                "{time},{avg_time},"
                 "{speed},{avg_speed},{top_speed},{avg_top_speed},"
                 "{elevation},{avg_elevation},{power},{avg_power},"
                 "{work},{avg_work},{calories},{avg_calories},"
@@ -408,6 +456,7 @@ class Statistics:
         else:
             head_format = (
                 "{:4}  {:10}  {:8}  {:8}  "
+                "{:8}  {:8}  "
                 "{:5}  {:9}  {:9}  {:13}  "
                 "{:9}  {:8}  {:5}  {:9}  "
                 "{:9}  {:10}  {:8}  {:8}  "
@@ -415,6 +464,7 @@ class Statistics:
             )
             row_format = (
                 "{num:>4}  {ymd}  {distance:>8}  {avg_distance:>8}  "
+                "{time:>8}  {avg_time:>8}  "
                 "{speed:>5}  {avg_speed:>9}  {top_speed:>9}  {avg_top_speed:>13}  "
                 "{elevation:>9}  {avg_elevation:>8}  {power:>5}  {avg_power:>9}  "
                 "{work:>9}  {avg_work:>10}  {calories:>8}  {avg_calories:>8}  "
@@ -433,6 +483,7 @@ class Statistics:
                 print(head_format.format(*headings))
                 print(
                     "----  ----------  --------  --------  "
+                    "--------  --------  "
                     "-----  ---------  ---------  -------------  "
                     "---------  --------  -----  ---------  "
                     "---------  ----------  --------  --------  "

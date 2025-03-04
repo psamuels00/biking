@@ -96,6 +96,7 @@ class InputData:
         daily_data = self.init_daily_data(from_date, to_date)
 
         for activity in activities:
+            #print("@@@", activity["moving_time"])
             ymd = activity["start_date_local"][:10]
             if self.include_activity(ymd):
                 elev_start_ft = self.elevation.calculate_activity_start(activity)
@@ -129,6 +130,7 @@ class InputData:
             "day#",
             "date",
             "distance",
+            "time",
             "speed",
             "top speed",
             "elev gain",
@@ -141,16 +143,16 @@ class InputData:
         if csv:
             head_format = ",".join(["{}"] * len(headings))
             row_format = (
-                "{num},{ymd},{distance},{average_speed},{top_speed},"
+                "{num},{ymd},{distance},{time},{average_speed},{top_speed},"
                 "{total_elevation_gain},{elev_high},{elev_low},{elev_start},{power}"
             )
             empty = ""
             limit_precision = False
             print(head_format.format(*headings))
         else:
-            head_format = "{:4}  {:10}  {:8}  {:5}  {:9}  {:9}  {:9}  {:8}  {:10}  {:5}"
+            head_format = "{:4}  {:10}  {:8}  {:6}  {:5}  {:9}  {:9}  {:9}  {:8}  {:10}  {:5}"
             row_format = (
-                "{num:>4}  {ymd}  {distance:>8}  {average_speed:>5}  {top_speed:>9}  "
+                "{num:>4}  {ymd}  {distance:>8}  {time:>6}  {average_speed:>5}  {top_speed:>9}  "
                 "{total_elevation_gain:>9}  {elev_high:>9}  {elev_low:>8}  {elev_start:>10}  {power:>5}"
             )
             empty = "."
@@ -165,7 +167,7 @@ class InputData:
                     print()
                 print(head_format.format(*headings))
                 print(
-                    "----  ----------  --------  -----  ---------  ---------  ---------  --------  ----------  -----"
+                    "----  ----------  --------  ------  -----  ---------  ---------  ---------  --------  ----------  -----"
                 )
             rec = format_input_record(rec, empty, limit_precision)
             msg = row_format.format(num=num, **rec)

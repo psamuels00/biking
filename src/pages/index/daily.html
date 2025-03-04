@@ -12,6 +12,7 @@
         ("speed", "Speed"),
         ("top_speed", "TopSpeed"),
         ("distance", "Distance"),
+        ("time", "Time"),
         ("elevation_gain", "ElevationGain"),
         ("elevation_limits", "ElevationLimits"),
         ("ride_rate", "RideRate"),
@@ -33,14 +34,14 @@
     {{ macros.top_menu(period, '../..', 'Inputs', 'Metrics') }}
 
     <div class="block md:hidden w-full mb-4">
-        <div class="grid grid-cols-2 gap-4 px-4 pb-4">
+        <div class="grid grid-cols-2 gap-4 px-4 pb-4 items-center">
             {% for anchor_name, jpg_name in metric_types %}
                 {{ graph_link('placebo', anchor_name, jpg_name) }}
             {% endfor %}
-        </div>
 
-        <div class="w-full text-sm text-center italic text-gray-400 px-4">
-            Select a thumbnail to jump to the full-size image.  Select that to jump back.
+            <div class="w-full text-sm text-center italic text-gray-400 px-4">
+                Select a thumbnail to jump to the full-size image.  Select that to jump back.
+            </div>
         </div>
     </div>
 
@@ -64,10 +65,8 @@
                     {{ graph_link('grp_speed', 'speed', 'Speed') }}
                     {{ graph_link('grp_speed', 'top_speed', 'TopSpeed') }}
                 </div>
-                {{ graph_link('', 'distance', 'Distance') }}
-                <div class="text-sm text-center italic text-gray-400 mt-8">
-                    Select a thumbnail to jump to the full-size image.  Select that to jump back.
-                </div>
+                {{ graph_link('', 'time', 'Time') }}
+                {{ graph_link('', 'ride_rate', 'RideRate') }}
             </div>
 
             <div class="flex flex-col gap-4">
@@ -78,7 +77,12 @@
                     {{ graph_link('grp_elevation', 'elevation_gain', 'ElevationGain') }}
                     {{ graph_link('grp_elevation', 'elevation_limits', 'ElevationLimits') }}
                 </div>
-                {{ graph_link('', 'ride_rate', 'RideRate') }}
+                {{ graph_link('', 'distance', 'Distance') }}
+                <div class="flex items-center h-full">
+                    <div class="text-sm text-center italic text-gray-400 mx-4">
+                        Select a thumbnail to jump to the full-size image.  Select that to jump back.
+                    </div>
+                </div>
             </div>
         </div>
     </div>

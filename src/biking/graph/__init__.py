@@ -6,5 +6,6 @@ from .performance import PerformanceGraph  # noqa: F401
 from .power import PowerGraph  # noqa: F401
 from .ride_rate import RideRateGraph  # noqa: F401
 from .speed import SpeedGraph  # noqa: F401
+from .time import TimeGraph  # noqa: F401
 from .top_speed import TopSpeedGraph  # noqa: F401
 from .work import WorkGraph  # noqa: F401
