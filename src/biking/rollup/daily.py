@@ -2,7 +2,6 @@ import numpy as np
 
 from datetime import datetime
 
-from biking.geoloc import get_elevation
 from biking.conversions import meters2feet, meters2miles, mps2mph, seconds2minutes
 from .metric import Metric
 
@@ -34,7 +33,7 @@ class DailyRollup:
         self.elev_start.add_measure(elev_start_ft)
         self.power.add_measure(0)
 
-    def add_manual_activity(self, record):
+    def add_manual_activity(self, record, elev_start_ft):
         self.distance.add_measure(record.get("distance", np.nan))  # assumed to be miles
         self.moving_time.add_measure(record.get("moving_time", np.nan))  # assumed to be minutes
         self.total_elevation_gain.add_measure(record.get("total_elevation_gain", np.nan))  # assumed to be feet
@@ -43,11 +42,7 @@ class DailyRollup:
         self.elev_high.add_measure(record.get("elev_high", np.nan))  # assumed to be feet
         self.elev_low.add_measure(record.get("elev_low", np.nan))  # assumed to be feet
         self.power.add_measure(record.get("strava_power_estimate", np.nan))  # assumed to be in watts
-
-        if record.get("start_latlng"):
-            cache_name = self.params.elevation_cache_name
-            elevation = get_elevation(cache_name, *record["start_latlng"])
-            self.elev_start.add_measure(meters2feet(elevation))
+        self.elev_start.add_measure(elev_start_ft)
 
     def aggregate_values(self):
         return dict(

@@ -104,7 +104,8 @@ class InputData:
 
         for ymd, record in journal.items():
             if self.include_activity(ymd):
-                daily_data[ymd].add_manual_activity(record)
+                elev_start_ft = self.elevation.calculate_activity_start(record)
+                daily_data[ymd].add_manual_activity(record, elev_start_ft)
 
         rollups = sorted(daily_data.values(), key=lambda a: a.ymd)
         daily_data = [rollup.aggregate_values() for rollup in rollups]
