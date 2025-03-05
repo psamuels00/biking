@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary - Daily Biking Metrics </title>
+    <link rel="icon" type="image/x-icon" href="/biking/ico/RoadBiker.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body id="top">
+    
+
+    
+<div class="flex flex-col items-center min-h-screen pb-4">
+
+    <header class="w-full text-center py-4 bg-gray-300">
+        <h1 class="text-xl font-bold text-gray-700">Daily Metrics Summary</h1>
+    </header>
+
+    
+    <div class="block sm:hidden w-full">
+        
+    
+    
+    <div class="flex gap-4 px-4 my-4 items-center justify-center text-center leading-tight">
+        <div class="flex flex-col gap-0 pr-4 border-r-2 border-gray-400 border-dashed">
+            
+    
+        <a class="flex items-center justify-center text-blue-500 hover:underline" href="../../inputs/details/.html">Inputs</a>
+    
+
+            
+    
+        <a class="flex items-center justify-center text-blue-500 hover:underline" href="../../metrics/details/daily/.html">Metrics</a>
+    
+
+        </div>
+        <div class="flex gap-4">
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last30.html">30 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last60.html">60 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last90.html">90 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="all.html">All time</a>
+        </div>
+    </div>
+
+    </div>
+    <div class="hidden sm:block w-full">
+        
+    
+    
+    <div class="flex gap-4 px-4 my-4 items-center justify-center text-center leading-tight">
+        <div class="flex flex-row gap-4 pr-4 border-r-2 border-gray-400 border-dashed">
+            
+    
+        <a class="flex items-center justify-center text-blue-500 hover:underline" href="../../inputs/details/.html">Inputs</a>
+    
+
+            
+    
+        <a class="flex items-center justify-center text-blue-500 hover:underline" href="../../metrics/details/daily/.html">Metrics</a>
+    
+
+        </div>
+        <div class="flex gap-4">
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last30.html">Last 30 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last60.html">Last 60 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="last90.html">Last 90 days</a>
+            <a class="flex items-center justify-center text-blue-500 hover:underline " href="all.html">All time</a>
+        </div>
+    </div>
+
+    </div>
+
+
+    <div class="flex justify-center items-center mx-4">
+        <table class="table-auto border-collapse bg-gray-100 text-gray-800">
+            <thead>
+                <tr class="sticky top-0 bg-gray-300">
+                    
+                    <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal"></th>
+                    <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal"></th>
+                    <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal">Last 30</th>
+                    <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal">Last 60</th>
+                    <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal">Last 90</th>
+                    <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal">All Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Days</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Total</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                </tr>
+                <tr>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Biked</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                </tr>
+                <tr>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Tracked</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                </tr>
+                <tr>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Skipped</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                </tr>
+                <tr>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Ride Rate</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                </tr>
+
+                <tr>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Distance</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Min</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                </tr>
+                <tr>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">(miles)</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Max</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                </tr>
+                <tr>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Avg</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                </tr>
+                <tr>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Total</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                </tr>
+                <tr>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Total Hours</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                </tr>
+                <tr>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap">Total Days</td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                    <td class="border border-white px-2 py-1 text-right whitespace-nowrap"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
