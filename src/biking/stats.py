@@ -459,7 +459,7 @@ class Statistics:
                 "{:8}  {:8}  "
                 "{:7}  {:9}  {:9}  {:13}  "
                 "{:9}  {:8}  {:5}  {:9}  "
-                "{:9}  {:10}  {:8}  {:8}  "
+                "{:7}  {:8}  {:8}  {:8}  "
                 "{:9}"
             )
             row_format = (
@@ -467,7 +467,7 @@ class Statistics:
                 "{time:>8}  {avg_time:>8}  "
                 "{speed:>7}  {avg_speed:>9}  {top_speed:>9}  {avg_top_speed:>13}  "
                 "{elevation:>9}  {avg_elevation:>8}  {power:>5}  {avg_power:>9}  "
-                "{work:>9}  {avg_work:>10}  {calories:>8}  {avg_calories:>8}  "
+                "{work:>7}  {avg_work:>8}  {calories:>8}  {avg_calories:>8}  "
                 "{ride_rate:>9}"
             )
             empty = "."
@@ -486,7 +486,7 @@ class Statistics:
                     "--------  --------  "
                     "-------  ---------  ---------  -------------  "
                     "---------  --------  -----  ---------  "
-                    "---------  ----------  --------  --------  "
+                    "-------  --------  --------  --------  "
                     "---------"
                 )
             ymd = rec["date"].strftime("%Y-%m-%d")
