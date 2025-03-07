@@ -25,7 +25,7 @@ def format_metrics_record(rec, empty="", limit_precision=True):
         avg_distance=format_numeric(rec["avg_distance"], empty, limit_precision, 1),
         time=format_numeric(rec["time"], empty, limit_precision, 1),
         avg_time=format_numeric(rec["avg_time"], empty, limit_precision, 1),
-        speed=format_numeric(rec["speed"], empty, limit_precision, 1),
+        speed=format_numeric(rec["speed"], empty, limit_precision, 3),
         avg_speed=format_numeric(rec["avg_speed"], empty, limit_precision, 1),
         top_speed=format_numeric(rec["top_speed"], empty, limit_precision, 1),
         avg_top_speed=format_numeric(rec["avg_top_speed"], empty, limit_precision, 1),
