@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary - Daily Biking Metrics </title>
+    <link rel="icon" type="image/x-icon" href="/biking/ico/RoadBiker.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body id="top">
+    
+
+    
+<div class="flex flex-col items-center min-h-screen pb-4">
+
+    <header class="w-full text-center py-4 bg-gray-300">
+        <h1 class="text-xl font-bold text-gray-700">Daily Metrics Summary</h1>
+    </header>
+
+    
+    <a class="flex items-center justify-center text-blue-500 hover:underline m-4" href="../../../index/daily/last30.html">Graphs</a>
+
+    
+        <div class="flex justify-center items-center mx-4">
+            <table class="table-auto border-collapse bg-gray-100 text-gray-800">
+                <thead>
+                    <tr class="sticky top-0 bg-gray-300">
+                        
+                        <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal"></th>
+                        <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal"></th>
+                        <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal">Last 30</th>
+                        <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal">Last 60</th>
+                        <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal">Last 90</th>
+                        <th class="border border-white font-normal px-2 py-1 text-center whitespace-normal">All Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    
+                    
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Days</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Total</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">30</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">60</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">90</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">147</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Biked</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">22</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">50</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">78</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">129</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Tracked</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">22</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">50</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">77</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">99</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Skipped</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">8</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">10</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">12</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">18</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Ride Rate</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">73.3</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">83.3</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">86.7</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">87.8</td>
+                    </tr>
+
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Distance</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Min</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap text-gray-300 italic">miles</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Max</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Avg</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Total</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Time</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Min</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap text-gray-300 italic">minutes</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Max</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Avg</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Total</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Total Hours</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Total Days</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Speed</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Min</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap text-gray-300 italic">mph</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Max</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Avg</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Top Speed</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Min</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap text-gray-300 italic">mph</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Max</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Avg</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Elevation Gain</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Min</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap text-gray-300 italic">feet</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Max</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Avg</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Total</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Total Miles</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Elevation Low</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Min</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap text-gray-300 italic">feet</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Max</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Avg</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Elevation High</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Min</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap text-gray-300 italic">feet</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Max</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Avg</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Power</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Min</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap text-gray-300 italic">watts</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Max</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Avg</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Work</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Min</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap text-gray-300 italic">kilojoules</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Max</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Avg</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Energy</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300">Min</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap border-t-2 border-t-gray-300"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap text-gray-300 italic">calories</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Max</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap">Avg</td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                        <td class="border border-white px-2 py-1 text-left whitespace-nowrap"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    
+</div>
+
+</body>
+</html>
