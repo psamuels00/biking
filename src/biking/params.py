@@ -71,6 +71,11 @@ class Parameters:
                         template_file="details.html",
                         output_path="output/metrics/details/daily",
                     ),
+                    summary=dict(
+                        template_path="metrics",
+                        template_file="summary.html",
+                        output_path="output/metrics/summary",
+                    ),
                 ),
             ),
             journal_file="data/journal.yaml",
@@ -161,9 +166,6 @@ class Parameters:
                     athlete="https://www.strava.com/api/v3/athlete",
                     activities="https://www.strava.com/api/v3/athlete/activities",
                 ),
-            ),
-            summary=dict(
-                output_path="output/summary/daily",
             ),
         )
         self._data = DotMap(data)

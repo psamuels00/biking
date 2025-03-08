@@ -4,8 +4,8 @@
 _None_
 
 ### Medium Priority
-- Update generation of summary pages: render src/pages/metrics/summary/daily.html -> output/metrics/summary/daily.html
 - Add Weekly, Monthly, and Yearly rollup graphs.
+- Allow weight and maybe other parameters to be overridden in the journal file
 
 ### Low Priority
 - Maybe show time as hh:mm:ss instead of minutes

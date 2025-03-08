@@ -135,9 +135,9 @@ class InputData:
             "speed",
             "top speed",
             "elev gain",
+            "elev start",
             "elev high",
             "elev low",
-            "elev start",
             "power",
         )
 
@@ -145,16 +145,16 @@ class InputData:
             head_format = ",".join(["{}"] * len(headings))
             row_format = (
                 "{num},{ymd},{distance},{time},{average_speed},{top_speed},"
-                "{total_elevation_gain},{elev_high},{elev_low},{elev_start},{power}"
+                "{total_elevation_gain},{elev_start},{elev_high},{elev_low},{power}"
             )
             empty = ""
             limit_precision = False
             print(head_format.format(*headings))
         else:
-            head_format = "{:4}  {:10}  {:8}  {:6}  {:5}  {:9}  {:9}  {:9}  {:8}  {:10}  {:5}"
+            head_format = "{:4}  {:10}  {:8}  {:6}  {:5}  {:9}  {:9}  {:10}  {:9}  {:8}  {:5}"
             row_format = (
                 "{num:>4}  {ymd}  {distance:>8}  {time:>6}  {average_speed:>5}  {top_speed:>9}  "
-                "{total_elevation_gain:>9}  {elev_high:>9}  {elev_low:>8}  {elev_start:>10}  {power:>5}"
+                "{total_elevation_gain:>9}  {elev_start:>10}  {elev_high:>9}  {elev_low:>8}  {power:>5}"
             )
             empty = "."
             limit_precision = True
@@ -168,7 +168,7 @@ class InputData:
                     print()
                 print(head_format.format(*headings))
                 print(
-                    "----  ----------  --------  ------  -----  ---------  ---------  ---------  --------  ----------  -----"
+                    "----  ----------  --------  ------  -----  ---------  ---------  ----------  ---------  --------  -----"
                 )
             rec = format_input_record(rec, empty, limit_precision)
             msg = row_format.format(num=num, **rec)

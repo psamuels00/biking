@@ -1,9 +1,8 @@
 import calendar
 import numpy as np
-import os
 
 from .conversions import feet2miles, minutes2days, minutes2hours, period2days, ymd2date
-from .format import format_metrics_record
+from .format import format_numeric, format_metrics_record
 from biking.power import output_power
 
 
@@ -12,10 +11,11 @@ def safe_div(a, b):
 
 
 class Statistics:
-    def __init__(self, params, period, input_data):
+    def __init__(self, params, period, input_data, summary_info):
         self.params = params
         self.period = period
         self.input_data = input_data
+        self.summary_info = summary_info
         self.text = []
 
         self.num_data_tracked_days = 0  # based on availability of speed and elevation data from Strava
@@ -25,17 +25,7 @@ class Statistics:
         self.total_calories = 0  # kCal
 
         self.stats = self.calculate()
-
-    def print(self, line="<br>"):
-        self.text.append(line)
-
-    def save_results(self):
-        path = self.params.summary.output_path
-        os.makedirs(path, exist_ok=True)
-        file = os.path.join(path, f"{self.period}.html")
-        content = "\n".join(self.text) + "\n"
-        with open(file, "w") as fh:
-            fh.write(content)
+        self.capture_summary_info()
 
     def get_weight_params(self):
         power = self.params.power
@@ -252,32 +242,21 @@ class Statistics:
 
         return rows
 
+    def format_numeric(self, number, decimals=0):
+        return format_numeric(number, "", True, decimals)
+
     def summarize_basic_data(self):
         stats = self.stats
+        days = self.summary_info["days"]
 
-        first_date = stats["first_date"]
-        last_date = stats["last_date"]
         num_days = stats["num_days"]
         num_biked_days = stats["num_biked_days"]
-        num_data_tracked_days = stats["num_data_tracked_days"]
 
-        first_day = first_date.strftime("%Y-%m-%d")
-        last_day = last_date.strftime("%Y-%m-%d")
-        num_skipped_days = num_days - num_biked_days
-        ride_rate = num_biked_days / num_days * 100
-
-        title = self.params.report.title[self.period]
-
-        self.print(f"Period: {title}")
-        self.print()
-        self.print(f"Date range: {first_day} to {last_day}")
-        self.print()
-        self.print()
-        self.print("days  total  biked  tracked  skipped  ride rate")
-        self.print("      -----  -----  -------  -------  ---------")
-        self.print(
-            f"{num_days:11}  {num_biked_days:5}  {num_data_tracked_days:5}  {num_skipped_days:7}  {ride_rate:8.2f}%"
-        )
+        days["total"] += [num_days]
+        days["biked"] += [num_biked_days]
+        days["tracked"] += [stats["num_data_tracked_days"]]
+        days["skipped"] += [num_days - num_biked_days]
+        days["ride_rate"] += [self.format_numeric(num_biked_days / num_days * 100, 1)]
 
     def summarize_distance_data(self):
         stats = self.stats
@@ -291,18 +270,12 @@ class Statistics:
             x = np.array([a if a else np.nan for a in data[field]])
             return 0 if np.all(np.isnan(x)) else np.nanmax(x)
 
-        min_distance = min_val("distance_per_day")
-        max_distance = max_val("distance_per_day")
+        measure = self.summary_info["distance"]
 
-        total_distance = stats["total_distance"]
-        num_biked_days = stats["num_biked_days"]
-        avg_distance = safe_div(total_distance, num_biked_days)
-
-        self.print()
-        self.print()
-        self.print("distance (miles)  min   max   avg   total")
-        self.print("                  ----  ----  ----  -------")
-        self.print(f"{min_distance:22.1f}  {max_distance:4.1f}  {avg_distance:4.1f}  {total_distance:7.1f}")
+        measure["min"] += [self.format_numeric(min_val("distance_per_day"), 1)]
+        measure["max"] += [self.format_numeric(max_val("distance_per_day"), 1)]
+        measure["avg"] += [self.format_numeric(safe_div(stats["total_distance"], stats["num_biked_days"]), 1)]
+        measure["total"] += [self.format_numeric(stats["total_distance"], 0)]
 
     def summarize_time_data(self):
         stats = self.stats
@@ -316,22 +289,14 @@ class Statistics:
             x = np.array([a if a else np.nan for a in data[field]])
             return 0 if np.all(np.isnan(x)) else np.nanmax(x)
 
-        min_time = int(min_val("time_per_day"))
-        max_time = int(max_val("time_per_day"))
+        measure = self.summary_info["time"]
 
-        total_time = int(stats["total_time"])
-        total_days = minutes2days(stats["total_time"])
-        total_hours = minutes2hours(stats["total_time"])
-        num_biked_days = stats["num_biked_days"]
-        avg_time = int(safe_div(stats["total_time"], num_biked_days))
-
-        self.print()
-        self.print()
-        self.print("time (minutes)  min   max   avg   total    total hours  total days")
-        self.print("                ----  ----  ----  -------  -----------  ----------")
-        self.print(
-            f"{min_time:20}  {max_time:4}  {avg_time:4}  {total_time:7}  {total_hours:11.1f}  {total_days:10.1f}"
-        )
+        measure["min"] += [self.format_numeric(min_val("time_per_day"), 0)]
+        measure["max"] += [self.format_numeric(max_val("time_per_day"), 0)]
+        measure["avg"] += [self.format_numeric(safe_div(stats["total_time"], stats["num_biked_days"]), 0)]
+        measure["total"] += [self.format_numeric(stats["total_time"], 0)]
+        measure["total_hours"] += [self.format_numeric(minutes2hours(stats["total_time"]), 1)]
+        measure["total_days"] += [self.format_numeric(minutes2days(stats["total_time"]), 2)]
 
     def summarize_tracked_data(self):
         stats = self.stats
@@ -350,60 +315,158 @@ class Statistics:
         # speed
         min_speed = min_val("speed_per_day")
         max_speed = max_val("speed_per_day")
-        avg_speed = sum_vals("speed_per_day") / num_data_tracked_days
+        avg_speed = safe_div(sum_vals("speed_per_day"), num_data_tracked_days)
+
+        measure = self.summary_info["speed"]
+        measure["min"] += [self.format_numeric(min_speed, 1)]
+        measure["max"] += [self.format_numeric(max_speed, 1)]
+        measure["avg"] += [self.format_numeric(avg_speed, 1)]
 
         # top speed
         min_top_speed = min_val("top_speed_per_day")
         max_top_speed = max_val("top_speed_per_day")
-        avg_top_speed = sum_vals("top_speed_per_day") / num_data_tracked_days
+        avg_top_speed = safe_div(sum_vals("top_speed_per_day"), num_data_tracked_days)
+
+        measure = self.summary_info["top_speed"]
+        measure["min"] += [self.format_numeric(min_top_speed, 1)]
+        measure["max"] += [self.format_numeric(max_top_speed, 1)]
+        measure["avg"] += [self.format_numeric(avg_top_speed, 1)]
 
         # elevation gain
         total_elev_gain = int(sum_vals("elevation_gain_per_day"))
         total_elev_gain_miles = feet2miles(total_elev_gain)
         min_elev_gain = int(min_val("elevation_gain_per_day"))
         max_elev_gain = int(max_val("elevation_gain_per_day"))
-        avg_elev_gain = int(total_elev_gain / num_data_tracked_days)
+        avg_elev_gain = int(safe_div(total_elev_gain, num_data_tracked_days))
 
-        # elevation low
-        min_elev_low = int(min_val("elevation_low_per_day"))
-        max_elev_low = int(max_val("elevation_low_per_day"))
-        avg_elev_low = int(sum_vals("elevation_low_per_day") / num_data_tracked_days)
+        measure = self.summary_info["elevation_gain"]
+        measure["min"] += [self.format_numeric(min_elev_gain, 0)]
+        measure["max"] += [self.format_numeric(max_elev_gain, 0)]
+        measure["avg"] += [self.format_numeric(avg_elev_gain, 0)]
+        measure["total"] += [self.format_numeric(total_elev_gain, 0)]
+        measure["total_miles"] += [self.format_numeric(total_elev_gain_miles, 1)]
 
         # elevation high
         min_elev_high = int(min_val("elevation_high_per_day"))
         max_elev_high = int(max_val("elevation_high_per_day"))
         avg_elev_high = int(sum_vals("elevation_high_per_day") / num_data_tracked_days)
 
-        self.print()
-        self.print()
-        self.print("speed (mph)  min   max   avg")
-        self.print("             ----  ----  ----")
-        self.print(f"{min_speed:17.1f}  {max_speed:4.1f}  {avg_speed:4.1f}")
-        self.print()
-        self.print("top speed (mph)  min   max   avg")
-        self.print("                 ----  ----  ----")
-        self.print(f"{min_top_speed:21.1f}  {max_top_speed:4.1f}  {avg_top_speed:4.1f}")
-        self.print()
-        self.print()
-        self.print("elevation gain (ft)  min   max   avg   total    total miles")
-        self.print("                     ----  ----  ----  -------  -----------")
-        self.print(
-            f"{min_elev_gain:25}  {max_elev_gain:4}  {avg_elev_gain:4}  "
-            f"{total_elev_gain:7}  {total_elev_gain_miles:11.1f}"
-        )
-        self.print()
-        self.print("elevation range (ft)  low:  min   max   avg   high:  min   max   avg")
-        self.print("                            ----  ----  ----         ----  ----  ----")
-        self.print(
-            f"{min_elev_low:31}  {max_elev_low:4}  {avg_elev_low:4}  "
-            f"{min_elev_high:12}  {max_elev_high:4}  {avg_elev_high:4}"
+        measure = self.summary_info["elevation_high"]
+        measure["min"] += [self.format_numeric(min_elev_high, 0)]
+        measure["max"] += [self.format_numeric(max_elev_high, 0)]
+        measure["avg"] += [self.format_numeric(avg_elev_high, 0)]
+
+        # elevation low
+        min_elev_low = int(min_val("elevation_low_per_day"))
+        max_elev_low = int(max_val("elevation_low_per_day"))
+        avg_elev_low = int(sum_vals("elevation_low_per_day") / num_data_tracked_days)
+
+        measure = self.summary_info["elevation_low"]
+        measure["min"] += [self.format_numeric(min_elev_low, 0)]
+        measure["max"] += [self.format_numeric(max_elev_low, 0)]
+        measure["avg"] += [self.format_numeric(avg_elev_low, 0)]
+
+        # power
+        min_power = min_val("power_per_day")
+        max_power = max_val("power_per_day")
+        avg_power = safe_div(sum_vals("power_per_day"), num_data_tracked_days)
+
+        measure = self.summary_info["power"]
+        measure["min"] += [self.format_numeric(min_power, 0)]
+        measure["max"] += [self.format_numeric(max_power, 0)]
+        measure["avg"] += [self.format_numeric(avg_power, 0)]
+
+        # work
+        min_work = min_val("work_per_day")
+        max_work = max_val("work_per_day")
+        avg_work = safe_div(sum_vals("work_per_day"), num_data_tracked_days)
+
+        measure = self.summary_info["work"]
+        measure["min"] += [self.format_numeric(min_work, 0)]
+        measure["max"] += [self.format_numeric(max_work, 0)]
+        measure["avg"] += [self.format_numeric(avg_work, 0)]
+
+        # energy
+        min_energy = min_val("calories_per_day")
+        max_energy = max_val("calories_per_day")
+        avg_energy = safe_div(sum_vals("calories_per_day"), num_data_tracked_days)
+
+        measure = self.summary_info["energy"]
+        measure["min"] += [self.format_numeric(min_energy, 0)]
+        measure["max"] += [self.format_numeric(max_energy, 0)]
+        measure["avg"] += [self.format_numeric(avg_energy, 0)]
+
+    @staticmethod
+    def init_summary_info():
+        return dict(
+            days=dict(
+                total=[],
+                biked=[],
+                tracked=[],
+                skipped=[],
+                ride_rate=[],
+            ),
+            distance=dict(
+                min=[],
+                max=[],
+                avg=[],
+                total=[],
+            ),
+            time=dict(
+                min=[],
+                max=[],
+                avg=[],
+                total=[],
+                total_hours=[],
+                total_days=[],
+            ),
+            speed=dict(
+                min=[],
+                max=[],
+                avg=[],
+            ),
+            top_speed=dict(
+                min=[],
+                max=[],
+                avg=[],
+            ),
+            elevation_gain=dict(
+                min=[],
+                max=[],
+                avg=[],
+                total=[],
+                total_miles=[],
+            ),
+            elevation_high=dict(
+                min=[],
+                max=[],
+                avg=[],
+            ),
+            elevation_low=dict(
+                min=[],
+                max=[],
+                avg=[],
+            ),
+            power=dict(
+                min=[],
+                max=[],
+                avg=[],
+            ),
+            work=dict(
+                min=[],
+                max=[],
+                avg=[],
+            ),
+            energy=dict(
+                min=[],
+                max=[],
+                avg=[],
+            ),
         )
 
-    def summary(self):
+    def capture_summary_info(self):
         num_days = self.stats["num_days"]
         num_data_tracked_days = self.stats["num_data_tracked_days"]
-
-        self.print("<pre>")
 
         if num_days > 0:
             self.summarize_basic_data()
@@ -411,11 +474,6 @@ class Statistics:
             self.summarize_time_data()
             if num_data_tracked_days > 0:
                 self.summarize_tracked_data()
-        else:
-            self.print("No activity found to report on.")
-
-        self.print("</pre>")
-        self.save_results()
 
     def details(self, csv=False):
         headings = (

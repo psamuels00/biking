@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+
+{% block title %}Summary - Daily Biking Metrics {% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-start min-h-screen pb-4">
+
+    <header class="w-full text-center py-4 bg-gray-300">
+        <h1 class="text-xl font-bold text-gray-700">Daily Metrics Summary</h1>
+    </header>
+
+    <div class="flex gap-4 px-4 items-center justify-center text-center leading-tight mx-auto">
+        {% set a_style = 'flex items-center justify-center text-blue-500 hover:underline' %}
+        <a class="{{ a_style }} m-4" href="../../index/daily/last30.html">Graphs</a>
+    </div>
+
+    {% if data["days"]["total"] | length == 0 %}
+        <div class="mx-auto">
+            No activity found to report on.
+        </div>
+    {% else %}
+        <div class="flex justify-center items-center mx-auto">
+            <table class="table-auto border-collapse bg-gray-100 text-gray-800">
+                <thead>
+                    <tr class="sticky top-0 bg-gray-300">
+                        {% set classes = "border border-white font-normal px-2 py-1 text-center whitespace-normal" %}
+                        <th class="{{ classes }}">Measure</th>
+                        <th class="{{ classes }}">Metric</th>
+                        <th class="{{ classes }}">Last 30</th>
+                        <th class="{{ classes }}">Last 60</th>
+                        <th class="{{ classes }}">Last 90</th>
+                        <th class="{{ classes }}">All Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set classes = "border border-white px-2 py-1 text-left whitespace-nowrap" %}
+                    {% set top_border_style = 'border-t-2 border-t-gray-300' %}
+                    {% set unit_style = 'text-gray-300 italic' %}
+
+                    {% macro summary_row(measure, metric, key, subkey, option='') %}
+                        {% set border = top_border_style if option == 'top-border' else 'unit' %}
+                        {% set border_or_unit = unit_style if option == 'unit' else border %}
+                        <tr>
+                            <td class="{{ classes }} {{ border_or_unit }}">{{ measure }}</td>
+                            <td class="{{ classes }} {{ border }}">{{ metric }}</td>
+                            <td class="{{ classes }} {{ border }} text-right">{{ data[key][subkey][0] }}</td>
+                            <td class="{{ classes }} {{ border }} text-right">{{ data[key][subkey][1] }}</td>
+                            <td class="{{ classes }} {{ border }} text-right">{{ data[key][subkey][2] }}</td>
+                            <td class="{{ classes }} {{ border }} text-right">{{ data[key][subkey][3] }}</td>
+                        </tr>
+                    {% endmacro %}
+
+                    {{ summary_row('Days', 'Total', 'days', 'total') }}
+                    {{ summary_row('days', 'Biked', 'days', 'biked', 'unit') }}
+                    {{ summary_row('', 'Tracked', 'days', 'tracked') }}
+                    {{ summary_row('', 'Skipped', 'days', 'skipped') }}
+                    {{ summary_row('percent', 'Ride Rate', 'days', 'ride_rate', 'unit') }}
+
+                    {{ summary_row('Distance', 'Min', 'distance', 'min', 'top-border') }}
+                    {{ summary_row('miles', 'Max', 'distance', 'max', 'unit') }}
+                    {{ summary_row('', 'Average', 'distance', 'avg') }}
+                    {{ summary_row('', 'Total', 'distance', 'total') }}
+
+                    {{ summary_row('Time', 'Min', 'time', 'min', 'top-border') }}
+                    {{ summary_row('minutes', 'Max', 'time', 'max', 'unit') }}
+                    {{ summary_row('', 'Average', 'time', 'avg') }}
+                    {{ summary_row('', 'Total', 'time', 'total') }}
+                    {{ summary_row('', 'Total Hours', 'time', 'total_hours') }}
+                    {{ summary_row('', 'Total Days', 'time', 'total_days') }}
+
+                    {{ summary_row('Speed', 'Min', 'speed', 'min', 'top-border') }}
+                    {{ summary_row('mph', 'Max', 'speed', 'max', 'unit') }}
+                    {{ summary_row('', 'Average', 'speed', 'avg') }}
+
+                    {{ summary_row('Top Speed', 'Min', 'top_speed', 'min', 'top-border') }}
+                    {{ summary_row('mph', 'Max', 'top_speed', 'max', 'unit') }}
+                    {{ summary_row('', 'Average', 'top_speed', 'avg') }}
+
+                    {{ summary_row('Elevation Gain', 'Min', 'elevation_gain', 'min', 'top-border') }}
+                    {{ summary_row('feet', 'Max', 'elevation_gain', 'max', 'unit') }}
+                    {{ summary_row('', 'Average', 'elevation_gain', 'avg') }}
+                    {{ summary_row('', 'Total', 'elevation_gain', 'total') }}
+                    {{ summary_row('', 'Total Miles', 'elevation_gain', 'total_miles') }}
+
+                    {{ summary_row('Elevation High', 'Min', 'elevation_high', 'min', 'top-border') }}
+                    {{ summary_row('feet', 'Max', 'elevation_high', 'max', 'unit') }}
+                    {{ summary_row('', 'Average', 'elevation_high', 'avg') }}
+
+                    {{ summary_row('Elevation Low', 'Min', 'elevation_low', 'min', 'top-border') }}
+                    {{ summary_row('feet', 'Max', 'elevation_low', 'max', 'unit') }}
+                    {{ summary_row('', 'Average', 'elevation_low', 'avg') }}
+
+                    {{ summary_row('Power', 'Min', 'power', 'min', 'top-border') }}
+                    {{ summary_row('watts', 'Max', 'power', 'max', 'unit') }}
+                    {{ summary_row('', 'Average', 'power', 'avg') }}
+
+                    {{ summary_row('Work', 'Min', 'work', 'min', 'top-border') }}
+                    {{ summary_row('kilojoules', 'Max', 'work', 'max', 'unit') }}
+                    {{ summary_row('', 'Average', 'work', 'avg') }}
+
+                    {{ summary_row('Energy', 'Min', 'energy', 'min', 'top-border') }}
+                    {{ summary_row('calories', 'Max', 'energy', 'max', 'unit') }}
+                    {{ summary_row('', 'Average', 'energy', 'avg') }}
+
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -5,6 +5,8 @@
         <a class="{{ a_style }}" href="{{ base_path }}/inputs/details/{{ period }}.html">{{ label }}</a>
     {% elif label == 'Metrics' %}
         <a class="{{ a_style }}" href="{{ base_path }}/metrics/details/daily/{{ period }}.html">{{ label }}</a>
+    {% elif label == 'Summary' %}
+        <a class="{{ a_style }}" href="{{ base_path }}/metrics/summary/daily.html">{{ label }}</a>
     {% endif %}
 {% endmacro %}
 

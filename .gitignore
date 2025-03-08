@@ -13,5 +13,4 @@ output/image/
 output/index/
 output/inputs/
 output/metrics/
-output/summary/
 strava.db
