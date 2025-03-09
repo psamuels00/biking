@@ -168,7 +168,8 @@ class InputData:
                     print()
                 print(head_format.format(*headings))
                 print(
-                    "----  ----------  --------  ------  -----  ---------  ---------  ----------  ---------  --------  -----"
+                    "----  ----------  --------  ------  -----  ---------  "
+                    "---------  ----------  ---------  --------  -----"
                 )
             rec = format_input_record(rec, empty, limit_precision)
             msg = row_format.format(num=num, **rec)
