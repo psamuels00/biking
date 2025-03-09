@@ -4,7 +4,7 @@
 _None_
 
 ### Medium Priority
-- Allow weight and maybe other parameters to be overridden in the journal file
+- Allow power and performance parameters to be overridden in the journal file, for a single day or all days henceforth
 - Add Weekly, Monthly, and Yearly rollup graphs.
 
 ### Low Priority
