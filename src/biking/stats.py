@@ -190,6 +190,13 @@ class Statistics:
 
         return stats
 
+    def energy_efficiency_adjustment(self, calories_per_day):
+        min_e = self.params.calories.min_work_efficiency
+        max_e = self.params.calories.max_work_efficiency
+        divisor = (min_e + max_e) / 2
+
+        return [n / divisor for n in calories_per_day]
+
     def metrics_data(self, num):
         data = self.stats["data"]
 
@@ -209,8 +216,8 @@ class Statistics:
             data["avg_power_per_day"][-num:],
             data["work_per_day"][-num:],
             data["avg_work_per_day"][-num:],
-            data["calories_per_day"][-num:],
-            data["avg_calories_per_day"][-num:],
+            self.energy_efficiency_adjustment(data["calories_per_day"][-num:]),
+            self.energy_efficiency_adjustment(data["avg_calories_per_day"][-num:]),
             data["ride_rate_per_day"][-num:],
         )
 
@@ -387,9 +394,11 @@ class Statistics:
         measure["avg"] += [self.format_numeric(avg_work, 0)]
 
         # energy
-        min_energy = min_val("calories_per_day")
-        max_energy = max_val("calories_per_day")
-        avg_energy = safe_div(sum_vals("calories_per_day"), num_data_tracked_days)
+        data["adjusted_calories_per_day"] = self.energy_efficiency_adjustment(data["calories_per_day"])
+        min_energy = min_val("adjusted_calories_per_day")
+        max_energy = max_val("adjusted_calories_per_day")
+        avg_energy = safe_div(sum_vals("adjusted_calories_per_day"), num_data_tracked_days)
+        del data["adjusted_calories_per_day"]
 
         measure = self.summary_info["energy"]
         measure["min"] += [self.format_numeric(min_energy, 0)]

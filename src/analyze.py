@@ -38,7 +38,8 @@ def main():
         InputData(params, period).details(args.csv)
     elif args.show_metrics:
         input_data = InputData(params, period)
-        Statistics(params, period, input_data).details(args.csv)
+        summary_info = Statistics.init_summary_info()
+        Statistics(params, period, input_data, summary_info).details(args.csv)
     else:
         generate_everything(params, args)
 
