@@ -5,7 +5,8 @@ _None_
 
 ### Medium Priority
 - Allow power and performance parameters to be overridden in the journal file, for a single day or all days henceforth
-- Add Weekly, Monthly, and Yearly rollup graphs.
+- Move Strava-estimated power to a separate graph
+- Add Weekly, Monthly, and Yearly rollup graphs and metrics summaries.
 
 ### Low Priority
 - Maybe show time as hh:mm:ss instead of minutes
