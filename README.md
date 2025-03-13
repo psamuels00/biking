@@ -1,7 +1,7 @@
 # Biking Performance
 
 Generate simple graphs from data collected using Strava.
-See [the graphs](https://psamuels00.github.io/biking/),
+See the [graphs](https://psamuels00.github.io/biking/),
 <a href="#graph_notes">graph notes</a>,
 [input details](https://psamuels00.github.io/biking/inputs/details/last30.html),
 [metrics details](https://psamuels00.github.io/biking/metrics/details/daily/last30.html),
