@@ -1,9 +1,10 @@
 # Biking Performance
 
 Generate simple graphs from data collected using Strava.
-See [the graphs](https://psamuels00.github.io/biking/), the <a href="#graph_notes">graph notes</a>,
-and [input details](https://psamuels00.github.io/biking/inputs/details/last30.html),
-and [metrics details](https://psamuels00.github.io/biking/metrics/details/daily/last30.html),
+See [the graphs](https://psamuels00.github.io/biking/),
+<a href="#graph_notes">graph notes</a>,
+[input details](https://psamuels00.github.io/biking/inputs/details/last30.html),
+[metrics details](https://psamuels00.github.io/biking/metrics/details/daily/last30.html),
 and [metrics summary](https://psamuels00.github.io/biking/metrics/summary/daily.html).
 
 The original motivation for this project was the development of a "performance index" to compare the level of effort
