@@ -33,16 +33,19 @@ class DailyRollup:
         self.elev_start.add_measure(elev_start_ft)
         self.power.add_measure(0)
 
-    def add_manual_activity(self, record, elev_start_ft):
-        self.distance.add_measure(record.get("distance", np.nan))  # assumed to be miles
-        self.moving_time.add_measure(record.get("moving_time", np.nan))  # assumed to be minutes
-        self.total_elevation_gain.add_measure(record.get("total_elevation_gain", np.nan))  # assumed to be feet
-        self.average_speed.add_measure(record.get("average_speed", np.nan))  # assumed to be mph
-        self.top_speed.add_measure(record.get("top_speed", np.nan))  # assumed to be mph
-        self.elev_high.add_measure(record.get("elev_high", np.nan))  # assumed to be feet
-        self.elev_low.add_measure(record.get("elev_low", np.nan))  # assumed to be feet
-        self.power.add_measure(record.get("strava_power_estimate", np.nan))  # assumed to be in watts
-        self.elev_start.add_measure(elev_start_ft)
+    def add_manual_activity(self, record, elev_start_ft, replace=False):
+        self.distance.add_measure(record.get("distance", np.nan), replace)  # assumed to be miles
+        self.moving_time.add_measure(record.get("moving_time", np.nan), replace)  # assumed to be minutes
+        self.total_elevation_gain.add_measure(record.get("total_elevation_gain", np.nan), replace)  # assumed to be feet
+        self.average_speed.add_measure(record.get("average_speed", np.nan), replace)  # assumed to be mph
+        self.top_speed.add_measure(record.get("top_speed", np.nan), replace)  # assumed to be mph
+        self.elev_high.add_measure(record.get("elev_high", np.nan), replace)  # assumed to be feet
+        self.elev_low.add_measure(record.get("elev_low", np.nan), replace)  # assumed to be feet
+        self.power.add_measure(record.get("strava_power_estimate", np.nan), replace)  # assumed to be in watts
+        self.elev_start.add_measure(elev_start_ft, replace)
+
+        if "replace" in record:
+            self.add_manual_activity(record["replace"], elev_start_ft, replace=True)
 
     def aggregate_values(self):
         return dict(

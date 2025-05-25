@@ -5,8 +5,13 @@ class Metric:
     def __init__(self):
         self.values = []
 
-    def add_measure(self, value):
-        self.values.append(value)
+    def add_measure(self, value, replace=False):
+        if np.isnan(value):
+            pass
+        elif replace and len(self.values) > 0:
+            self.values[-1] = value
+        else:
+            self.values.append(value)
 
     def all_nan(self):
         return all(np.isnan(x) for x in self.values)
