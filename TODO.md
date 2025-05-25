@@ -6,6 +6,10 @@ _None_
 ### Medium Priority
 - Allow power and performance parameters to be overridden in the journal file, for a single day or all days henceforth
 - Move Strava-estimated power to a separate graph
+- Pull segment data for each activity so it is cached and available for analysis.
+- Group rides by route, using activity metrics and segment info
+- Create separate graphs for specific segments
+- Add timeline markers to graphs
 - Add Weekly, Monthly, and Yearly rollup graphs and metrics summaries.
 
 ### Low Priority
