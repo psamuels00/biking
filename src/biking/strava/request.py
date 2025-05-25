@@ -65,7 +65,7 @@ class Request(RequestBase):
             page_data = self.fetch(self.params.url.activities, params)
             if not page_data:
                 break
-            data.extend(item for item in page_data if item["sport_type"] == "Ride")
+            data.extend(item for item in page_data if item["sport_type"] in {"Ride", "MountainBikeRide"})
             params["page"] += 1
 
         return data
@@ -93,7 +93,7 @@ class Request(RequestBase):
             if not page_data:
                 break
 
-            items = [item for item in page_data if item["sport_type"] == "Ride"]
+            items = [item for item in page_data if item["sport_type"] in {"Ride", "MountainBikeRide"}]
             for item in items:
                 date = item["start_date_local"]
                 if item == app_cache.get(date):
