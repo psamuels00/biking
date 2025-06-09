@@ -11,39 +11,57 @@
 
     {{ macros.top_menu(period, '../..', 'Graphs', 'Metrics') }}
 
-    <div class="flex justify-center items-center mx-auto">
+    <div x-data="{ highlightedColumn: null }" class="flex justify-center items-center mx-auto">
         <table class="table-auto border-collapse bg-gray-100 text-gray-800">
             <thead>
                 <tr class="sticky top-0 bg-gray-300">
                     {% set classes = "border border-white font-normal px-2 py-1 text-center whitespace-normal" %}
-                    <th class="{{ classes }}">#</th>
-                    <th class="{{ classes }}">Date</th>
-                    <th class="{{ classes }}">Distance (mi)</th>
-                    <th class="{{ classes }}">Time (min)</th>
-                    <th class="{{ classes }}">Avg Speed (mph)</th>
-                    <th class="{{ classes }}">Top Speed (mph)</th>
-                    <th class="{{ classes }}">Elevation gain (ft)</th>
-                    <th class="{{ classes }}">Elev start (ft)</th>
-                    <th class="{{ classes }}">Elev high (ft)</th>
-                    <th class="{{ classes }}">Elev low (ft)</th>
-                    <th class="{{ classes }}">Power (W)</th>
+                    {% set highlightClasses = classes + " bg-blue-100" %}
+                    {% set metric_names = [
+                        "#",
+                        "Date",
+                        "Distance (mi)",
+                        "Time (min)",
+                        "Avg Speed (mph)",
+                        "Top Speed (mph)",
+                        "Elevation gain (ft)",
+                        "Elev start (ft)",
+                        "Elev high (ft)",
+                        "Elev low (ft)",
+                        "Power (W)"
+                    ] %}
+                    {% for name in metric_names %}
+                        <th class="{{ classes }}"
+                            :class="highlightedColumn === {{ loop.index0 }} ? '{{ highlightClasses }}' : '{{ classes }}'"
+                            @mouseenter="highlightedColumn = {{ loop.index0 }}" @mouseleave="highlightedColumn = null"
+                        >{{ name }}</th>
+                    {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 {% for row in rows %}
                     <tr class="hover:bg-blue-100">
                         {% set classes = "border border-white px-2 py-1 text-right whitespace-nowrap" %}
-                        <td class="{{ classes }}">{{ loop.index }}</td>
-                        <td class="{{ classes }}">{{ row["date"] }}</td>
-                        <td class="{{ classes }}">{{ row["distance"] }}</td>
-                        <td class="{{ classes }}">{{ row["time"] }}</td>
-                        <td class="{{ classes }}">{{ row["average_speed"] }}</td>
-                        <td class="{{ classes }}">{{ row["top_speed"] }}</td>
-                        <td class="{{ classes }}">{{ row["total_elevation_gain"] }}</td>
-                        <td class="{{ classes }}">{{ row["elev_start"] }}</td>
-                        <td class="{{ classes }}">{{ row["elev_high"] }}</td>
-                        <td class="{{ classes }}">{{ row["elev_low"] }}</td>
-                        <td class="{{ classes }}">{{ row["power"] }}</td>
+                        {% set highlightClasses = classes + " bg-blue-100" %}
+                        {% set metric_values = [
+                            loop.index,
+                            row["date"],
+                            row["distance"],
+                            row["time"],
+                            row["average_speed"],
+                            row["top_speed"],
+                            row["total_elevation_gain"],
+                            row["elev_start"],
+                            row["elev_high"],
+                            row["elev_low"],
+                            row["power"],
+                        ] %}
+                        {% for value in metric_values %}
+                            <td class="{{ classes }}"
+                                :class="highlightedColumn === {{ loop.index0 }} ? '{{ highlightClasses }}' : '{{ classes }}'"
+                                @mouseenter="highlightedColumn = {{ loop.index0 }}" @mouseleave="highlightedColumn = null"
+                            >{{ value }}</td>
+                        {% endfor %}
                     </tr>
                 {% endfor %}
             </tbody>

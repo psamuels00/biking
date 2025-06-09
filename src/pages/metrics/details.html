@@ -11,55 +11,73 @@
 
     {{ macros.top_menu(period, '../../..', 'Graphs', 'Summary') }}
 
-    <div class="flex justify-center items-center mx-auto">
+    <div x-data="{ highlightedColumn: null }" class="flex justify-center items-center mx-auto">
         <table class="table-auto border-collapse bg-gray-100 text-gray-800">
             <thead>
                 <tr class="sticky top-0 bg-gray-300">
                     {% set classes = "border border-white font-normal px-2 py-1 text-center whitespace-normal" %}
-                    <th class="{{ classes }}">#</th>
-                    <th class="{{ classes }}">Date</th>
-                    <th class="{{ classes }}">Distance (mi)</th>
-                    <th class="{{ classes }}">Avg Distance</th>
-                    <th class="{{ classes }}">Time (min)</th>
-                    <th class="{{ classes }}">Avg Time</th>
-                    <th class="{{ classes }}">Speed (mph)</th>
-                    <th class="{{ classes }}">Avg Speed</th>
-                    <th class="{{ classes }}">Top Speed (mph)</th>
-                    <th class="{{ classes }}">Avg Top Speed</th>
-                    <th class="{{ classes }}">Elevation gain (ft)</th>
-                    <th class="{{ classes }}">Avg Elev gain</th>
-                    <th class="{{ classes }}">Power (W)</th>
-                    <th class="{{ classes }}">Avg Power</th>
-                    <th class="{{ classes }}">Work (kJ)</th>
-                    <th class="{{ classes }}">Avg Work</th>
-                    <th class="{{ classes }}">Calories (kCal)</th>
-                    <th class="{{ classes }}">Avg Calories</th>
-                    <th class="{{ classes }}">Ride Rate (%)</th>
+                    {% set highlightClasses = classes + " bg-blue-100" %}
+                    {% set metric_names = [
+                        "#",
+                        "Date",
+                        "Distance (mi)",
+                        "Avg Distance",
+                        "Time (min)",
+                        "Avg Time",
+                        "Speed (mph)",
+                        "Avg Speed",
+                        "Top Speed (mph)",
+                        "Avg Top Speed",
+                        "Elevation gain (ft)",
+                        "Avg Elev gain",
+                        "Power (W)",
+                        "Avg Power",
+                        "Work (kJ)",
+                        "Avg Work",
+                        "Calories (kCal)",
+                        "Avg Calories",
+                        "Ride Rate (%)"
+                    ] %}
+                    {% for name in metric_names %}
+                    <th class="{{ classes }}"
+                        :class="highlightedColumn === {{ loop.index0 }} ? '{{ highlightClasses }}' : '{{ classes }}'"
+                        @mouseenter="highlightedColumn = {{ loop.index0 }}" @mouseleave="highlightedColumn = null"
+                    >{{ name }}</th>
+                    {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 {% for row in rows %}
                     <tr class="hover:bg-blue-100">
                         {% set classes = "border border-white px-2 py-1 text-right whitespace-nowrap" %}
-                        <td class="{{ classes }}">{{ loop.index }}</td>
-                        <td class="{{ classes }}">{{ row["date"] }}</td>
-                        <td class="{{ classes }}">{{ row["distance"] }}</td>
-                        <td class="{{ classes }}">{{ row["avg_distance"] }}</td>
-                        <td class="{{ classes }}">{{ row["time"] }}</td>
-                        <td class="{{ classes }}">{{ row["avg_time"] }}</td>
-                        <td class="{{ classes }}">{{ row["speed"] }}</td>
-                        <td class="{{ classes }}">{{ row["avg_speed"] }}</td>
-                        <td class="{{ classes }}">{{ row["top_speed"] }}</td>
-                        <td class="{{ classes }}">{{ row["avg_top_speed"] }}</td>
-                        <td class="{{ classes }}">{{ row["elevation"] }}</td>
-                        <td class="{{ classes }}">{{ row["avg_elevation"] }}</td>
-                        <td class="{{ classes }}">{{ row["power"] }}</td>
-                        <td class="{{ classes }}">{{ row["avg_power"] }}</td>
-                        <td class="{{ classes }}">{{ row["work"] }}</td>
-                        <td class="{{ classes }}">{{ row["avg_work"] }}</td>
-                        <td class="{{ classes }}">{{ row["calories"] }}</td>
-                        <td class="{{ classes }}">{{ row["avg_calories"] }}</td>
-                        <td class="{{ classes }}">{{ row["ride_rate"] }}</td>
+                        {% set highlightClasses = classes + " bg-blue-100" %}
+                        {% set metric_values = [
+                            loop.index,
+                            row["date"],
+                            row["distance"],
+                            row["avg_distance"],
+                            row["time"],
+                            row["avg_time"],
+                            row["speed"],
+                            row["avg_speed"],
+                            row["top_speed"],
+                            row["avg_top_speed"],
+                            row["elevation"],
+                            row["avg_elevation"],
+                            row["power"],
+                            row["avg_power"],
+                            row["work"],
+                            row["avg_work"],
+                            row["calories"],
+                            row["avg_calories"],
+                            row["ride_rate"]
+                        ] %}
+                        {% for value in metric_values %}
+                        <td class="{{ classes }}"
+                            :class="highlightedColumn === {{ loop.index0 }} ? '{{ highlightClasses }}' : '{{ classes }}'"
+                            @mouseenter="highlightedColumn = {{ loop.index0 }}" @mouseleave="highlightedColumn = null"
+                        >{{ value }}</td>
+                        {% endfor %}
                     </tr>
                 {% endfor %}
             </tbody>
