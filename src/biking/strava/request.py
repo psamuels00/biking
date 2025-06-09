@@ -65,10 +65,23 @@ class Request(RequestBase):
             page_data = self.fetch(self.params.url.activities, params)
             if not page_data:
                 break
-            data.extend(item for item in page_data if item["sport_type"] in {"Ride", "MountainBikeRide"})
+            page_data = [item for item in page_data if item["sport_type"] in {"Ride", "MountainBikeRide"}]
+            data.extend(page_data)
+            # self.get_activities_diagnostics(page_data, params)
+
             params["page"] += 1
 
         return data
+
+    def get_activities_diagnostics(self, page_data, params):
+        for activity in page_data:
+            activity_id = activity["id"]
+            url = f"{self.params.url.activities}/{activity_id}"
+            print(url)
+            item = self.fetch(url, params)
+
+            import json
+            print(json.dumps(item, indent=4))
 
     def get_new_activities(self, app_cache):
         """
