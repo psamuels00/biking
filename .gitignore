@@ -6,6 +6,7 @@
 .findsrc.*
 .idea/
 .python-version
+cron/logs/*
 data/journal.yaml
 images/
 misc/
